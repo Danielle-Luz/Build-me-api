@@ -17,4 +17,8 @@ export default class UsersService {
 
     return createdUserData;
   }
+
+  static async login(loginInfo) {
+    
+  }
 }
