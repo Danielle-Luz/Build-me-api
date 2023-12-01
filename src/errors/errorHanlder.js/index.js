@@ -1,4 +1,5 @@
 import { ZodError } from "zod";
+import AppError from "../AppError";
 
 export default function errorHandler(error, request, response, next) {
   let statusCode = 500;
