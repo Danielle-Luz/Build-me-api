@@ -1,6 +1,6 @@
 import { UsersService } from "../../services";
 
-export default class usersController {
+export default class UsersController {
   static async create(request, response) {
     const { validatedData } = request;
 

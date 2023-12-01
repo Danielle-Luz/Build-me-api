@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { UsersService } from "../../services";
+import { UsersController } from "../../controllers";
 
 const usersRouter = Router();
 
 usersRouter.get("");
 usersRouter.get("/:id");
-usersRouter.post("/login");
-usersRouter.post("/newUser");
+usersRouter.post("/login", UsersController.login);
+usersRouter.post("/newUser", UsersController.create);
 
 export default usersRouter;
