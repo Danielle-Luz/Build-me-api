@@ -8,4 +8,12 @@ export default class usersController {
 
     return response.status(201).json(createdUser);
   }
+
+  static async login(request, response) {
+    const { validatedData } = request;
+
+    const token = await UsersService.login(validatedData);
+
+    return response.status(200).json(token);
+  }
 }
