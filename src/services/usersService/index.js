@@ -1,3 +1,4 @@
+import { sign } from "jsonwebtoken";
 import AppDatasource from "../../data-source";
 import Users from "../../entities/users";
 import { UsersHelper } from "../../helpers";
@@ -19,6 +20,14 @@ export default class UsersService {
   }
 
   static async login(loginInfo) {
-    
+    UsersHelper.validateLoginInfo(loginInfo);
+
+    const header = { email: loginInfo.email };
+    const secretKey = process.env.SECRET_KEY;
+    const signature = { expiresIn: "24h", subject: loginInfo.email };
+
+    const token = sign(header, secretKey, signature);
+
+    return { token };
   }
 }
