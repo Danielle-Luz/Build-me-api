@@ -1,6 +1,6 @@
 import "express-async-errors";
 import errorHandler from "./errors/errorHanlder.js";
-import usersRouter from "./routers/usersRouter/index.js";
+import usersRouter from "./routers/users/index.js";
 
 const cors = require("cors");
 const express = require("express");

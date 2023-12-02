@@ -10,7 +10,7 @@ export const newUserSchema = z.object({
   linkedinUrl: z.string().optional(),
 });
 
-export const loginDataSchema = newUserSchema.pick({
+export const userLoginSchema = newUserSchema.pick({
   email: true,
   password: true,
 });

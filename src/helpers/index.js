@@ -1,3 +1,3 @@
-import UsersHelper from "./usersHelper";
+import UsersHelper from "./users";
 
 export { UsersHelper };

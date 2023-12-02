@@ -1,3 +1,3 @@
-import { newUserSchema, loginDataSchema } from "./usersSchemas";
+import { newUserSchema, userLoginSchema } from "./users";
 
-export { newUserSchema, loginDataSchema };
+export { newUserSchema, userLoginSchema };
