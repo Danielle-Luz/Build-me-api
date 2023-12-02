@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UsersController } from "../../controllers";
-import { UtilsMiddlewares } from "../../middlewares";
+import { UsersMiddlewares, UtilsMiddlewares } from "../../middlewares";
 import { userLoginSchema, newUserSchema } from "../../schemas";
 
 const usersRouter = Router();
@@ -15,6 +15,8 @@ usersRouter.post(
 usersRouter.post(
   "/newUser",
   UtilsMiddlewares.validateSchema(newUserSchema),
+  UsersMiddlewares.isUsernameUnique,
+  UsersMiddlewares.isEmailUnique,
   UsersController.create
 );
 
