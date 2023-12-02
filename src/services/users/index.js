@@ -30,4 +30,24 @@ export default class UsersService {
 
     return { token };
   }
+
+  static async getUserByEmail(email) {
+    const foundUser = AppDatasource.createQueryBuilder()
+      .select("users")
+      .from(Users, "users")
+      .where("users.email = :email", { email })
+      .getOne();
+
+    return foundUser;
+  }
+
+  static async getUserByUsername(username) {
+    const foundUser = AppDatasource.createQueryBuilder()
+      .select("users")
+      .from(Users, "users")
+      .where("users.username = :username", { username })
+      .getOne();
+
+    return foundUser;
+  }
 }

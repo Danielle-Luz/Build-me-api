@@ -1,7 +1,8 @@
 export default class UtilsMiddlewares {
-  validateSchema(schema) {
+  static validateSchema(schema) {
     return (request, response, nextMiddleware) => {
-      schema.parse(request.body);
+      const validatedData = schema.parse(request.body);
+      request.validatedData = validatedData;
       return nextMiddleware();
     };
   }
