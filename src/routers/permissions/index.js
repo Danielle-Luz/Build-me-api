@@ -14,6 +14,8 @@ permissionsRouter.post(
   PermissionsController.create
 );
 
+permissionsRouter.get("/", PermissionsController.getAll);
+
 permissionsRouter.patch(
   "/:id",
   UtilsMiddlewares.validateSchema(updatedPermissionSchema),

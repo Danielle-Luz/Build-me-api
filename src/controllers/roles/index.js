@@ -9,6 +9,11 @@ class RolesController {
 
     return response.status(StatusCodes.CREATED).json(createdRole);
   }
+
+  static async getAll(request, response) {
+    const allRoles = await RolesService.getAll();
+    return response.status(StatusCodes.OK).json(allRoles);
+  }
 }
 
 module.exports = { RolesController };

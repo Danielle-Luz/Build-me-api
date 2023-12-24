@@ -9,6 +9,11 @@ class ResourcesController {
 
     return response.status(StatusCodes.CREATED).json(createdResource);
   }
+
+  static async getAll(request, response) {
+    const allResources = await ResourcesService.getAll();
+    return response.status(StatusCodes.OK).json(allResources);
+  }
 }
 
 module.exports = { ResourcesController };

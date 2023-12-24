@@ -11,4 +11,6 @@ rolesRouter.post(
   RolesController.create
 );
 
+rolesRouter.get("/", RolesController.getAll);
+
 module.exports = { rolesRouter };

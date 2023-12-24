@@ -14,6 +14,13 @@ class PermissionsService {
     return createdPermission.generatedMaps[0];
   }
 
+  static async getAll() {
+    return await AppDatasource.createQueryBuilder()
+      .select("permissions")
+      .from(Permissions, "permissions")
+      .getRawMany();
+  }
+
   static async update(id, updatedData) {
     const updatedPermission = await AppDatasource.createQueryBuilder()
       .update(Permissions)

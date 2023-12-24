@@ -12,6 +12,13 @@ class ResourcesService {
 
     return createdResource.generatedMaps[0];
   }
+
+  static async getAll() {
+    return await AppDatasource.createQueryBuilder()
+      .select("resources")
+      .from(Resources, "resources")
+      .getRawMany();
+  }
 }
 
 module.exports = { ResourcesService };

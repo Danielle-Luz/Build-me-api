@@ -10,11 +10,16 @@ class PermissionsController {
     return response.status(StatusCodes.CREATED).json(createdPermission);
   }
 
+  static async getAll(request, response) {
+    const allPermissions = await PermissionsService.getAll();
+    return response.status(StatusCodes.OK).json(allPermissions);
+  }
+
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;
 
-    const updatedPermission = await PermissionsController.update(
+    const updatedPermission = await PermissionsService.update(
       validatedData,
       id
     );

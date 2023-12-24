@@ -12,6 +12,13 @@ class RolesService {
 
     return createdRole.generatedMaps[0];
   }
+
+  static async getAll() {
+    return await AppDatasource.createQueryBuilder()
+      .select("roles")
+      .from(Roles, "roles")
+      .getRawMany();
+  }
 }
 
 module.exports = { RolesService };

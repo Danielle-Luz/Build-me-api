@@ -11,4 +11,6 @@ resourcesRouter.post(
   ResourcesController.create
 );
 
+resourcesRouter.get("/", ResourcesController.getAll);
+
 module.exports = { resourcesRouter };
