@@ -1,4 +1,4 @@
-export class CreateUsersEntity1703378050449 {
+class CreateUsersEntity1703378050449 {
   name = "CreateUsersEntity1703378050449";
 
   async up(queryRunner) {
@@ -11,3 +11,5 @@ export class CreateUsersEntity1703378050449 {
     await queryRunner.query(`DROP TABLE "users"`);
   }
 }
+
+module.exports = { CreateUsersEntity1703378050449 };
