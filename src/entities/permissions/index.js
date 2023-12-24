@@ -14,7 +14,7 @@ exports.Permissions = new EntitySchema({
     delete: { type: "boolean" },
   },
   relations: {
-    role: {
+    roleId: {
       joinColumn: {
         name: "role_id",
       },
@@ -22,7 +22,7 @@ exports.Permissions = new EntitySchema({
       target: "roles",
       type: "many-to-one",
     },
-    resource: {
+    resourceId: {
       joinColumn: {
         name: "resource_id",
       },

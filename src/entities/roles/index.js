@@ -11,11 +11,12 @@ exports.Roles = new EntitySchema({
     name: {
       length: 30,
       type: "varchar",
+      unique: true,
     },
   },
   relations: {
     permissions: {
-      inverseSide: "role",
+      inverseSide: "roleId",
       onDelete: "CASCADE",
       target: "permissions",
       type: "one-to-many",
