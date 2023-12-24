@@ -1,11 +1,10 @@
 const { AppError } = require("../AppError/index");
+const { StatusCodes } = require("http-status-codes");
 
 class InvalidLoginInfoError extends AppError {
   constructor() {
     const errorMessage = "No user found with the login info informed";
-    const statusCode = 404;
-
-    super(errorMessage, statusCode);
+    super(errorMessage, StatusCodes.NOT_FOUND);
   }
 }
 

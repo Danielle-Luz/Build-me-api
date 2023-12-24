@@ -1,8 +1,9 @@
 const { AppError } = require("../AppError/index");
+const { StatusCodes } = require("http-status-codes");
 
 class InvalidTokenError extends AppError {
-  constructor(message, statusCode) {
-    super(message, statusCode);
+  constructor(message) {
+    super(message, StatusCodes.UNAUTHORIZED);
   }
 }
 

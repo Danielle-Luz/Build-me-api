@@ -1,9 +1,9 @@
 const { AppError } = require("../AppError/index");
+const { StatusCodes } = require("http-status-codes");
 
 class DuplicatedInfoError extends AppError {
   constructor(message) {
-    const statusCode = 409;
-    super(message, statusCode);
+    super(message, StatusCodes.CONFLICT);
   }
 }
 

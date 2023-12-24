@@ -1,4 +1,5 @@
 const { UsersService } = require("../../services/index");
+const { StatusCodes } = require("http-status-codes");
 
 class UsersController {
   static async create(request, response) {
@@ -6,7 +7,7 @@ class UsersController {
 
     const createdUser = await UsersService.create(validatedData);
 
-    return response.status(201).json(createdUser);
+    return response.status(StatusCodes.CREATED).json(createdUser);
   }
 
   static async login(request, response) {
@@ -14,7 +15,7 @@ class UsersController {
 
     const token = await UsersService.login(validatedData);
 
-    return response.status(200).json(token);
+    return response.status(StatusCodes.OK).json(token);
   }
 }
 

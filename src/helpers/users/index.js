@@ -1,6 +1,7 @@
 const { AppDatasource } = require("../../data-source");
 const { Users } = require("../../entities/index");
 const { compare, hash } = require("bcryptjs");
+const { InvalidTokenError } = require("../../errors/index");
 
 class UsersHelper {
   static async setEncryptedPassword(newUser) {
@@ -23,6 +24,12 @@ class UsersHelper {
     );
 
     return !isPasswordRight || !foundUser;
+  }
+
+  static async handleTokenDecoding(error, decodedToken) {
+    if(error) {
+      throw new InvalidTokenError(error.message);
+    }
   }
 }
 
