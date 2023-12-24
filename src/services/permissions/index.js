@@ -2,7 +2,7 @@ const { AppDatasource } = require("../../data-source");
 const { Permissions } = require("../../entities/index");
 
 class PermissionsService {
-  async create(newPermission) {
+  static async create(newPermission) {
     const createdPermission = await AppDatasource.createQueryBuilder()
       .insert()
       .into(Permissions)

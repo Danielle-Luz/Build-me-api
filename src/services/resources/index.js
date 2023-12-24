@@ -2,7 +2,7 @@ const { AppDatasource } = require("../../data-source");
 const { Resources } = require("../../entities/index");
 
 class ResourcesService {
-  async create(newResource) {
+  static async create(newResource) {
     const createdResource = await AppDatasource.createQueryBuilder()
       .insert()
       .into(Resources)

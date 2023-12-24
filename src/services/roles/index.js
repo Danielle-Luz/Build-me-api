@@ -2,7 +2,7 @@ const { AppDatasource } = require("../../data-source");
 const { Roles } = require("../../entities/index");
 
 class RolesService {
-  async create(newRole) {
+  static async create(newRole) {
     const createdRole = await AppDatasource.createQueryBuilder()
       .insert()
       .into(Roles)
