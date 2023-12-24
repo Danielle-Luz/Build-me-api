@@ -19,7 +19,7 @@ class PermissionsService {
   static async getAll() {
     const allPermissions = await AppDatasource.createQueryBuilder()
       .select("permissions")
-      .from(Permissions, "permissions")
+      .from(Permissions)
       .innerJoinAndSelect("permissions.roleId", "role")
       .innerJoinAndSelect("permissions.resourceId", "resource")
       .getMany();
@@ -28,6 +28,14 @@ class PermissionsService {
       const { resourceId, roleId, ...otherColumns } = permission;
       return { ...otherColumns, resource: resourceId, role: roleId };
     });
+  }
+
+  static async getPermissionsByRoleId(roleId) {
+
+  }
+
+  static async getPermissionsByFilters(roleId, resourceId) {
+
   }
 
   static async update(id, updatedData) {

@@ -17,7 +17,17 @@ class RolesService {
     return await AppDatasource.createQueryBuilder()
       .select("roles")
       .from(Roles, "roles")
-      .getRawMany();
+      .getMany();
+  }
+
+  static async getById(id) {
+    const foundRole = await AppDatasource.createQueryBuilder()
+      .select("roles")
+      .from(Roles, "roles")
+      .where("roles.id = :id", { id })
+      .getOne();
+
+    return foundRole;
   }
 }
 

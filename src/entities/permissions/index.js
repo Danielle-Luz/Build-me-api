@@ -30,11 +30,5 @@ exports.Permissions = new EntitySchema({
       target: "resources",
       type: "many-to-one",
     },
-    users: {
-      inverseSide: "permissionId",
-      onDelete: "SET NULL",
-      target: "users",
-      type: "one-to-many",
-    },
   },
 });

@@ -26,12 +26,12 @@ exports.Users = new EntitySchema({
     linkedinUrl: { name: "linkedin_url", type: "text", nullable: true },
   },
   relations: {
-    permissionId: {
+    roleId: {
       joinColumn: {
-        name: "permissionId",
+        name: "roleId",
       },
       inverseSide: "users",
-      target: "permissions",
+      target: "roles",
       type: "many-to-one",
     }
   }

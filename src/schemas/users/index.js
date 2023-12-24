@@ -8,7 +8,7 @@ const newUserSchema = z.object({
   password: z.string().max(12),
   githubUsername: z.string().max(50).optional(),
   linkedinUrl: z.string().optional(),
-  permissionId: z.number(),
+  roleId: z.number(),
 });
 
 const userLoginSchema = newUserSchema.pick({

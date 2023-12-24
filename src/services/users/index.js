@@ -43,7 +43,7 @@ class UsersService {
     return await AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
-      .getRawMany();
+      .getMany();
   }
 
   static async getUserByEmail(email) {

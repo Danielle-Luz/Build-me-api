@@ -1,6 +1,6 @@
-const { DuplicatedInfoError } = require("../../errors/index");
+const { DuplicatedInfoError, RecordNotFoundError } = require("../../errors/index");
 const { InvalidTokenError } = require("../../errors/index");
-const { UsersService } = require("../../services/index");
+const { UsersService, RolesService } = require("../../services/index");
 const { verify } = require("jsonwebtoken");
 
 class UsersMiddlewares {
@@ -64,6 +64,20 @@ class UsersMiddlewares {
         return nextMiddleware();
       }
     );
+  }
+
+  static async isRoleIdValid(request, response, nextMiddleware) {
+    const roleId = request.body.roleId;
+    
+    if(roleId || roleId === 0) {
+      const foundRole = await RolesService.getById(roleId);
+  
+      if (!foundRole) {
+        throw new RecordNotFoundError("No role with the informed id was found");
+      }
+    }
+
+    return nextMiddleware();
   }
 }
 

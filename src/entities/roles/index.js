@@ -21,5 +21,11 @@ exports.Roles = new EntitySchema({
       target: "permissions",
       type: "one-to-many",
     },
+    users: {
+      inverseSide: "roleId",
+      onDelete: "SET NULL",
+      target: "users",
+      type: "one-to-many",
+    },
   },
 });

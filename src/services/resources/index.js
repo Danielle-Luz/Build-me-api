@@ -17,7 +17,7 @@ class ResourcesService {
     return await AppDatasource.createQueryBuilder()
       .select("resources")
       .from(Resources, "resources")
-      .getRawMany();
+      .getMany();
   }
 }
 

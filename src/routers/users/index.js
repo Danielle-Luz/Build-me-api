@@ -25,6 +25,7 @@ usersRouter.post(
   UtilsMiddlewares.validateSchema(newUserSchema),
   UsersMiddlewares.isUsernameUnique,
   UsersMiddlewares.isEmailUnique,
+  UsersMiddlewares.isRoleIdValid,
   UsersController.create
 );
 
@@ -33,6 +34,7 @@ usersRouter.patch(
   UtilsMiddlewares.validateSchema(updatedUserSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  UsersMiddlewares.isRoleIdValid,
   UsersController.update
 );
 
