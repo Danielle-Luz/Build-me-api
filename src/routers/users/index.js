@@ -9,7 +9,8 @@ const { userLoginSchema, newUserSchema } = require("../../schemas/index");
 const usersRouter = Router();
 
 usersRouter.get("");
-usersRouter.get("/:id");
+usersRouter.get("/:id", UsersController.getUserById);
+
 usersRouter.post(
   "/login",
   UtilsMiddlewares.validateSchema(userLoginSchema),

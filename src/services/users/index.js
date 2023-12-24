@@ -3,6 +3,7 @@ const { AppDatasource } = require("../../data-source");
 const { Users } = require("../../entities/index");
 const { UsersHelper } = require("../../helpers/index");
 const { InvalidLoginInfoError } = require("../../errors/index");
+const { RecordNotFoundError } = require("../../errors/index");
 
 class UsersService {
   static async create(newUser) {
@@ -53,7 +54,21 @@ class UsersService {
       .select("users")
       .from(Users, "users")
       .where("users.username = :username", { username })
+      .getOneOrFail();
+
+    return foundUser;
+  }
+
+  static async getUserById(id) {
+    const foundUser = await AppDatasource.createQueryBuilder()
+      .select("users")
+      .from(Users, "users")
+      .where("users.id = :id", { id })
       .getOne();
+
+    if (!foundUser) {
+      throw new RecordNotFoundError("No user found with the informed id");
+    }
 
     return foundUser;
   }

@@ -6,7 +6,7 @@ const { verify } = require("jsonwebtoken");
 class UsersMiddlewares {
   static async isUsernameUnique(request, response, nextMiddleware) {
     const { validatedData } = request;
-    console.log("logged user data", request.loggedUser);
+
     const foundUser = await UsersService.getUserByUsername(
       validatedData.username
     );
