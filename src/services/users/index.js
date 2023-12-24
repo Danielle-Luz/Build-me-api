@@ -39,27 +39,30 @@ class UsersService {
     return { token };
   }
 
+  static async getAll() {
+    return await AppDatasource.createQueryBuilder()
+      .select("users")
+      .from(Users, "users")
+      .getRawMany();
+  }
+
   static async getUserByEmail(email) {
-    const foundUser = AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .where("users.email = :email", { email })
       .getOne();
-
-    return foundUser;
   }
 
   static async getUserByUsername(username) {
-    const foundUser = AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .where("users.username = :username", { username })
       .getOneOrFail();
-
-    return foundUser;
   }
 
-  static async getUserById(id) {
+  static async getById(id) {
     const foundUser = await AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
