@@ -5,8 +5,8 @@ const newPermissionSchema = z.object({
   update: z.boolean(),
   read: z.boolean(),
   delete: z.boolean(),
-  role_id: z.number(),
-  resource_id: z.number(),
+  roleId: z.number(),
+  resourceId: z.number(),
 });
 
 const updatedPermissionSchema = newPermissionSchema.partial();

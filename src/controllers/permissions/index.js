@@ -20,8 +20,8 @@ class PermissionsController {
     const id = request.params.id;
 
     const updatedPermission = await PermissionsService.update(
-      validatedData,
-      id
+      id,
+      validatedData
     );
 
     return response.status(StatusCodes.OK).json(updatedPermission);
