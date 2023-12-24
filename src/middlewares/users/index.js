@@ -29,7 +29,8 @@ class UsersMiddlewares {
     return nextMiddleware();
   }
 
-  static async validateToken(request, response, nextMiddleware) {}
+  static async validateToken(request, response, nextMiddleware) {
+  }
 }
 
 module.exports = { UsersMiddlewares };

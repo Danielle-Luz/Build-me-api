@@ -1,7 +1,7 @@
 class UtilsMiddlewares {
-  static validateSchema(schema) {
+  static validateSchema(schema, validatedRequestProperty = "body") {
     return (request, response, nextMiddleware) => {
-      const validatedData = schema.parse(request.body);
+      const validatedData = schema.parse(request[validatedRequestProperty]);
       request.validatedData = validatedData;
       return nextMiddleware();
     };
