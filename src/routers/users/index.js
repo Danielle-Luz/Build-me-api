@@ -17,7 +17,6 @@ usersRouter.post(
 );
 usersRouter.post(
   "/newUser",
-  UsersMiddlewares.isTokenFilled,
   UtilsMiddlewares.validateSchema(newUserSchema),
   UsersMiddlewares.isUsernameUnique,
   UsersMiddlewares.isEmailUnique,

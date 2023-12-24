@@ -6,6 +6,7 @@ const { verify } = require("jsonwebtoken");
 class UsersMiddlewares {
   static async isUsernameUnique(request, response, nextMiddleware) {
     const { validatedData } = request;
+    console.log("logged user data", request.loggedUser);
     const foundUser = await UsersService.getUserByUsername(
       validatedData.username
     );
@@ -44,7 +45,25 @@ class UsersMiddlewares {
     const token = String(request.headers.authorization);
     const tokenWithoutBearer = token.split(" ")[1];
 
-    return verify(tokenWithoutBearer, process.env.SECRET_KEY)
+    return verify(
+      tokenWithoutBearer,
+      process.env.SECRET_KEY,
+      async (error, decodedToken) => {
+        if (error || !decodedToken) {
+          throw new InvalidTokenError(
+            error?.message || "The token couldn't be decoded"
+          );
+        }
+
+        const userFoundByEmail = await UsersService.getUserByEmail(
+          decodedToken.email
+        );
+
+        request.loggedUser = userFoundByEmail;
+
+        return nextMiddleware();
+      }
+    );
   }
 }
 
