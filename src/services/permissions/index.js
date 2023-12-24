@@ -1,5 +1,6 @@
 const { AppDatasource } = require("../../data-source");
 const { Permissions } = require("../../entities/index");
+const { RecordNotFoundError } = require("../../errors");
 
 class PermissionsService {
   static async create(newPermission) {
@@ -11,6 +12,23 @@ class PermissionsService {
       .execute();
 
     return createdPermission.generatedMaps[0];
+  }
+
+  static async update(id, updatedData) {
+    const updatedPermission = await AppDatasource.createQueryBuilder()
+      .update(Permissions)
+      .set(updatedData)
+      .where("id = :id", { id })
+      .returning("*")
+      .execute();
+
+    if (updatedPermission.affected === 0) {
+      throw new RecordNotFoundError(
+        "No permission with the informed id was found"
+      );
+    }
+
+    return updatedPermission.raw[0];
   }
 }
 

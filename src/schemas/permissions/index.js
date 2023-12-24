@@ -9,4 +9,6 @@ const newPermissionSchema = z.object({
   resource_id: z.number(),
 });
 
-module.exports = { newPermissionSchema };
+const updatedPermissionSchema = newPermissionSchema.partial();
+
+module.exports = { newPermissionSchema, updatedPermissionSchema };
