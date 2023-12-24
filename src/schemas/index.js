@@ -1,3 +1,7 @@
-const { newUserSchema, userLoginSchema } = require("./users/index");
+const {
+  newUserSchema,
+  userLoginSchema,
+  updatedUserSchema,
+} = require("./users/index");
 
-module.exports = { newUserSchema, userLoginSchema };
+module.exports = { newUserSchema, userLoginSchema, updatedUserSchema };

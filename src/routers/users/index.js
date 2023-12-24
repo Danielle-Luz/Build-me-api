@@ -4,7 +4,11 @@ const {
   UsersMiddlewares,
   UtilsMiddlewares,
 } = require("../../middlewares/index");
-const { userLoginSchema, newUserSchema } = require("../../schemas/index");
+const {
+  newUserSchema,
+  userLoginSchema,
+  updatedUserSchema,
+} = require("../../schemas/index");
 
 const usersRouter = Router();
 
@@ -22,6 +26,14 @@ usersRouter.post(
   UsersMiddlewares.isUsernameUnique,
   UsersMiddlewares.isEmailUnique,
   UsersController.create
+);
+
+usersRouter.patch(
+  "/self",
+  UtilsMiddlewares.validateSchema(updatedUserSchema),
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  UsersController.update
 );
 
 module.exports = { usersRouter };

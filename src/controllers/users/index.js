@@ -29,6 +29,13 @@ class UsersController {
 
     return response.status(StatusCodes.OK).json(foundUser);
   }
+
+  static async update(request, response) {
+    const id = request.loggedUser.id;
+    const updatedUser = await UsersService.update(id, request.validatedData);
+
+    return response.status(StatusCodes.OK).json(updatedUser);
+  }
 }
 
 module.exports = { UsersController };

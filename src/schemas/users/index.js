@@ -15,4 +15,8 @@ const userLoginSchema = newUserSchema.pick({
   password: true,
 });
 
-module.exports = { newUserSchema, userLoginSchema };
+const updatedUserSchema = newUserSchema
+  .omit({ username: true, email: true })
+  .partial();
+
+module.exports = { newUserSchema, userLoginSchema, updatedUserSchema };

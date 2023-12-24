@@ -75,6 +75,21 @@ class UsersService {
 
     return foundUser;
   }
+
+  static async update(id, updatedData) {
+    if (updatedData.password) {
+      updatedData = await UsersHelper.setEncryptedPassword(updatedData);
+    }
+
+    const updatedUser = await AppDatasource.createQueryBuilder()
+      .update(Users)
+      .set(updatedData)
+      .where("id = :id", { id })
+      .returning("*")
+      .execute();
+
+    return updatedUser.raw[0];
+  }
 }
 
 module.exports = { UsersService };
