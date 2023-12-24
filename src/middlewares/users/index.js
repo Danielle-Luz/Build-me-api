@@ -29,8 +29,17 @@ class UsersMiddlewares {
     return nextMiddleware();
   }
 
-  static async validateToken(request, response, nextMiddleware) {
+  static async isTokenFilled(request, response, nextMiddleware) {
+    const token = request.headers?.authorization;
+
+    if (!token) {
+      throw new InvalidTokenError("Missing bearer token", 401);
+    }
+
+    return nextMiddleware();
   }
+
+  static async validateToken(request, response, nextMiddleware) {}
 }
 
 module.exports = { UsersMiddlewares };

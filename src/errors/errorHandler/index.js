@@ -5,8 +5,6 @@ exports.errorHandler = (error, request, response, next) => {
   let statusCode = 500;
   let errorMessage = { message: error.message };
 
-  console.log("error", error);
-
   if (error instanceof AppError) {
     statusCode = error.statusCode;
   } else if (error instanceof ZodError) {
