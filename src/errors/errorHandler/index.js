@@ -9,7 +9,7 @@ exports.errorHandler = (error, request, response, next) => {
   if (error instanceof AppError) {
     statusCode = error.statusCode;
   } else if (error instanceof ZodError) {
-    statusCode = statusCode.BAD_REQUEST;
+    statusCode = StatusCodes.BAD_REQUEST;
     errorMessage = error.flatten().fieldErrors;
   }
 

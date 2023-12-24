@@ -1,3 +1,5 @@
+const { ZodError } = require("zod");
+
 class UtilsMiddlewares {
   static validateSchema(schema, validatedRequestProperty = "body") {
     return (request, response, nextMiddleware) => {

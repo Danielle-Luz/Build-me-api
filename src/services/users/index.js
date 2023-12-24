@@ -59,7 +59,7 @@ class UsersService {
       .select("users")
       .from(Users, "users")
       .where("users.username = :username", { username })
-      .getOneOrFail();
+      .getOne();
   }
 
   static async getById(id) {
