@@ -16,7 +16,7 @@ exports.Permissions = new EntitySchema({
   relations: {
     roleId: {
       joinColumn: {
-        name: "role_id",
+        name: "roleId",
       },
       inverseSide: "permissions",
       target: "roles",
@@ -24,7 +24,7 @@ exports.Permissions = new EntitySchema({
     },
     resourceId: {
       joinColumn: {
-        name: "resource_id",
+        name: "resourceId",
       },
       inverseSide: "permissions",
       target: "resources",
