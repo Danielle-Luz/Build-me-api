@@ -1,5 +1,11 @@
 const { AppError } = require("./AppError/index");
-const { DuplicatedInfo } = require("./DuplicatedInfo/index");
-const { InvalidLoginInfo } = require("./InvalidLoginInfo/index");
+const { DuplicatedInfoError } = require("./DuplicatedInfoError/index");
+const { InvalidLoginInfoError } = require("./InvalidLoginInfoError/index");
+const { InvalidTokenError } = require("./InvalidTokenError/index");
 
-module.exports = { AppError, InvalidLoginInfo, DuplicatedInfo };
+module.exports = {
+  AppError,
+  InvalidLoginInfoError,
+  DuplicatedInfoError,
+  InvalidTokenError,
+};

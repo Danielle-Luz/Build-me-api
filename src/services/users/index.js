@@ -2,11 +2,13 @@ const { sign } = require("jsonwebtoken");
 const { AppDatasource } = require("../../data-source");
 const { Users } = require("../../entities/index");
 const { UsersHelper } = require("../../helpers/index");
-const { InvalidLoginInfo } = require("../../errors/index");
+const { InvalidLoginInfoError } = require("../../errors/index");
 
 class UsersService {
   static async create(newUser) {
-    const userWithEncryptedPassword = await UsersHelper.setEncryptedPassword(newUser);
+    const userWithEncryptedPassword = await UsersHelper.setEncryptedPassword(
+      newUser
+    );
 
     const createdUser = await AppDatasource.createQueryBuilder()
       .insert()
@@ -23,8 +25,8 @@ class UsersService {
   static async login(loginInfo) {
     const isLonginInfoWrong = await UsersHelper.validateLoginInfo(loginInfo);
 
-    if(isLonginInfoWrong) {
-      throw new InvalidLoginInfo();
+    if (isLonginInfoWrong) {
+      throw new InvalidLoginInfoError();
     }
 
     const header = { email: loginInfo.email };

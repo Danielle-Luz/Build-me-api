@@ -1,6 +1,6 @@
 const { AppError } = require("../AppError/index");
 
-class InvalidLoginInfo extends AppError {
+class InvalidLoginInfoError extends AppError {
   constructor() {
     const errorMessage = "No user found with the login info informed";
     const statusCode = 404;
@@ -9,4 +9,4 @@ class InvalidLoginInfo extends AppError {
   }
 }
 
-module.exports = { InvalidLoginInfo };
+module.exports = { InvalidLoginInfoError };

@@ -1,4 +1,5 @@
-const { DuplicatedInfo } = require("../../errors/index");
+const { DuplicatedInfoError } = require("../../errors/index");
+const { InvalidTokenError } = require("../../errors/index");
 const { UsersService } = require("../../services/index");
 
 class UsersMiddlewares {
@@ -9,7 +10,9 @@ class UsersMiddlewares {
     );
 
     if (foundUser != undefined) {
-      throw new DuplicatedInfo("An existent user already has this username");
+      throw new DuplicatedInfoError(
+        "An existent user already has this username"
+      );
     }
 
     return nextMiddleware();
@@ -20,11 +23,13 @@ class UsersMiddlewares {
     const foundUser = await UsersService.getUserByEmail(validatedData.email);
 
     if (foundUser != undefined) {
-      throw new DuplicatedInfo("An existent user already has this email");
+      throw new DuplicatedInfoError("An existent user already has this email");
     }
 
     return nextMiddleware();
   }
+
+  static async validateToken(request, response, nextMiddleware) {}
 }
 
 module.exports = { UsersMiddlewares };
