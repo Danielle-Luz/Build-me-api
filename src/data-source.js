@@ -1,11 +1,11 @@
-import "dotenv/config";
-import "reflect-metadata";
-import path from "path";
-import { DataSource } from "typeorm";
+require("dotenv/config");
+require("reflect-metadata");
+const path = require("path");
+const { DataSource } = require("typeorm");
 
 const datasourceConfigurations = () => {
   const entitiesPath = path.join(__dirname, "/entities/**/*.js");
-  const migrationsPath = path.join(__dirname, "/migrations/**/*.js");
+  const migrationsPath = path.join(__dirname, "/migrations/**.js");
 
   return {
     type: process.env.DB_TYPE,
@@ -21,6 +21,4 @@ const datasourceConfigurations = () => {
   };
 };
 
-const AppDatasource = new DataSource(datasourceConfigurations);
-
-export default AppDatasource;
+exports.AppDatasource = new DataSource(datasourceConfigurations());

@@ -1,6 +1,6 @@
-import { UsersService } from "../../services";
+const { UsersService } = require("../../services/index");
 
-export default class UsersController {
+class UsersController {
   static async create(request, response) {
     const { validatedData } = request;
 
@@ -17,3 +17,5 @@ export default class UsersController {
     return response.status(200).json(token);
   }
 }
+
+module.exports = { UsersController };

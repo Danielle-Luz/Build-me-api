@@ -1,5 +1,5 @@
-import AppError from "./AppError";
-import DuplicatedInfo from "./DuplicatedInfo";
-import InvalidLoginInfo from "./InvalidLoginInfo";
+const { AppError } = require("./AppError/index");
+const { DuplicatedInfo } = require("./DuplicatedInfo/index");
+const { InvalidLoginInfo } = require("./InvalidLoginInfo/index");
 
-export { AppError, InvalidLoginInfo, DuplicatedInfo };
+module.exports = { AppError, InvalidLoginInfo, DuplicatedInfo };

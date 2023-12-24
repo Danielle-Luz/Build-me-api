@@ -1,3 +1,3 @@
-import { users } from "./users";
+const { Users } = require("./users/index");
 
-export { users };
+module.exports = { Users };

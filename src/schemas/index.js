@@ -1,3 +1,3 @@
-import { newUserSchema, userLoginSchema } from "./users";
+const { newUserSchema, userLoginSchema } = require("./users/index");
 
-export { newUserSchema, userLoginSchema };
+module.exports = { newUserSchema, userLoginSchema };

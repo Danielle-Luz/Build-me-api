@@ -1,3 +1,3 @@
-import UsersService from "./users";
+const { UsersService } = require("./users/index");
 
-export { UsersService };
+module.exports = { UsersService };

@@ -1,14 +1,22 @@
 {
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3",
-    "reflect-metadata": "^0.1.13",
-    "ts-node-dev": "^2.0.0",
     "typeorm": "^0.3.17",
     "zod": "^3.22.4"
+  },
+  "scripts": {
+    "dev": "tsnd --cls --rs src/server.js",
+    "typeorm": "typeorm-ts-node-commonjs"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
   }
 }

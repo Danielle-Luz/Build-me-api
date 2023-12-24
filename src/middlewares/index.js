@@ -1,4 +1,4 @@
-import UsersMiddlewares from "./users";
-import UtilsMiddlewares from "./utils";
+const { UsersMiddlewares } = require("./users/index");
+const { UtilsMiddlewares } = require("./utils/index");
 
-export { UsersMiddlewares, UtilsMiddlewares };
+module.exports = { UsersMiddlewares, UtilsMiddlewares };

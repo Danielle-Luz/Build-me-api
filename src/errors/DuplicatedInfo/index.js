@@ -1,8 +1,10 @@
-import AppError from "../AppError";
+const { AppError } = require("../AppError/index");
 
-export default class DuplicatedInfo extends AppError {
+class DuplicatedInfo extends AppError {
   constructor(message) {
     const statusCode = 409;
     super(message, statusCode);
   }
 }
+
+module.exports = { DuplicatedInfo };

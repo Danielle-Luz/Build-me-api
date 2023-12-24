@@ -1,5 +1,5 @@
-import app from "./app";
-import AppDatasource from "./data-source";
+const { app } = require("./app");
+const { AppDatasource } = require("./data-source");
 
 AppDatasource.initialize().then(() => {
   console.log("> Database started");

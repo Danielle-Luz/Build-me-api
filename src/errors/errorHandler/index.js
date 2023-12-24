@@ -1,9 +1,11 @@
-import { ZodError } from "zod";
-import AppError from "../AppError";
+const { ZodError } = require("zod");
+const { AppError } = require("../AppError/index");
 
-export default function errorHandler(error, request, response, next) {
+exports.errorHandler = (error, request, response, next) => {
   let statusCode = 500;
-  let errorMessage = { message: error.errorMessage };
+  let errorMessage = { message: error.message };
+
+  console.log("error", error);
 
   if (error instanceof AppError) {
     statusCode = error.statusCode;
@@ -13,4 +15,4 @@ export default function errorHandler(error, request, response, next) {
   }
 
   return response.status(statusCode).json(errorMessage);
-}
+};

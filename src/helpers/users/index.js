@@ -1,9 +1,8 @@
-import { compare, hash } from "bcryptjs";
-import AppDatasource from "../../data-source";
-import { users } from "../../entities";
-import { InvalidLoginInfo } from "../../errors";
+const { AppDatasource } = require("../../data-source");
+const { Users } = require("../../entities/index");
+const { compare, hash } = require("bcryptjs");
 
-export default class UsersHelper {
+class UsersHelper {
   static async setEncryptedPassword(newUser) {
     const encryptedPassword = await hash(newUser.password, 10);
     newUser.password = encryptedPassword;
@@ -14,17 +13,17 @@ export default class UsersHelper {
   static async validateLoginInfo(loginInfo) {
     const foundUser = await AppDatasource.createQueryBuilder()
       .select("users")
-      .from(users, "users")
+      .from(Users, "users")
       .where("users.email = :email", { email: loginInfo.email })
       .getOne();
 
     const isPasswordRight = await compare(
       loginInfo.password,
-      foundUser?.password
+      foundUser?.password || ""
     );
 
-    if (!isPasswordRight || !foundUser) throw new InvalidLoginInfo();
-
-    return isPasswordRight;
+    return !isPasswordRight || !foundUser;
   }
 }
+
+module.exports = { UsersHelper };

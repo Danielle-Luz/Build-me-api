@@ -1,4 +1,4 @@
-export default class UtilsMiddlewares {
+class UtilsMiddlewares {
   static validateSchema(schema) {
     return (request, response, nextMiddleware) => {
       const validatedData = schema.parse(request.body);
@@ -7,3 +7,5 @@ export default class UtilsMiddlewares {
     };
   }
 }
+
+module.exports = { UtilsMiddlewares };

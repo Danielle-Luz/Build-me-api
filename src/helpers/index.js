@@ -1,3 +1,3 @@
-import UsersHelper from "./users";
+const { UsersHelper } = require("./users/index");
 
-export { UsersHelper };
+module.exports = { UsersHelper };

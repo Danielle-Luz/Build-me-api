@@ -1,7 +1,7 @@
-import { DuplicatedInfo } from "../../errors";
-import { UsersService } from "../../services";
+const { DuplicatedInfo } = require("../../errors/index");
+const { UsersService } = require("../../services/index");
 
-export default class UsersMiddlewares {
+class UsersMiddlewares {
   static async isUsernameUnique(request, response, nextMiddleware) {
     const { validatedData } = request;
     const foundUser = await UsersService.getUserByUsername(
@@ -26,3 +26,5 @@ export default class UsersMiddlewares {
     return nextMiddleware();
   }
 }
+
+module.exports = { UsersMiddlewares };

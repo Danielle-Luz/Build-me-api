@@ -1,7 +1,10 @@
-import { Router } from "express";
-import { UsersController } from "../../controllers";
-import { UsersMiddlewares, UtilsMiddlewares } from "../../middlewares";
-import { userLoginSchema, newUserSchema } from "../../schemas";
+const { Router } = require("express");
+const { UsersController } = require("../../controllers/index");
+const {
+  UsersMiddlewares,
+  UtilsMiddlewares,
+} = require("../../middlewares/index");
+const { userLoginSchema, newUserSchema } = require("../../schemas/index");
 
 const usersRouter = Router();
 
@@ -20,4 +23,4 @@ usersRouter.post(
   UsersController.create
 );
 
-export default usersRouter;
+module.exports = { usersRouter };

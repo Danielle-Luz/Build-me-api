@@ -1,9 +1,9 @@
-import "express-async-errors";
-import errorHandler from "./errors/errorHandler/index.js";
-import usersRouter from "./routers/users/index.js";
-
+require("express-async-errors");
+const { errorHandler } = require("./errors/errorHandler/index");
+const { usersRouter } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
+
 const app = express();
 
 app.use(cors());
@@ -13,4 +13,4 @@ app.use("/users", usersRouter);
 
 app.use(errorHandler);
 
-export default app;
+module.exports = { app };

@@ -1,3 +1,3 @@
-import UsersController from "./users";
+const { UsersController } = require("./users/index");
 
-export { UsersController };
+module.exports = { UsersController };

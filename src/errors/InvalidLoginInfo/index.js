@@ -1,6 +1,6 @@
-import AppError from "../AppError";
+const { AppError } = require("../AppError/index");
 
-export default class InvalidLoginInfo extends AppError {
+class InvalidLoginInfo extends AppError {
   constructor() {
     const errorMessage = "No user found with the login info informed";
     const statusCode = 404;
@@ -8,3 +8,5 @@ export default class InvalidLoginInfo extends AppError {
     super(errorMessage, statusCode);
   }
 }
+
+module.exports = { InvalidLoginInfo };

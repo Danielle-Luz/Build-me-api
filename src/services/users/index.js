@@ -1,11 +1,12 @@
-import { sign } from "jsonwebtoken";
-import AppDatasource from "../../data-source";
-import Users from "../../entities/users";
-import { UsersHelper } from "../../helpers";
+const { sign } = require("jsonwebtoken");
+const { AppDatasource } = require("../../data-source");
+const { Users } = require("../../entities/index");
+const { UsersHelper } = require("../../helpers/index");
+const { InvalidLoginInfo } = require("../../errors/index");
 
-export default class UsersService {
+class UsersService {
   static async create(newUser) {
-    const userWithEncryptedPassword = UsersHelper.setEncryptedPassword(newUser);
+    const userWithEncryptedPassword = await UsersHelper.setEncryptedPassword(newUser);
 
     const createdUser = await AppDatasource.createQueryBuilder()
       .insert()
@@ -20,7 +21,11 @@ export default class UsersService {
   }
 
   static async login(loginInfo) {
-    UsersHelper.validateLoginInfo(loginInfo);
+    const isLonginInfoWrong = await UsersHelper.validateLoginInfo(loginInfo);
+
+    if(isLonginInfoWrong) {
+      throw new InvalidLoginInfo();
+    }
 
     const header = { email: loginInfo.email };
     const secretKey = process.env.SECRET_KEY;
@@ -51,3 +56,5 @@ export default class UsersService {
     return foundUser;
   }
 }
+
+module.exports = { UsersService };
