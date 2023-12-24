@@ -18,9 +18,14 @@ class UsersController {
     return response.status(StatusCodes.OK).json(token);
   }
 
-  static async getUserById(request, response) {
-    const id = request.params?.id;
-    const foundUser = await UsersService.getUserById(id);
+  static async getAll(request, response) {
+    const allUsers = await UsersService.getAll();
+    return response.status(StatusCodes.OK).json(allUsers);
+  }
+
+  static async getById(request, response) {
+    const id = request.params.id;
+    const foundUser = await UsersService.getById(id);
 
     return response.status(StatusCodes.OK).json(foundUser);
   }

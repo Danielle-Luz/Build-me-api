@@ -8,8 +8,8 @@ const { userLoginSchema, newUserSchema } = require("../../schemas/index");
 
 const usersRouter = Router();
 
-usersRouter.get("");
-usersRouter.get("/:id", UsersController.getUserById);
+usersRouter.get("", UsersController.getAll);
+usersRouter.get("/:id", UsersController.getById);
 
 usersRouter.post(
   "/login",
