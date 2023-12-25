@@ -42,7 +42,7 @@ class RatingsServices {
       .getOne();
   }
 
-  static async update(updatedData, id) {
+  static async update(id, updatedData) {
     const updatedRating = await AppDatasource.createQueryBuilder()
       .update(Ratings)
       .set(updatedData)
