@@ -1,4 +1,5 @@
+const { RatingsMiddlewares } = require("./ratings");
 const { UsersMiddlewares } = require("./users/index");
 const { UtilsMiddlewares } = require("./utils/index");
 
-module.exports = { UsersMiddlewares, UtilsMiddlewares };
+module.exports = { RatingsMiddlewares, UsersMiddlewares, UtilsMiddlewares };
