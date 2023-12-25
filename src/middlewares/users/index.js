@@ -68,7 +68,11 @@ class UsersMiddlewares {
           decodedToken.email
         );
 
-        console.log("found")
+        if (!userFoundByEmail) {
+          throw new RecordNotFoundError(
+            "The email decoded from the token does not match any user's email"
+          );
+        }
 
         request.loggedUser = userFoundByEmail;
 
@@ -105,7 +109,8 @@ class UsersMiddlewares {
       );
 
     const isUserUnauthorized = !loggedUserPermissions[routeRequiredPermission];
-    const isUserModifyingAnotherUser = request.params.id != request.loggedUser.id;
+    const isUserModifyingAnotherUser =
+      request.params.id != request.loggedUser.id;
 
     if (isUserUnauthorized && isUserModifyingAnotherUser) {
       throw new NoPermissionError();

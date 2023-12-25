@@ -18,9 +18,7 @@ class UsersService {
       .returning("*")
       .execute();
 
-    const { password, ...createdUserData } = createdUser.generatedMaps[0];
-
-    return createdUserData;
+    return createdUser.generatedMaps[0];
   }
 
   static async login(loginInfo) {
@@ -48,18 +46,12 @@ class UsersService {
   }
 
   static async getUserByEmail(email) {
-    const foundUser = await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .innerJoinAndSelect("users.roleId", "role")
       .where("users.email = :email", { email })
       .getOne();
-
-    if (!foundUser) {
-      throw new RecordNotFoundError("No user found with the informed email");
-    }
-
-    return foundUser;
   }
 
   static async getUserByUsername(username) {
