@@ -1,4 +1,5 @@
 const { NoPermissionError, RecordNotFoundError } = require("../../errors");
+const { RatingCooldownError } = require("../../errors/RatingCooldownError");
 const { RatingsServices } = require("../../services");
 
 class RatingsMiddlewares {
@@ -30,6 +31,34 @@ class RatingsMiddlewares {
       throw new NoPermissionError(
         "A user cannot change ratings from other users"
       );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isLastRatingHasMoreThanFifteenDaysOlder(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const authorId = request.loggedUser.id;
+    const ratedRecipientId = request.validatedData.ratedRecipientId;
+
+    const lastRating = await RatingsServices.getAuthorLastRatingForUser(
+      authorId,
+      ratedRecipientId
+    );
+
+    const actualDate = new Date();
+    const lastRatingDate = new Date(lastRating?.createdDate);
+
+    const ratingAge = Math.floor(
+      (actualDate - lastRatingDate) / (1000 * 60 * 60 * 24)
+    );
+    const isWithinFifteenDays = ratingAge < 15;
+
+    if (isWithinFifteenDays) {
+      throw new RatingCooldownError();
     }
 
     return nextMiddleware();

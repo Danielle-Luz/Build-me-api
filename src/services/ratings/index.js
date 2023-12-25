@@ -50,6 +50,17 @@ class RatingsServices {
       .getRawOne();
   }
 
+  static async getAuthorLastRatingForUser(authorId, ratedRecipientId) {
+    return AppDatasource.createQueryBuilder()
+      .select("ratings")
+      .from(Ratings, "ratings")
+      .where("ratings.ratedRecipientId = :ratedRecipientId", {
+        ratedRecipientId,
+      })
+      .orderBy("ratings.createdDate", "DESC")
+      .getOne();
+  }
+
   static async update(id, updatedData) {
     const updatedRating = await AppDatasource.createQueryBuilder()
       .update(Ratings)

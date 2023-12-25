@@ -16,7 +16,7 @@ exports.Ratings = new EntitySchema({
     },
     createdDate: {
       createDate: true,
-      type: "date",
+      type: "timestamp",
     },
     authorId: {
       type: "int",
