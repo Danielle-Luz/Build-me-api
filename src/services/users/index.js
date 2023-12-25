@@ -43,6 +43,7 @@ class UsersService {
     return await AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
+      .innerJoinAndSelect("users.roleId", "role")
       .getMany();
   }
 
