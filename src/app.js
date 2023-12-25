@@ -2,6 +2,7 @@ require("express-async-errors");
 const { errorHandler } = require("./errors/errorHandler/index");
 const {
   permissionsRouter,
+  ratingsRouter,
   resourcesRouter,
   rolesRouter,
   usersRouter,
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/permissions", permissionsRouter);
+app.use("/ratings", ratingsRouter);
 app.use("/resources", resourcesRouter);
 app.use("/roles", rolesRouter);
 app.use("/users", usersRouter);
