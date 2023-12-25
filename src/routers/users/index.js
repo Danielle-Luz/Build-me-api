@@ -14,6 +14,7 @@ const usersRouter = Router();
 
 usersRouter.get("", UsersController.getAll);
 usersRouter.get("/:id", UsersController.getById);
+usersRouter.get("/search/:value", UsersController.getUsersBySearchedValue);
 
 usersRouter.post(
   "/login",

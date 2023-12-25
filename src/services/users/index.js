@@ -76,6 +76,21 @@ class UsersService {
     return foundUser;
   }
 
+  static async getUsersBySearchedValue(value) {
+    const formattedValue = `%${value}%`;
+    return AppDatasource.createQueryBuilder()
+      .select("users")
+      .from(Users, "users")
+      .where("users.username ilike :formattedValue", { formattedValue })
+      .orWhere("users.firstName ilike :formattedValue", { formattedValue })
+      .orWhere("users.lastName ilike :formattedValue", { formattedValue })
+      .orWhere("users.email ilike :formattedValue", { formattedValue })
+      .orWhere("users.github_username ilike :formattedValue", {
+        formattedValue,
+      })
+      .getMany();
+  }
+
   static async update(id, updatedData) {
     if (updatedData.password) {
       updatedData = await UsersHelper.setEncryptedPassword(updatedData);

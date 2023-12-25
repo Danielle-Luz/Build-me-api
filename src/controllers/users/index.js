@@ -1,4 +1,3 @@
-const { STATUS_CODES } = require("http");
 const { UsersService } = require("../../services/index");
 const { StatusCodes } = require("http-status-codes");
 
@@ -29,6 +28,14 @@ class UsersController {
     const foundUser = await UsersService.getById(id);
 
     return response.status(StatusCodes.OK).json(foundUser);
+  }
+
+  static async getUsersBySearchedValue(request, response) {
+    const foundUsers = await UsersService.getUsersBySearchedValue(
+      request.params.value
+    );
+
+    return response.status(StatusCodes.OK).json(foundUsers);
   }
 
   static async update(request, response) {
