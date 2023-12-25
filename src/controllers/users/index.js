@@ -31,7 +31,7 @@ class UsersController {
   }
 
   static async update(request, response) {
-    const id = request.loggedUser.id;
+    const id = request.params.id;
     const updatedUser = await UsersService.update(id, request.validatedData);
 
     return response.status(StatusCodes.OK).json(updatedUser);

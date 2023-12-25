@@ -50,6 +50,7 @@ class UsersService {
     return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
+      .innerJoinAndSelect("users.roleId", "role")
       .where("users.email = :email", { email })
       .getOne();
   }

@@ -30,12 +30,16 @@ class PermissionsService {
     });
   }
 
-  static async getPermissionsByRoleId(roleId) {
+  static async getPermissionsByRoleId(roleId) {}
 
-  }
-
-  static async getPermissionsByFilters(roleId, resourceId) {
-
+  static async getPermissionsByFilters(resourceName, roleId) {
+    return await AppDatasource.createQueryBuilder()
+      .select("permissions")
+      .from(Permissions, "permissions")
+      .innerJoin("permissions.resourceId", "resource")
+      .where("resource.name = :resourceName", { resourceName })
+      .andWhere("permissions.roleId = :roleId", { roleId })
+      .getOne();
   }
 
   static async update(id, updatedData) {

@@ -1,6 +1,15 @@
-const { DuplicatedInfoError, RecordNotFoundError } = require("../../errors/index");
+const {
+  DuplicatedInfoError,
+  RecordNotFoundError,
+  NoPermissionError,
+} = require("../../errors/index");
 const { InvalidTokenError } = require("../../errors/index");
-const { UsersService, RolesService } = require("../../services/index");
+const { PermissionsHelper } = require("../../helpers");
+const {
+  UsersService,
+  RolesService,
+  PermissionsService,
+} = require("../../services/index");
 const { verify } = require("jsonwebtoken");
 
 class UsersMiddlewares {
@@ -68,13 +77,36 @@ class UsersMiddlewares {
 
   static async isRoleIdValid(request, response, nextMiddleware) {
     const roleId = request.body.roleId;
-    
-    if(roleId || roleId === 0) {
+
+    if (roleId || roleId === 0) {
       const foundRole = await RolesService.getById(roleId);
-  
+
       if (!foundRole) {
         throw new RecordNotFoundError("No role with the informed id was found");
       }
+    }
+
+    return nextMiddleware();
+  }
+
+  static async hasPermissionOnRoute(request, response, nextMiddleware) {
+    const loggedUserRoleId = request.loggedUser.roleId.id;
+    const accessedResourceName = request.originalUrl.split("/")[1];
+    const routeRequiredPermission = PermissionsHelper.getPermissionByHttpMethod(
+      request.method
+    );
+
+    const loggedUserPermissions =
+      await PermissionsService.getPermissionsByFilters(
+        accessedResourceName,
+        loggedUserRoleId
+      );
+
+    const isUserUnauthorized = !loggedUserPermissions[routeRequiredPermission];
+    const isUserModifyingAnotherUser = request.params.id != request.loggedUser.id;
+
+    if (isUserUnauthorized && isUserModifyingAnotherUser) {
+      throw new NoPermissionError();
     }
 
     return nextMiddleware();

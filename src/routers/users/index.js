@@ -30,11 +30,12 @@ usersRouter.post(
 );
 
 usersRouter.patch(
-  "/self",
+  "/:id",
   UtilsMiddlewares.validateSchema(updatedUserSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   UsersMiddlewares.isRoleIdValid,
+  UsersMiddlewares.hasPermissionOnRoute,
   UsersController.update
 );
 
