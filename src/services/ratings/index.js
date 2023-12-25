@@ -16,7 +16,7 @@ class RatingsServices {
 
   static async getRatingsById(id) {
     return AppDatasource.createQueryBuilder()
-      .select("*")
+      .select("ratings")
       .from(Ratings, "ratings")
       .where("ratings.id = :id", { id })
       .getOne();

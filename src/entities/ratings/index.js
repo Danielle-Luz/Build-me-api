@@ -14,6 +14,12 @@ exports.Ratings = new EntitySchema({
     grade: {
       type: "int",
     },
+    authorId: {
+      type: "int",
+    },
+    ratedRecipientId: {
+      type: "int",
+    },
   },
   relations: {
     authorId: {

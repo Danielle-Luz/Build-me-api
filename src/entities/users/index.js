@@ -24,6 +24,7 @@ exports.Users = new EntitySchema({
       type: "varchar",
     },
     linkedinUrl: { name: "linkedin_url", type: "text", nullable: true },
+    roleId: { type: "int" },
   },
   relations: {
     roleId: {

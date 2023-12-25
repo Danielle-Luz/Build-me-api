@@ -1,13 +1,10 @@
-const { NoPermissionError } = require("../../errors");
+const { NoPermissionError, RecordNotFoundError } = require("../../errors");
 const { RatingsServices } = require("../../services");
 
 class RatingsMiddlewares {
   static async isSelfRating(request, response, nextMiddleware) {
     const authorId = request.loggedUser.id;
     const ratedRecipientId = request.validatedData.ratedRecipientId;
-
-    console.log("author id", authorId);
-    console.log("recipient id", ratedRecipientId);
 
     const isAuthorSelfRating = authorId === ratedRecipientId;
 
@@ -22,8 +19,9 @@ class RatingsMiddlewares {
     const ratingId = request.params.id;
     const foundRating = await RatingsServices.getRatingsById(ratingId);
 
-    console.log("found rating", foundRating);
-    console.log("\nrating id", ratingId);
+    if (!foundRating) {
+      throw new RecordNotFoundError("No rating with the informed id was found");
+    }
 
     const authorId = foundRating.authorId;
     const wasCreatedByLoggedUser = request.loggedUser.id == authorId;
