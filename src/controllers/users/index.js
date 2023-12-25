@@ -1,3 +1,4 @@
+const { STATUS_CODES } = require("http");
 const { UsersService } = require("../../services/index");
 const { StatusCodes } = require("http-status-codes");
 
@@ -35,6 +36,14 @@ class UsersController {
     const updatedUser = await UsersService.update(id, request.validatedData);
 
     return response.status(StatusCodes.OK).json(updatedUser);
+  }
+
+  static async delete(request, response) {
+    const id = request.params.id;
+
+    await UsersService.delete(id);
+
+    return response.status(StatusCodes.OK).json();
   }
 }
 

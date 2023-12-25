@@ -39,4 +39,12 @@ usersRouter.patch(
   UsersController.update
 );
 
+usersRouter.delete(
+  "/:id",
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  UsersMiddlewares.hasPermissionOnRoute,
+  UsersController.delete
+);
+
 module.exports = { usersRouter };

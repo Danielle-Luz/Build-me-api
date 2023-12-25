@@ -91,6 +91,20 @@ class UsersService {
 
     return updatedUser.raw[0];
   }
+
+  static async delete(id) {
+    const deletedUser = await AppDatasource.createQueryBuilder()
+      .delete()
+      .from(Users, "users")
+      .where("users.id = :id", { id })
+      .execute();
+
+    const wasUserDeleted = deletedUser.affected != 0;
+
+    if (!wasUserDeleted) {
+      throw new RecordNotFoundError("No user with the informed id was found");
+    }
+  }
 }
 
 module.exports = { UsersService };
