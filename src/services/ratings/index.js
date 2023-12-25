@@ -50,13 +50,18 @@ class RatingsServices {
       .getRawOne();
   }
 
-  static async getAuthorLastRatingForUser(authorId, ratedRecipientId) {
+  static async getAuthorLastRatingForUser(
+    authorId,
+    ratedRecipientId,
+    projectId
+  ) {
     return AppDatasource.createQueryBuilder()
       .select("ratings")
       .from(Ratings, "ratings")
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
         ratedRecipientId,
       })
+      .andWhere("ratings.projectId = :projectId", { projectId })
       .orderBy("ratings.createdDate", "DESC")
       .getOne();
   }

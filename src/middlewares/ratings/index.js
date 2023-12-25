@@ -43,10 +43,12 @@ class RatingsMiddlewares {
   ) {
     const authorId = request.loggedUser.id;
     const ratedRecipientId = request.validatedData.ratedRecipientId;
+    const projectId = request.validatedData.projectId;
 
     const lastRating = await RatingsServices.getAuthorLastRatingForUser(
       authorId,
-      ratedRecipientId
+      ratedRecipientId,
+      projectId
     );
 
     const actualDate = new Date();
