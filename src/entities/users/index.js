@@ -33,6 +33,18 @@ exports.Users = new EntitySchema({
       inverseSide: "users",
       target: "roles",
       type: "many-to-one",
-    }
-  }
+    },
+    ratingsMade: {
+      inverseSide: "authorId",
+      onDelete: "CASCADE",
+      target: "ratings",
+      type: "one-to-many",
+    },
+    ratingsReceived: {
+      inverseSide: "ratedRecipientId",
+      onDelete: "CASCADE",
+      target: "ratings",
+      type: "one-to-many",
+    },
+  },
 });
