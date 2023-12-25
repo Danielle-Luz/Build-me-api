@@ -4,6 +4,7 @@ const { RatingsServices } = require("../../services");
 class RatingsController {
   static async create(request, response) {
     const { validatedData } = request;
+    validatedData.authorId = request.loggedUser.id;
 
     const createdRating = await RatingsServices.create(validatedData);
 
