@@ -68,6 +68,8 @@ class UsersMiddlewares {
           decodedToken.email
         );
 
+        console.log("found")
+
         request.loggedUser = userFoundByEmail;
 
         return nextMiddleware();
