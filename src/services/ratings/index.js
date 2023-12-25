@@ -14,6 +14,14 @@ class RatingsServices {
     return createdRating.generatedMaps[0];
   }
 
+  static async getRatingsById(id) {
+    return AppDatasource.createQueryBuilder()
+      .select("*")
+      .from(Ratings, "ratings")
+      .where("ratings.id = :id", { id })
+      .getOne();
+  }
+
   static async getRatingsMade(authorId) {
     return AppDatasource.createQueryBuilder()
       .select("ratings")
@@ -39,7 +47,7 @@ class RatingsServices {
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
         ratedRecipientId,
       })
-      .getOne();
+      .getRawOne();
   }
 
   static async update(id, updatedData) {
