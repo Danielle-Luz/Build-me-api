@@ -24,6 +24,9 @@ exports.Ratings = new EntitySchema({
     ratedRecipientId: {
       type: "int",
     },
+    projectId: {
+      type: "int",
+    },
   },
   relations: {
     authorId: {
@@ -40,6 +43,14 @@ exports.Ratings = new EntitySchema({
       },
       inverseSide: "ratingsReceived",
       target: "users",
+      type: "many-to-one",
+    },
+    projectId: {
+      joinColumn: {
+        name: "projectId",
+      },
+      inverseSide: "ratings",
+      target: "projects",
       type: "many-to-one",
     },
   },
