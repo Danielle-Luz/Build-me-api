@@ -95,28 +95,30 @@ class UsersMiddlewares {
     return nextMiddleware();
   }
 
-  static async hasPermissionOnRoute(request, response, nextMiddleware) {
-    const loggedUserRoleId = request.loggedUser.roleId.id;
-    const accessedResourceName = request.originalUrl.split("/")[1];
-    const routeRequiredPermission = PermissionsHelper.getPermissionByHttpMethod(
-      request.method
-    );
+  static async hasPermissionOnRoute(userIdParam = "id") {
+    return async (request, response, nextMiddleware) => {
+      const loggedUserRoleId = request.loggedUser.roleId.id;
+      const accessedResourceName = request.originalUrl.split("/")[1];
+      const routeRequiredPermission =
+        PermissionsHelper.getPermissionByHttpMethod(request.method);
 
-    const loggedUserPermissions =
-      await PermissionsService.getPermissionsByFilters(
-        accessedResourceName,
-        loggedUserRoleId
-      );
+      const loggedUserPermissions =
+        await PermissionsService.getPermissionsByFilters(
+          accessedResourceName,
+          loggedUserRoleId
+        );
 
-    const isUserUnauthorized = !loggedUserPermissions[routeRequiredPermission];
-    const isUserModifyingAnotherUser =
-      request.params.id != request.loggedUser.id;
+      const isUserUnauthorized =
+        !loggedUserPermissions[routeRequiredPermission];
+      const isUserModifyingAnotherUser =
+        request.params[userIdParam] != request.loggedUser.id;
 
-    if (isUserUnauthorized && isUserModifyingAnotherUser) {
-      throw new NoPermissionError();
-    }
+      if (isUserUnauthorized && isUserModifyingAnotherUser) {
+        throw new NoPermissionError();
+      }
 
-    return nextMiddleware();
+      return nextMiddleware();
+    };
   }
 }
 
