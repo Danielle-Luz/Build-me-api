@@ -14,6 +14,10 @@ exports.Ratings = new EntitySchema({
     grade: {
       type: "int",
     },
+    createdDate: {
+      createDate: true,
+      type: "date",
+    },
     authorId: {
       type: "int",
     },

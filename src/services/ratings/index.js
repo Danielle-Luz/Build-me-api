@@ -42,7 +42,7 @@ class RatingsServices {
 
   static async getRatingsAverage(ratedRecipientId) {
     return AppDatasource.createQueryBuilder()
-      .select("AVG(ratings.grade)", "averageRating")
+      .select("ROUND(AVG(ratings.grade), 2)", "averageRating")
       .from(Ratings, "ratings")
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
         ratedRecipientId,
