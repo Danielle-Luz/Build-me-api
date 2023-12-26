@@ -53,5 +53,11 @@ exports.Users = new EntitySchema({
       target: "projects",
       type: "one-to-many",
     },
+    vacancies: {
+      inverseSide: "chosenCandidateId",
+      onDelete: "SET NULL",
+      target: "vacancies",
+      type: "one-to-many",
+    },
   },
 });

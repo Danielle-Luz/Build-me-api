@@ -25,12 +25,21 @@ exports.Vacancies = new EntitySchema({
     projectId: {
       type: "int",
     },
+    chosenCandidateId: {
+      type: "int",
+    },
   },
   relations: {
     projectId: {
       joinColumn: { name: "projectId" },
       inverseSide: "vacancies",
       target: "projects",
+      type: "many-to-one",
+    },
+    chosenCandidateId: {
+      joinColumn: { name: "chosenCandidateId" },
+      inverseSide: "vacancies",
+      target: "users",
       type: "many-to-one",
     },
   },
