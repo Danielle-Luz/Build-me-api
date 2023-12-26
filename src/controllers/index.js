@@ -1,3 +1,4 @@
+const { LearnersController } = require("./learners");
 const { PermissionsController } = require("./permissions/index");
 const { ProjectsController } = require("./projects");
 const { RatingsController } = require("./ratings");
@@ -7,6 +8,7 @@ const { UsersController } = require("./users/index");
 const { VacanciesController } = require("./vacancies");
 
 module.exports = {
+  LearnersController,
   PermissionsController,
   ProjectsController,
   RatingsController,
