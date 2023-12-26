@@ -107,9 +107,9 @@ class UsersService {
   }
 
   static async delete(id) {
-    const deletedUser = await AppDatasource.createQueryBuilder()
-      .delete()
-      .from(Users, "users")
+    const deletedUser = await AppDatasource.getRepository(Users)
+      .createQueryBuilder()
+      .softDelete()
       .where("users.id = :id", { id })
       .execute();
 
