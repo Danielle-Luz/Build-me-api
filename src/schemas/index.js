@@ -11,15 +11,18 @@ const {
 const { newRatingSchema, updatedRatingSchema } = require("./ratings");
 const { newProjectSchema, updateProjectSchema } = require("./projects");
 const { newVacancySchema, updatedVacancySchema } = require("./vacancies");
+const { newLearnerSchema, updatedLearnerSchema } = require("./learners");
 
 module.exports = {
   nameSchema,
+  newLearnerSchema,
   newPermissionSchema,
   newRatingSchema,
   newProjectSchema,
   newUserSchema,
   newVacancySchema,
   userLoginSchema,
+  updatedLearnerSchema,
   updatedPermissionSchema,
   updateProjectSchema,
   updatedRatingSchema,
