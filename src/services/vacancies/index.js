@@ -4,14 +4,14 @@ const { RecordNotFoundError } = require("../../errors");
 
 class VacanciesService {
   static async create(newVacancie) {
-    const createtVacancie = await AppDatasource.createQueryBuilder()
+    const createdVacancie = await AppDatasource.createQueryBuilder()
       .insert()
       .into(Vacancies)
       .values(newVacancie)
       .returning("*")
       .execute();
 
-    return createtVacancie.generatedMaps[0];
+    return createdVacancie.generatedMaps[0];
   }
 
   static async getAll() {
