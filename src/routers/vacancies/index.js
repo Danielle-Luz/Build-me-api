@@ -20,16 +20,16 @@ vacanciesRouter.post(
 
 vacanciesRouter.get("/", VacanciesController.getAll);
 vacanciesRouter.get(
-  "/projects/:projectId",
-  VacanciesController.getProjectVacancies
-);
-vacanciesRouter.get(
   "/unrelated/projects/:projectId",
   VacanciesController.getProjectVacanciesWithoutCandidate
 );
 vacanciesRouter.get(
   "/projects/open",
   VacanciesController.getOpenProjectsUnrelatedVacancies
+);
+vacanciesRouter.get(
+  "/projects/:projectId",
+  VacanciesController.getProjectVacancies
 );
 
 vacanciesRouter.patch(

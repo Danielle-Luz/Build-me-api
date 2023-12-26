@@ -36,7 +36,7 @@ class VacanciesService {
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .where("vacancies.projectId = :projectId", { projectId })
-      .andWhere("vacancies.chosenCandidateId = null")
+      .andWhere("vacancies.chosenCandidateId is null")
       .orderBy("vacancies.name")
       .getMany();
   }
@@ -45,9 +45,9 @@ class VacanciesService {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
-      .innerJoin("projects.projectId", "project")
+      .innerJoin("vacancies.projectId", "project")
       .where("project.closeDate >= CURRENT_DATE")
-      .andWhere("vacancies.chosenCandidateId = null")
+      .andWhere("vacancies.chosenCandidateId is null")
       .orderBy("vacancies.createdDate", "DESC")
       .getMany();
   }
