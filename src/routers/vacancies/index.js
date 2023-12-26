@@ -28,7 +28,7 @@ vacanciesRouter.get(
   VacanciesController.getProjectVacanciesWithoutCandidate
 );
 vacanciesRouter.get(
-  "/projects/open/:projectId",
+  "/projects/open",
   VacanciesController.getOpenProjectsUnrelatedVacancies
 );
 
