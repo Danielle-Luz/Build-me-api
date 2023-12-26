@@ -46,7 +46,7 @@ class RatingsController {
 
     await RatingsServices.delete(id);
 
-    return response.status(StatusCodes.OK).json();
+    return response.status(StatusCodes.NO_CONTENT).json();
   }
 }
 
