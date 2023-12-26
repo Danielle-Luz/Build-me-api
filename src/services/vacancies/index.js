@@ -31,6 +31,27 @@ class VacanciesService {
       .getMany();
   }
 
+  static async getProjectVacanciesWithoutCandidate(projectId) {
+    return AppDatasource.createQueryBuilder()
+      .select("vacancies")
+      .from(Vacancies, "vacancies")
+      .where("vacancies.projectId = :projectId", { projectId })
+      .andWhere("vacancies.chosenCandidateId = null")
+      .orderBy("vacancies.name")
+      .getMany();
+  }
+
+  static async getOpenProjectsUnrelatedVacancies() {
+    return AppDatasource.createQueryBuilder()
+      .select("vacancies")
+      .from(Vacancies, "vacancies")
+      .innerJoin("projects.projectId", "project")
+      .where("project.closeDate >= CURRENT_DATE")
+      .andWhere("vacancies.chosenCandidateId = null")
+      .orderBy("vacancies.createdDate", "DESC")
+      .getMany();
+  }
+
   static async update(id, updatedData) {
     const updatedVacancie = await AppDatasource.createQueryBuilder()
       .update(Vacancies)
@@ -40,7 +61,7 @@ class VacanciesService {
       .execute();
 
     const wasVacancieUpdated = updatedVacancie.affected != 0;
-    
+
     if (!wasVacancieUpdated) {
       throw new RecordNotFoundError(
         "No vacancie with the informed id was found"
