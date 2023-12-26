@@ -51,6 +51,7 @@ class UsersService {
       .from(Users, "users")
       .innerJoinAndSelect("users.roleId", "role")
       .where("users.email = :email", { email })
+      .withDeleted()
       .getOne();
   }
 
@@ -59,6 +60,7 @@ class UsersService {
       .select("users")
       .from(Users, "users")
       .where("users.username = :username", { username })
+      .withDeleted()
       .getOne();
   }
 

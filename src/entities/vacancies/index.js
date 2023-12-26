@@ -14,6 +14,7 @@ exports.Vacancies = new EntitySchema({
     },
     description: {
       type: "text",
+      nullable: true,
     },
     createdDate: {
       createDate: true,
