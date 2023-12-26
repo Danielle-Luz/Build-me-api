@@ -33,7 +33,7 @@ class PermissionsService {
   static async getPermissionsByRoleId(roleId) {}
 
   static async getPermissionsByFilters(resourceName, roleId) {
-    return await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("permissions")
       .from(Permissions, "permissions")
       .innerJoin("permissions.resourceId", "resource")

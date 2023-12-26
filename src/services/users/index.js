@@ -38,7 +38,7 @@ class UsersService {
   }
 
   static async getAll() {
-    return await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .innerJoinAndSelect("users.roleId", "role")

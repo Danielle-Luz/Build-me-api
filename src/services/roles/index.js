@@ -14,7 +14,7 @@ class RolesService {
   }
 
   static async getAll() {
-    return await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("roles")
       .from(Roles, "roles")
       .getMany();

@@ -14,7 +14,7 @@ class ResourcesService {
   }
 
   static async getAll() {
-    return await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("resources")
       .from(Resources, "resources")
       .getMany();
