@@ -4,6 +4,7 @@ const { RatingsServices } = require("./ratings");
 const { ResourcesService } = require("./resources/index");
 const { RolesService } = require("./roles/index");
 const { UsersService } = require("./users/index");
+const { VacanciesService } = require("./vacancies");
 
 module.exports = {
   PermissionsService,
@@ -12,4 +13,5 @@ module.exports = {
   ResourcesService,
   RolesService,
   UsersService,
+  VacanciesService,
 };
