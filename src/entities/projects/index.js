@@ -25,7 +25,7 @@ exports.Projects = new EntitySchema({
     },
     deletedDate: {
       deleteDate: true,
-      type: "timestamp"
+      type: "timestamp",
     },
     closeDate: {
       type: "timestamp",
@@ -52,7 +52,13 @@ exports.Projects = new EntitySchema({
       inverseSide: "projectId",
       onDelete: "CASCADE",
       target: "ratings",
-      type: "one-to-many"
-    }
+      type: "one-to-many",
+    },
+    vacancies: {
+      inverseSide: "projectId",
+      onDelete: "CASCADE",
+      target: "vacancies",
+      type: "one-to-many",
+    },
   },
 });
