@@ -1,9 +1,17 @@
 const { Router } = require("express");
 const { ProjectsController } = require("../../controllers");
+const { UtilsMiddlewares, UsersMiddlewares } = require("../../middlewares");
+const { newProjectSchema, updateProjectSchema } = require("../../schemas");
 
 const projectsRouter = Router();
 
-projectsRouter.post("/", ProjectsController.create);
+projectsRouter.post(
+  "/",
+  UtilsMiddlewares.validateSchema(newProjectSchema),
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  ProjectsController.create
+);
 
 projectsRouter.get("/", ProjectsController.getAll);
 projectsRouter.get("/:id", ProjectsController.getProjectById);
@@ -15,8 +23,19 @@ projectsRouter.get(
   ProjectsController.getProjectsByMemberSelectionMethod
 );
 
-projectsRouter.patch("/:id", ProjectsController.update);
+projectsRouter.patch(
+  "/:id",
+  UtilsMiddlewares.validateSchema(updateProjectSchema),
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  ProjectsController.update
+);
 
-projectsRouter.delete("/:id", ProjectsController.delete);
+projectsRouter.delete(
+  "/:id",
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  ProjectsController.delete
+);
 
 module.exports = { projectsRouter };
