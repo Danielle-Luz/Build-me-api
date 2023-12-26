@@ -44,7 +44,6 @@ vacanciesRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacanciesMiddlewares.hasPermissionOnRoute,
-  VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesController.update
 );
 

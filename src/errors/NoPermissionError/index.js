@@ -3,7 +3,7 @@ const { AppError } = require("../AppError");
 
 class NoPermissionError extends AppError {
   constructor(
-    message = "The user is unauthorized to access the route or to perform this operation with other users"
+    message = "The user is unauthorized to access the route or to perform this operation with other users records"
   ) {
     super(message, StatusCodes.UNAUTHORIZED);
   }
