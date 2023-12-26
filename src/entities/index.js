@@ -4,5 +4,14 @@ const { Projects } = require("./projects");
 const { Ratings } = require("./ratings");
 const { Resources } = require("./resources/index");
 const { Roles } = require("./roles/index");
+const { Vacancies } = require("./vacancies");
 
-module.exports = { Users, Permissions, Projects, Ratings, Resources, Roles };
+module.exports = {
+  Users,
+  Permissions,
+  Projects,
+  Ratings,
+  Resources,
+  Roles,
+  Vacancies,
+};
