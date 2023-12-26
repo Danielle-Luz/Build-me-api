@@ -14,6 +14,14 @@ class VacanciesService {
     return createtVacancie.generatedMaps[0];
   }
 
+  static async getAll() {
+    return AppDatasource.createQueryBuilder()
+      .select("vacancies")
+      .from(Vacancies, "vacancies")
+      .orderBy("vacancies.createdDate", "DESC")
+      .getMany();
+  }
+
   static async getProjectVacancies(projectId) {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
