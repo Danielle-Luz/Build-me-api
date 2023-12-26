@@ -10,6 +10,7 @@ const {
 } = require("./permissions/index");
 const { newRatingSchema, updatedRatingSchema } = require("./ratings");
 const { newProjectSchema, updateProjectSchema } = require("./projects");
+const { newVacancySchema, updatedVacancySchema } = require("./vacancies");
 
 module.exports = {
   nameSchema,
@@ -17,9 +18,11 @@ module.exports = {
   newRatingSchema,
   newProjectSchema,
   newUserSchema,
+  newVacancySchema,
   userLoginSchema,
   updatedPermissionSchema,
   updateProjectSchema,
   updatedRatingSchema,
   updatedUserSchema,
+  updatedVacancySchema,
 };

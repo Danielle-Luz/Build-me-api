@@ -1,12 +1,13 @@
 const { Router } = require("express");
 const { VacanciesController } = require("../../controllers");
 const { UtilsMiddlewares, UsersMiddlewares } = require("../../middlewares");
+const { newVacancySchema, updatedVacancySchema } = require("../../schemas");
 
 const vacanciesRouter = Router();
 
 vacanciesRouter.post(
   "/",
-  UtilsMiddlewares.validateSchema(),
+  UtilsMiddlewares.validateSchema(newVacancySchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacanciesController.create
@@ -17,7 +18,7 @@ vacanciesRouter.get("/:projectId", VacanciesController.getProjectVacancies);
 
 vacanciesRouter.patch(
   "/:id",
-  UtilsMiddlewares.validateSchema(),
+  UtilsMiddlewares.validateSchema(updatedVacancySchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacanciesController.update
