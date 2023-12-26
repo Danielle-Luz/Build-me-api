@@ -25,6 +25,21 @@ class VacanciesController {
     return response.status(StatusCodes.OK).json(projectVacancies);
   }
 
+  static async getProjectVacanciesWithoutCandidate(request, response) {
+    const projectId = request.params.projectId;
+
+    const projectVacancies =
+      await VacanciesService.getProjectVacanciesWithoutCandidate(projectId);
+
+    return response.status(StatusCodes.OK).json(projectVacancies);
+  }
+
+  static async getOpenProjectsUnrelatedVacancies(request, response) {
+    const projectVacancies =
+      await VacanciesService.getOpenProjectsUnrelatedVacancies();
+    return response.status(StatusCodes.OK).json(projectVacancies);
+  }
+
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;
