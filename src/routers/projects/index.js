@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { ProjectsController } = require("../../controllers");
-const { UtilsMiddlewares, UsersMiddlewares } = require("../../middlewares");
+const {
+  UtilsMiddlewares,
+  UsersMiddlewares,
+  ProjectsMiddlewares,
+} = require("../../middlewares");
 const { newProjectSchema, updateProjectSchema } = require("../../schemas");
 
 const projectsRouter = Router();
@@ -10,6 +14,7 @@ projectsRouter.post(
   UtilsMiddlewares.validateSchema(newProjectSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  ProjectsMiddlewares.hasPermissionOnRoute,
   ProjectsController.create
 );
 
@@ -28,6 +33,7 @@ projectsRouter.patch(
   UtilsMiddlewares.validateSchema(updateProjectSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  ProjectsMiddlewares.hasPermissionOnRoute,
   ProjectsController.update
 );
 
@@ -35,6 +41,7 @@ projectsRouter.delete(
   "/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  ProjectsMiddlewares.hasPermissionOnRoute,
   ProjectsController.delete
 );
 

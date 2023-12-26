@@ -21,20 +21,14 @@ ratingsRouter.post(
 
 ratingsRouter.get(
   "/made/:authorId",
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
   RatingsController.getRatingsMade
 );
 ratingsRouter.get(
   "/received/:ratedRecipientId",
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
   RatingsController.getRatingsReceived
 );
 ratingsRouter.get(
   "/average/:ratedRecipientId",
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
   RatingsController.getRatingsAverage
 );
 

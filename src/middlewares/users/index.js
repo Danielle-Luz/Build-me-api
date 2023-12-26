@@ -11,6 +11,7 @@ const {
   PermissionsService,
 } = require("../../services/index");
 const { verify } = require("jsonwebtoken");
+const { UtilsMiddlewares } = require("../utils");
 
 class UsersMiddlewares {
   static async isUsernameUnique(request, response, nextMiddleware) {
@@ -95,30 +96,9 @@ class UsersMiddlewares {
     return nextMiddleware();
   }
 
-  static async hasPermissionOnRoute(userIdParam = "id") {
-    return async (request, response, nextMiddleware) => {
-      const loggedUserRoleId = request.loggedUser.roleId.id;
-      const accessedResourceName = request.originalUrl.split("/")[1];
-      const routeRequiredPermission =
-        PermissionsHelper.getPermissionByHttpMethod(request.method);
-
-      const loggedUserPermissions =
-        await PermissionsService.getPermissionsByFilters(
-          accessedResourceName,
-          loggedUserRoleId
-        );
-
-      const isUserUnauthorized =
-        !loggedUserPermissions[routeRequiredPermission];
-      const isUserModifyingAnotherUser =
-        request.params[userIdParam] != request.loggedUser.id;
-
-      if (isUserUnauthorized && isUserModifyingAnotherUser) {
-        throw new NoPermissionError();
-      }
-
-      return nextMiddleware();
-    };
+  static async hasPermissionOnRoute(request, response, nextMiddleware) {
+    const modifiedUserId = request.params.id;
+    return await UtilsMiddlewares.hasPermissionOnRoute(request, response, nextMiddleware, modifiedUserId);
   }
 }
 
