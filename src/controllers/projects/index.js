@@ -4,6 +4,7 @@ const { ProjectsService } = require("../../services");
 class ProjectsController {
   static async create(request, response) {
     const { validatedData } = request;
+    validatedData.createdById = request.loggedUser.id;
 
     const createdProject = await ProjectsService.create(validatedData);
 

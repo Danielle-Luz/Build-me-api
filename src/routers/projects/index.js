@@ -14,7 +14,6 @@ projectsRouter.post(
   UtilsMiddlewares.validateSchema(newProjectSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  ProjectsMiddlewares.hasPermissionOnRoute,
   ProjectsController.create
 );
 

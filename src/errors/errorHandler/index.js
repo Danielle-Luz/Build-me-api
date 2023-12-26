@@ -6,6 +6,8 @@ exports.errorHandler = (error, request, response, next) => {
   let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   let errorMessage = { message: error.message };
 
+  console.error(error);
+
   if (error instanceof AppError) {
     statusCode = error.statusCode;
   } else if (error instanceof ZodError) {
