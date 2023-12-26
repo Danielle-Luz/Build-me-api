@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { AppError } = require("../../errors");
+const { AppError, CloseDateError } = require("../../errors");
 const { ProjectsService } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
@@ -29,7 +29,7 @@ class ProjectsMiddlewares {
     if (closeDate < actualDate) {
       const errorMessage =
         "The close date should be later than or equal to the current date";
-      throw new AppError(errorMessage, StatusCodes.UNPROCESSABLE_ENTITY);
+      throw new CloseDateError(errorMessage);
     }
 
     return nextMiddleware();
