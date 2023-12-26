@@ -18,14 +18,14 @@ projectsRouter.post(
 );
 
 projectsRouter.get("/", ProjectsController.getAll);
-projectsRouter.get("/:id", ProjectsController.getProjectById);
-projectsRouter.get("/user/:createdById", ProjectsController.getUserProjects);
-projectsRouter.get("/search/:value", ProjectsController.getProjectsByFilter);
 projectsRouter.get("/open", ProjectsController.getOpenProjects);
 projectsRouter.get(
   "/selectionMethod/:selectionMethod",
   ProjectsController.getProjectsByMemberSelectionMethod
 );
+projectsRouter.get("/:id", ProjectsController.getProjectById);
+projectsRouter.get("/user/:createdById", ProjectsController.getUserProjects);
+projectsRouter.get("/search/:value", ProjectsController.getProjectsByFilter);
 
 projectsRouter.patch(
   "/:id",

@@ -23,11 +23,19 @@ class ProjectsService {
   }
 
   static async getProjectById(id) {
-    return AppDatasource.createQueryBuilder()
+    const foundProject = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.id = :id", { id })
       .getOne();
+
+    if (!foundProject) {
+      throw new RecordNotFoundError(
+        "No project with the informed id was found"
+      );
+    }
+
+    return foundProject;
   }
 
   static async getUserProjects(createdById) {
@@ -45,7 +53,7 @@ class ProjectsService {
       .select("projects")
       .from(Projects, "projects")
       .where("projects.name ilike :formattedValue", { formattedValue })
-      .andWhere("projects.description ilike :formattedValue", {
+      .orWhere("projects.description ilike :formattedValue", {
         formattedValue,
       })
       .orderBy("projects.createdDate", "DESC")
