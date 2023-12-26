@@ -34,7 +34,7 @@ vacanciesRouter.get(
   "/projects/:projectId",
   VacanciesController.getProjectVacancies
 );
-vacanciesRouter.get("/:id", VacanciesController.getVacationById);
+vacanciesRouter.get("/:id", VacanciesController.getVacancyById);
 vacanciesRouter.get(
   "/users/:userId",
   VacanciesController.getVacantionsRelatedToUser

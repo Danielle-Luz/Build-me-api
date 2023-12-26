@@ -52,7 +52,7 @@ class VacanciesService {
       .getMany();
   }
 
-  static async getVacationById(id) {
+  static async getVacancyById(id) {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
