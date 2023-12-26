@@ -101,9 +101,9 @@ class ProjectsService {
   }
 
   static async delete(id) {
-    const deletedProject = await AppDatasource.createQueryBuilder()
-      .delete()
-      .from(Projects, "projects")
+    const deletedProject = await AppDatasource.getRepository(Projects)
+      .createQueryBuilder()
+      .softDelete()
       .where("projects.id = :id", { id })
       .execute();
 

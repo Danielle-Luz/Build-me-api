@@ -23,6 +23,10 @@ exports.Projects = new EntitySchema({
       createDate: true,
       type: "timestamp",
     },
+    deletedDate: {
+      deleteDate: true,
+      type: "timestamp"
+    },
     closeDate: {
       type: "timestamp",
       nullable: true,
