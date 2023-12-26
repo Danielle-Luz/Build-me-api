@@ -1,3 +1,4 @@
+const { Learners } = require("./learners");
 const { Users } = require("./users/index");
 const { Permissions } = require("./permissions/index");
 const { Projects } = require("./projects");
@@ -7,6 +8,7 @@ const { Roles } = require("./roles/index");
 const { Vacancies } = require("./vacancies");
 
 module.exports = {
+  Learners,
   Users,
   Permissions,
   Projects,
