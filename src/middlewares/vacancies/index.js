@@ -1,5 +1,9 @@
-const { CloseDateError } = require("../../errors");
-const { ProjectsService, VacanciesService } = require("../../services");
+const { CloseDateError, RecordNotFoundError } = require("../../errors");
+const {
+  ProjectsService,
+  VacanciesService,
+  UsersService,
+} = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
 class VacanciesMiddlewares {
@@ -42,6 +46,33 @@ class VacanciesMiddlewares {
       const errorMessage =
         "It's not possible to associate a vacancy with a project that has already been closed";
       throw new CloseDateError(errorMessage);
+    }
+
+    return nextMiddleware();
+  }
+
+  static async doesCandidateExists(request, response, nextMiddleware) {
+    const chosenCandidateId = request.validatedData.chosenCandidateId;
+
+    try {
+      await UsersService.getById(chosenCandidateId);
+    } catch {
+      throw new RecordNotFoundError(
+        "No user with the informed candidate id was found"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async doesProjectExists(request, response, nextMiddleware) {
+    const projectId = request.validatedData.projectId;
+    const foundProject = await ProjectsService.getProjectById(projectId);
+
+    if (!foundProject) {
+      throw new RecordNotFoundError(
+        "No project with the informed id was found"
+      );
     }
 
     return nextMiddleware();

@@ -16,6 +16,8 @@ vacanciesRouter.post(
   UsersMiddlewares.validateToken,
   VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
+  VacanciesMiddlewares.doesCandidateExists,
+  VacanciesMiddlewares.doesProjectExists,
   VacanciesController.create
 );
 
@@ -44,6 +46,7 @@ vacanciesRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacanciesMiddlewares.hasPermissionOnRoute,
+  VacanciesMiddlewares.doesCandidateExists,
   VacanciesController.update
 );
 
