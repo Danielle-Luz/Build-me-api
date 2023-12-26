@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { LearnersController } = require("../../controllers");
-const { UtilsMiddlewares, UsersMiddlewares } = require("../../middlewares");
+const {
+  UtilsMiddlewares,
+  UsersMiddlewares,
+  LearnersMiddlewares,
+} = require("../../middlewares");
 const { newLearnerSchema, updatedLearnerSchema } = require("../../schemas");
 
 const learnersRouter = Router();
@@ -10,6 +14,7 @@ learnersRouter.post(
   UtilsMiddlewares.validateSchema(newLearnerSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  LearnersMiddlewares.hasPermissionOnRoute,
   LearnersController.create
 );
 
@@ -18,9 +23,10 @@ learnersRouter.get("/:id", LearnersController.getById);
 
 learnersRouter.patch(
   "/:id",
+  UtilsMiddlewares.validateSchema(updatedLearnerSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  UtilsMiddlewares.validateSchema(updatedLearnerSchema),
+  LearnersMiddlewares.hasPermissionOnRoute,
   LearnersController.update
 );
 
@@ -28,6 +34,7 @@ learnersRouter.delete(
   "/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  LearnersMiddlewares.hasPermissionOnRoute,
   LearnersController.delete
 );
 
