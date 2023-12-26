@@ -7,6 +7,7 @@ const {
   rolesRouter,
   usersRouter,
   projectsRouter,
+  vacanciesRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
@@ -22,7 +23,7 @@ app.use("/ratings", ratingsRouter);
 app.use("/resources", resourcesRouter);
 app.use("/roles", rolesRouter);
 app.use("/users", usersRouter);
-
+app.use("/vacancies", vacanciesRouter);
 app.use(errorHandler);
 
 module.exports = { app };

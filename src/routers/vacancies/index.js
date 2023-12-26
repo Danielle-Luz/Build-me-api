@@ -30,3 +30,5 @@ vacanciesRouter.delete(
   UsersMiddlewares.validateToken,
   VacanciesController.delete
 );
+
+module.exports = { vacanciesRouter };
