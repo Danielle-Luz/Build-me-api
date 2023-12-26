@@ -6,6 +6,7 @@ const {
   resourcesRouter,
   rolesRouter,
   usersRouter,
+  projectsRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/permissions", permissionsRouter);
+app.use("/projects", projectsRouter);
 app.use("/ratings", ratingsRouter);
 app.use("/resources", resourcesRouter);
 app.use("/roles", rolesRouter);
