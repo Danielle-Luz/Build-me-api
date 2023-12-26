@@ -40,9 +40,9 @@ class VacanciesService {
       .execute();
 
     const wasVacancieUpdated = updatedVacancie.affected != 0;
-
+    
     if (!wasVacancieUpdated) {
-      return new RecordNotFoundError(
+      throw new RecordNotFoundError(
         "No vacancie with the informed id was found"
       );
     }

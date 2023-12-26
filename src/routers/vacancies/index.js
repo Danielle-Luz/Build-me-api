@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { VacanciesController } = require("../../controllers");
-const { UtilsMiddlewares, UsersMiddlewares } = require("../../middlewares");
+const {
+  UtilsMiddlewares,
+  UsersMiddlewares,
+  VacanciesMiddlewares,
+} = require("../../middlewares");
 const { newVacancySchema, updatedVacancySchema } = require("../../schemas");
 
 const vacanciesRouter = Router();
@@ -10,6 +14,7 @@ vacanciesRouter.post(
   UtilsMiddlewares.validateSchema(newVacancySchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesController.create
 );
 
@@ -21,6 +26,7 @@ vacanciesRouter.patch(
   UtilsMiddlewares.validateSchema(updatedVacancySchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesController.update
 );
 
