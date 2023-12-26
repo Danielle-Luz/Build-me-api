@@ -14,6 +14,7 @@ projectsRouter.post(
   UtilsMiddlewares.validateSchema(newProjectSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  ProjectsMiddlewares.isCloseDateGreaterThanActualDate,
   ProjectsController.create
 );
 
@@ -33,6 +34,7 @@ projectsRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   ProjectsMiddlewares.hasPermissionOnRoute,
+  ProjectsMiddlewares.isCloseDateGreaterThanActualDate,
   ProjectsController.update
 );
 
