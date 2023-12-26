@@ -25,7 +25,7 @@ projectsRouter.get(
   ProjectsController.getProjectsByMemberSelectionMethod
 );
 projectsRouter.get("/:id", ProjectsController.getProjectById);
-projectsRouter.get("/user/:createdById", ProjectsController.getUserProjects);
+projectsRouter.get("/users/:createdById", ProjectsController.getUserProjects);
 projectsRouter.get("/search/:value", ProjectsController.getProjectsByFilter);
 
 projectsRouter.patch(
