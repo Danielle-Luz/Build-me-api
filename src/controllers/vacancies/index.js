@@ -40,6 +40,23 @@ class VacanciesController {
     return response.status(StatusCodes.OK).json(projectVacancies);
   }
 
+  static async getVacationById(request, response) {
+    const id = request.params.id;
+
+    const foundVacation = await VacanciesService.getVacationById(id);
+
+    return response.status(StatusCodes.OK).json(foundVacation);
+  }
+
+  static async getVacantionsRelatedToUser(request, response) {
+    const userId = request.params.userId;
+
+    const vacationsRelatedToUser =
+      await VacanciesService.getVacantionsRelatedToUser(userId);
+
+    return response.status(StatusCodes.OK).json(vacationsRelatedToUser);
+  }
+
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;

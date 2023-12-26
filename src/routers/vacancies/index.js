@@ -31,6 +31,11 @@ vacanciesRouter.get(
   "/projects/:projectId",
   VacanciesController.getProjectVacancies
 );
+vacanciesRouter.get("/:id", VacanciesController.getVacationById);
+vacanciesRouter.get(
+  "/users/:userId",
+  VacanciesController.getVacantionsRelatedToUser
+);
 
 vacanciesRouter.patch(
   "/:id",

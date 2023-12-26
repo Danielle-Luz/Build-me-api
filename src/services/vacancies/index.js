@@ -52,6 +52,23 @@ class VacanciesService {
       .getMany();
   }
 
+  static async getVacationById(id) {
+    return AppDatasource.createQueryBuilder()
+      .select("vacancies")
+      .from(Vacancies, "vacancies")
+      .where("vacancies.id = :id", { id })
+      .getOne();
+  }
+
+  static async getVacantionsRelatedToUser(userId) {
+    return AppDatasource.createQueryBuilder()
+      .select("vacancies")
+      .from(Vacancies, "vacancies")
+      .where("vacancies.chosenCandidateId = :userId", { userId })
+      .orderBy("vacancies.createdDate", "DESC")
+      .getMany();
+  }
+
   static async update(id, updatedData) {
     const updatedVacancie = await AppDatasource.createQueryBuilder()
       .update(Vacancies)
