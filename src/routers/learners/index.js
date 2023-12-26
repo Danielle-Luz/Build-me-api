@@ -15,6 +15,8 @@ learnersRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   LearnersMiddlewares.hasPermissionOnRoute,
+  LearnersMiddlewares.doesVacancyExists,
+  LearnersMiddlewares.doesCandidateExists,
   LearnersController.create
 );
 
@@ -27,6 +29,8 @@ learnersRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   LearnersMiddlewares.hasPermissionOnRoute,
+  LearnersMiddlewares.doesVacancyExists,
+  LearnersMiddlewares.doesCandidateExists,
   LearnersController.update
 );
 

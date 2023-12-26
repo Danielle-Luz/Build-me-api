@@ -1,4 +1,9 @@
-const { LearnersService } = require("../../services");
+const { RecordNotFoundError } = require("../../errors");
+const {
+  LearnersService,
+  VacanciesService,
+  UsersService,
+} = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
 class LearnersMiddlewares {
@@ -19,6 +24,36 @@ class LearnersMiddlewares {
       nextMiddleware,
       candidateId
     );
+  }
+
+  static async doesVacancyExists(request, response, nextMiddleware) {
+    const vacancyId = request.validatedData.vacancyId;
+
+    const foundVacancy = await VacanciesService.getVacancyById(vacancyId);
+
+    if (vacancyId && !foundVacancy) {
+      throw new RecordNotFoundError(
+        "No vacancy with the informed id was found"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async doesCandidateExists(request, response, nextMiddleware) {
+    const candidateId = request.validatedData.candidateId;
+
+    if (candidateId) {
+      try {
+        await UsersService.getById(candidateId);
+      } catch {
+        throw new RecordNotFoundError(
+          "No user with the informed candidate id was found"
+        );
+      }
+    }
+
+    return nextMiddleware();
   }
 }
 
