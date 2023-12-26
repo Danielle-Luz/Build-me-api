@@ -28,6 +28,7 @@ exports.Vacancies = new EntitySchema({
     },
     chosenCandidateId: {
       type: "int",
+      nullable: true,
     },
   },
   relations: {
