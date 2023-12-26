@@ -1,7 +1,32 @@
 const { CloseDateError } = require("../../errors");
-const { ProjectsService } = require("../../services");
+const { ProjectsService, VacanciesService } = require("../../services");
+const { UtilsMiddlewares } = require("../utils");
 
 class VacanciesMiddlewares {
+  static async hasPermissionOnRoute(request, response, nextMiddleware) {
+    let relatedProjectId;
+
+    if (request.method == "POST") {
+      relatedProjectId = request.validatedData.projectId;
+    } else {
+      const vacancyId = request.params.id;
+      const foundVacancy = await VacanciesService.getVacationById(vacancyId);
+      relatedProjectId = foundVacancy.projectId;
+    }
+
+    const relatedProject = await ProjectsService.getProjectById(
+      relatedProjectId
+    );
+    const projectCreatorId = relatedProject.createdById;
+
+    return UtilsMiddlewares.hasPermissionOnRoute(
+      request,
+      response,
+      nextMiddleware,
+      projectCreatorId
+    );
+  }
+
   static async isRelatedProjectAlreadyClosed(
     request,
     response,

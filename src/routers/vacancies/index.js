@@ -14,6 +14,7 @@ vacanciesRouter.post(
   UtilsMiddlewares.validateSchema(newVacancySchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesController.create
 );
@@ -42,6 +43,7 @@ vacanciesRouter.patch(
   UtilsMiddlewares.validateSchema(updatedVacancySchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesController.update
 );
@@ -50,6 +52,7 @@ vacanciesRouter.delete(
   "/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesController.delete
 );
 
