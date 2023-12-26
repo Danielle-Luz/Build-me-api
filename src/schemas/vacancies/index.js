@@ -8,6 +8,8 @@ const newVacancySchema = z.object({
   chosenCandidateId: z.number().int().optional(),
 });
 
-const updatedVacancySchema = newVacancySchema.partial();
+const updatedVacancySchema = newVacancySchema
+  .omit({ projectId: true })
+  .partial();
 
 module.exports = { newVacancySchema, updatedVacancySchema };
