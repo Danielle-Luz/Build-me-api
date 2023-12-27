@@ -19,10 +19,7 @@ ratingsRouter.post(
   RatingsController.create
 );
 
-ratingsRouter.get(
-  "/made/:authorId",
-  RatingsController.getRatingsMade
-);
+ratingsRouter.get("/made/:authorId", RatingsController.getRatingsMade);
 ratingsRouter.get(
   "/received/:ratedRecipientId",
   RatingsController.getRatingsReceived
@@ -37,6 +34,7 @@ ratingsRouter.patch(
   UtilsMiddlewares.validateSchema(updatedRatingSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  UtilsMiddlewares.wasNoFieldUpdated,
   RatingsMiddlewares.wasRatingMadeByLoggedUser,
   RatingsController.update
 );

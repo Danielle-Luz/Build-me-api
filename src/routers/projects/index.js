@@ -34,6 +34,7 @@ projectsRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   ProjectsMiddlewares.hasPermissionOnRoute,
+  UtilsMiddlewares.wasNoFieldUpdated,
   ProjectsMiddlewares.isCloseDateGreaterThanActualDate,
   ProjectsController.update
 );

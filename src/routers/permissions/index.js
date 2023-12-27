@@ -35,6 +35,7 @@ permissionsRouter.patch(
   UsersMiddlewares.validateToken,
   PermissionsMiddlewares.hasPermissionOnRoute,
   UtilsMiddlewares.validateSchema(updatedPermissionSchema),
+  UtilsMiddlewares.wasNoFieldUpdated,
   PermissionsController.update
 );
 

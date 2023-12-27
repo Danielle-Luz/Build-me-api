@@ -35,6 +35,7 @@ usersRouter.patch(
   UtilsMiddlewares.validateSchema(updatedUserSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  UtilsMiddlewares.wasNoFieldUpdated,
   UsersMiddlewares.isRoleIdValid,
   UsersMiddlewares.hasPermissionOnRoute,
   UsersController.update

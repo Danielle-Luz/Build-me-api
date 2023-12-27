@@ -47,6 +47,7 @@ vacanciesRouter.patch(
   UsersMiddlewares.validateToken,
   VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.doesCandidateExists,
+  UtilsMiddlewares.wasNoFieldUpdated,
   VacanciesController.update
 );
 
