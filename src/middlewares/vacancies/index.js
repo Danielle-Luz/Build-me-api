@@ -54,12 +54,14 @@ class VacanciesMiddlewares {
   static async doesCandidateExists(request, response, nextMiddleware) {
     const chosenCandidateId = request.validatedData.chosenCandidateId;
 
-    try {
-      await UsersService.getById(chosenCandidateId);
-    } catch {
-      throw new RecordNotFoundError(
-        "No user with the informed candidate id was found"
-      );
+    if (chosenCandidateId) {
+      try {
+        await UsersService.getById(chosenCandidateId);
+      } catch {
+        throw new RecordNotFoundError(
+          "No user with the informed candidate id was found"
+        );
+      }
     }
 
     return nextMiddleware();
