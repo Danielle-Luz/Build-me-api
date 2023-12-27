@@ -38,6 +38,16 @@ class TechnologiesService {
     return foundTechnology;
   }
 
+  static async getByName(name) {
+    const foundTechnology = await AppDatasource.createQueryBuilder()
+      .select("technologies")
+      .from(Technologies, "technologies")
+      .where("technologies.name = :name", { name })
+      .getOne();
+
+    return foundTechnology;
+  }
+
   static async update(id, updatedData) {
     const updatedTechnology = await AppDatasource.createQueryBuilder()
       .update(Technologies)

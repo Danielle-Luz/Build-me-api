@@ -4,6 +4,7 @@ const {
   UtilsMiddlewares,
   UsersMiddlewares,
   PermissionsMiddlewares,
+  TechnologiesMiddlewares,
 } = require("../../middlewares");
 const {
   newTechnologySchema,
@@ -18,6 +19,7 @@ technologiesRouter.post(
   UsersMiddlewares.validateToken,
   UtilsMiddlewares.validateSchema(newTechnologySchema),
   PermissionsMiddlewares.hasPermissionOnRoute,
+  TechnologiesMiddlewares.hasUniqueName,
   TechnologiesController.create
 );
 
@@ -30,6 +32,8 @@ technologiesRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   PermissionsMiddlewares.hasPermissionOnRoute,
+  UtilsMiddlewares.wasNoFieldUpdated,
+  TechnologiesMiddlewares.hasUniqueName,
   TechnologiesController.update
 );
 
