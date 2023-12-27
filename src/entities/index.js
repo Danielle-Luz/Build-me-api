@@ -7,6 +7,7 @@ const { Resources } = require("./resources/index");
 const { Roles } = require("./roles/index");
 const { Technologies } = require("./technologies");
 const { Vacancies } = require("./vacancies");
+const { VacancyRequirements } = require("./vacancyRequirements");
 
 module.exports = {
   Learners,
@@ -18,4 +19,5 @@ module.exports = {
   Roles,
   Technologies,
   Vacancies,
+  VacancyRequirements,
 };
