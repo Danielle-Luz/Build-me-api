@@ -4,6 +4,7 @@ const { ProjectsService } = require("./projects");
 const { RatingsServices } = require("./ratings");
 const { ResourcesService } = require("./resources/index");
 const { RolesService } = require("./roles/index");
+const { TechnologiesService } = require("./technologies");
 const { UsersService } = require("./users/index");
 const { VacanciesService } = require("./vacancies");
 
@@ -14,6 +15,7 @@ module.exports = {
   RatingsServices,
   ResourcesService,
   RolesService,
+  TechnologiesService,
   UsersService,
   VacanciesService,
 };
