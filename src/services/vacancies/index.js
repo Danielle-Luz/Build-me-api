@@ -27,6 +27,7 @@ class VacanciesService {
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .where("vacancies.projectId = :projectId", { projectId })
+      .leftJoinAndSelect("vacancies.chosenCandidateId", "candidate")
       .orderBy("vacancies.name")
       .getMany();
   }
@@ -76,7 +77,7 @@ class VacanciesService {
       .orderBy("vacancies.createdDate", "DESC")
       .getMany();
   }
-
+  
   static async update(id, updatedData) {
     const updatedVacancie = await AppDatasource.createQueryBuilder()
       .update(Vacancies)
