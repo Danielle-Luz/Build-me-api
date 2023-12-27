@@ -1,6 +1,11 @@
-const { NoPermissionError, RecordNotFoundError } = require("../../errors");
+const { StatusCodes } = require("http-status-codes");
+const {
+  NoPermissionError,
+  RecordNotFoundError,
+  AppError,
+} = require("../../errors");
 const { RatingCooldownError } = require("../../errors/RatingCooldownError");
-const { RatingsServices } = require("../../services");
+const { RatingsServices, VacanciesService } = require("../../services");
 
 class RatingsMiddlewares {
   static async isSelfRating(request, response, nextMiddleware) {
@@ -61,6 +66,27 @@ class RatingsMiddlewares {
 
     if (isWithinFifteenDays) {
       throw new RatingCooldownError();
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isProjectColleague(request, response, nextMiddleware) {
+    const { ratedRecipientId, projectId } = request.validatedData;
+    const authorId = request.loggedUser.id;
+
+    const chosenCandidateIds = [authorId, ratedRecipientId];
+    const projectColleagues = await VacanciesService.getProjectColleagues(
+      projectId,
+      chosenCandidateIds
+    );
+
+    const areColleagues = projectColleagues.length == 2;
+
+    if (!areColleagues) {
+      const errorMessage =
+        "A user is unable to rate a user they haven't collaborated with on the specified project";
+      throw new AppError(errorMessage, StatusCodes.NOT_FOUND);
     }
 
     return nextMiddleware();

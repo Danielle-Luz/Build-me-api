@@ -77,7 +77,19 @@ class VacanciesService {
       .orderBy("vacancies.createdDate", "DESC")
       .getMany();
   }
-  
+
+  static async getProjectColleagues(projectId, chosenCandidateIds) {
+    return await AppDatasource.createQueryBuilder()
+      .select(["vacancies.chosenCandidateId"])
+      .from(Vacancies, "vacancies")
+      .where("vacancies.chosenCandidateId IN (:...chosenCandidateIds)", {
+        chosenCandidateIds,
+      })
+      .andWhere("vacancies.projectId = :projectId", { projectId })
+      .groupBy("vacancies.chosenCandidateId")
+      .getRawMany();
+  }
+
   static async update(id, updatedData) {
     const updatedVacancie = await AppDatasource.createQueryBuilder()
       .update(Vacancies)

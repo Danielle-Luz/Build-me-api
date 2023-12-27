@@ -15,6 +15,7 @@ ratingsRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   RatingsMiddlewares.isSelfRating,
+  RatingsMiddlewares.isProjectColleague,
   RatingsMiddlewares.isLastRatingHasMoreThanFifteenDaysOlder,
   RatingsController.create
 );
