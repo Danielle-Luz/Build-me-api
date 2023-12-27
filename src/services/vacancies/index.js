@@ -53,11 +53,19 @@ class VacanciesService {
   }
 
   static async getVacancyById(id) {
-    return AppDatasource.createQueryBuilder()
+    const foundVacancy = await AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .where("vacancies.id = :id", { id })
       .getOne();
+
+    if (!foundVacancy) {
+      throw new RecordNotFoundError(
+        "No vacancy with the informed id was found"
+      );
+    }
+
+    return foundVacancy;
   }
 
   static async getVacantionsRelatedToUser(userId) {

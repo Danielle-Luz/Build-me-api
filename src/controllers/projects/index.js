@@ -16,10 +16,10 @@ class ProjectsController {
     return response.status(StatusCodes.OK).json(allProjects);
   }
 
-  static async getProjectById(request, response) {
+  static async getById(request, response) {
     const id = request.params.id;
 
-    const foundProject = await ProjectsService.getProjectById(id);
+    const foundProject = await ProjectsService.getById(id);
 
     return response.status(StatusCodes.OK).json(foundProject);
   }

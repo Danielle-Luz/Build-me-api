@@ -23,11 +23,19 @@ class LearnersService {
   }
 
   static async getById(id) {
-    return AppDatasource.createQueryBuilder()
+    const foundLearner = await AppDatasource.createQueryBuilder()
       .select("learners")
       .from(Learners, "learners")
       .where("learners.id = :id", { id })
       .getOne();
+
+    if (!foundLearner) {
+      throw new RecordNotFoundError(
+        "No learner with the informed id was found"
+      );
+    }
+
+    return foundLearner;
   }
 
   static async delete(id) {

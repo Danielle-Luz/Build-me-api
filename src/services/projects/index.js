@@ -22,7 +22,7 @@ class ProjectsService {
       .getMany();
   }
 
-  static async getProjectById(id) {
+  static async getById(id) {
     const foundProject = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")

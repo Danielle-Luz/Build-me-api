@@ -29,12 +29,8 @@ class LearnersMiddlewares {
   static async doesVacancyExists(request, response, nextMiddleware) {
     const vacancyId = request.validatedData.vacancyId;
 
-    const foundVacancy = await VacanciesService.getVacancyById(vacancyId);
-
-    if (vacancyId && !foundVacancy) {
-      throw new RecordNotFoundError(
-        "No vacancy with the informed id was found"
-      );
+    if (vacancyId) {
+      await VacanciesService.getVacancyById(vacancyId);
     }
 
     return nextMiddleware();

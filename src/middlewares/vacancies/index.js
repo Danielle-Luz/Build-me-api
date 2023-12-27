@@ -18,9 +18,7 @@ class VacanciesMiddlewares {
       relatedProjectId = foundVacancy.projectId;
     }
 
-    const relatedProject = await ProjectsService.getProjectById(
-      relatedProjectId
-    );
+    const relatedProject = await ProjectsService.getById(relatedProjectId);
     const projectCreatorId = relatedProject.createdById;
 
     return UtilsMiddlewares.hasPermissionOnRoute(
@@ -37,7 +35,7 @@ class VacanciesMiddlewares {
     nextMiddleware
   ) {
     const projectId = request.validatedData.projectId;
-    const relatedProject = await ProjectsService.getProjectById(projectId);
+    const relatedProject = await ProjectsService.getById(projectId);
 
     const actualDate = new Date();
     const projectCloseDate = new Date(relatedProject.closeDate);
@@ -69,13 +67,8 @@ class VacanciesMiddlewares {
 
   static async doesProjectExists(request, response, nextMiddleware) {
     const projectId = request.validatedData.projectId;
-    const foundProject = await ProjectsService.getProjectById(projectId);
-
-    if (!foundProject) {
-      throw new RecordNotFoundError(
-        "No project with the informed id was found"
-      );
-    }
+    
+    await ProjectsService.getById(projectId);
 
     return nextMiddleware();
   }
