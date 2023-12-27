@@ -1,4 +1,5 @@
 const { LearnersMiddlewares } = require("./learners");
+const { PermissionsMiddlewares } = require("./permissions");
 const { ProjectsMiddlewares } = require("./projects");
 const { RatingsMiddlewares } = require("./ratings");
 const { UsersMiddlewares } = require("./users/index");
@@ -7,6 +8,7 @@ const { VacanciesMiddlewares } = require("./vacancies");
 
 module.exports = {
   LearnersMiddlewares,
+  PermissionsMiddlewares,
   ProjectsMiddlewares,
   RatingsMiddlewares,
   UsersMiddlewares,
