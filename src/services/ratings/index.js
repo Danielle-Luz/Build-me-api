@@ -41,13 +41,21 @@ class RatingsServices {
   }
 
   static async getRatingsAverage(ratedRecipientId) {
-    return AppDatasource.createQueryBuilder()
+    const foundRating = await AppDatasource.createQueryBuilder()
       .select("ROUND(AVG(ratings.grade), 2)", "averageRating")
       .from(Ratings, "ratings")
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
         ratedRecipientId,
       })
       .getRawOne();
+
+    const hasNoRatings = foundRating.averageRating == null;
+
+    foundRating.averageRating = hasNoRatings
+      ? 0
+      : Number(foundRating.averageRating);
+
+    return foundRating;
   }
 
   static async getAuthorLastRatingForUser(
