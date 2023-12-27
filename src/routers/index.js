@@ -4,6 +4,7 @@ const { projectsRouter } = require("./projects");
 const { ratingsRouter } = require("./ratings");
 const { resourcesRouter } = require("./resources/index");
 const { rolesRouter } = require("./roles/index");
+const { technologiesRouter } = require("./technologies");
 const { usersRouter } = require("./users/index");
 const { vacanciesRouter } = require("./vacancies");
 
@@ -14,6 +15,7 @@ module.exports = {
   ratingsRouter,
   resourcesRouter,
   rolesRouter,
+  technologiesRouter,
   usersRouter,
   vacanciesRouter,
 };
