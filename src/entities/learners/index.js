@@ -1,6 +1,7 @@
 const { EntitySchema } = require("typeorm");
 
 exports.Learners = new EntitySchema({
+  synchronize: false,
   name: "learners",
   columns: {
     id: {

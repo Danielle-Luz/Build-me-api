@@ -1,6 +1,7 @@
 const { EntitySchema } = require("typeorm");
 
 exports.Ratings = new EntitySchema({
+  synchronize: false,
   name: "ratings",
   columns: {
     id: {

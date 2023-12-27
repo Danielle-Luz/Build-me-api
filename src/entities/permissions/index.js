@@ -1,6 +1,7 @@
 const { EntitySchema } = require("typeorm");
 
 exports.Permissions = new EntitySchema({
+  synchronize: false,
   name: "permissions",
   columns: {
     id: {

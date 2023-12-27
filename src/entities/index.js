@@ -5,6 +5,7 @@ const { Projects } = require("./projects");
 const { Ratings } = require("./ratings");
 const { Resources } = require("./resources/index");
 const { Roles } = require("./roles/index");
+const { Technologies } = require("./technologies");
 const { Vacancies } = require("./vacancies");
 
 module.exports = {
@@ -15,5 +16,6 @@ module.exports = {
   Ratings,
   Resources,
   Roles,
+  Technologies,
   Vacancies,
 };
