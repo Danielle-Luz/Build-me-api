@@ -10,6 +10,10 @@ const {
 } = require("./permissions/index");
 const { newRatingSchema, updatedRatingSchema } = require("./ratings");
 const { newProjectSchema, updateProjectSchema } = require("./projects");
+const {
+  newTechnologySchema,
+  updatedTechnologySchema,
+} = require("./technologies");
 const { newVacancySchema, updatedVacancySchema } = require("./vacancies");
 const { newLearnerSchema } = require("./learners");
 
@@ -19,12 +23,14 @@ module.exports = {
   newPermissionSchema,
   newRatingSchema,
   newProjectSchema,
+  newTechnologySchema,
   newUserSchema,
   newVacancySchema,
   userLoginSchema,
   updatedPermissionSchema,
   updateProjectSchema,
   updatedRatingSchema,
+  updatedTechnologySchema,
   updatedUserSchema,
   updatedVacancySchema,
 };
