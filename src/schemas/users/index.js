@@ -7,7 +7,8 @@ const newUserSchema = z.object({
   email: z.string().max(120).email(),
   password: z.string().max(12),
   githubUsername: z.string().max(50).optional(),
-  linkedinUrl: z.string().optional(),
+  linkedinUrl: z.string().url().optional(),
+  profilePicture: z.string().optional(),
   roleId: z.number(),
 });
 
