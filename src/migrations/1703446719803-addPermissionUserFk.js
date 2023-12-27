@@ -4,7 +4,7 @@ class AddPermissionUserFk1703446719803 {
   async up(queryRunner) {
     await queryRunner.query(`ALTER TABLE "users" ADD "permissionId" integer`);
     await queryRunner.query(
-      `ALTER TABLE "users" ADD CONSTRAINT "FK_fba1d16d693fbc4fa7becb96a8e" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "users" ADD CONSTRAINT "FK_fba1d16d693fbc4fa7becb96a8e" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
   }
 

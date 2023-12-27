@@ -7,7 +7,7 @@ class AddDeleteDateUserColumn1703600632096 {
       `ALTER TABLE "vacancies" ADD "chosenCandidateId" integer NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_0bda0421ec8c418883cb210efd3" FOREIGN KEY ("chosenCandidateId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_0bda0421ec8c418883cb210efd3" FOREIGN KEY ("chosenCandidateId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
   }
 

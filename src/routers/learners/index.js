@@ -5,7 +5,7 @@ const {
   UsersMiddlewares,
   LearnersMiddlewares,
 } = require("../../middlewares");
-const { newLearnerSchema, updatedLearnerSchema } = require("../../schemas");
+const { newLearnerSchema } = require("../../schemas");
 
 const learnersRouter = Router();
 
@@ -16,23 +16,11 @@ learnersRouter.post(
   UsersMiddlewares.validateToken,
   LearnersMiddlewares.hasPermissionOnRoute,
   LearnersMiddlewares.doesVacancyExists,
-  LearnersMiddlewares.doesCandidateExists,
   LearnersController.create
 );
 
 learnersRouter.get("/", LearnersController.getAll);
 learnersRouter.get("/:id", LearnersController.getById);
-
-learnersRouter.patch(
-  "/:id",
-  UtilsMiddlewares.validateSchema(updatedLearnerSchema),
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
-  LearnersMiddlewares.hasPermissionOnRoute,
-  LearnersMiddlewares.doesVacancyExists,
-  LearnersMiddlewares.doesCandidateExists,
-  LearnersController.update
-);
 
 learnersRouter.delete(
   "/:id",

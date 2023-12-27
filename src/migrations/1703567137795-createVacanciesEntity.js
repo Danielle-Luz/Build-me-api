@@ -33,16 +33,16 @@ class CreateVacanciesEntity1703567137795 {
       `ALTER TABLE "users" ALTER COLUMN "roleId" SET NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "users" ADD CONSTRAINT "FK_368e146b785b574f42ae9e53d5e" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "users" ADD CONSTRAINT "FK_368e146b785b574f42ae9e53d5e" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_b973cc1da1828672b43ab63ea06" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_b973cc1da1828672b43ab63ea06" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_92be448d3bdc7d63ea261182120" FOREIGN KEY ("ratedRecipientId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_92be448d3bdc7d63ea261182120" FOREIGN KEY ("ratedRecipientId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_786c13db9a3bf71ab5534f6e82a" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_786c13db9a3bf71ab5534f6e82a" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
   }
 
@@ -75,16 +75,16 @@ class CreateVacanciesEntity1703567137795 {
       `ALTER TABLE "ratings" ALTER COLUMN "authorId" DROP NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_92be448d3bdc7d63ea261182120" FOREIGN KEY ("ratedRecipientId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_92be448d3bdc7d63ea261182120" FOREIGN KEY ("ratedRecipientId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_b973cc1da1828672b43ab63ea06" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_b973cc1da1828672b43ab63ea06" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "users" ALTER COLUMN "roleId" DROP NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "users" ADD CONSTRAINT "FK_368e146b785b574f42ae9e53d5e" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "users" ADD CONSTRAINT "FK_368e146b785b574f42ae9e53d5e" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
     await queryRunner.query(`DROP TABLE "vacancies"`);
   }

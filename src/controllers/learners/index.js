@@ -4,6 +4,7 @@ const { LearnersService } = require("../../services");
 class LearnersController {
   static async create(request, response) {
     const { validatedData } = request;
+    validatedData.candidateId = request.loggedUser.id;
 
     const createdLearner = await LearnersService.create(validatedData);
 
@@ -21,15 +22,6 @@ class LearnersController {
     const foundLearner = await LearnersService.getById(id);
 
     return response.status(StatusCodes.OK).json(foundLearner);
-  }
-
-  static async update(request, response) {
-    const { validatedData } = request;
-    const id = request.params.id;
-
-    const updatedLearner = await LearnersService.update(id, validatedData);
-
-    return response.status(StatusCodes.OK).json(updatedLearner);
   }
 
   static async delete(request, response) {

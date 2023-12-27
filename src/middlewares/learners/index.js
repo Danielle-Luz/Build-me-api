@@ -39,22 +39,6 @@ class LearnersMiddlewares {
 
     return nextMiddleware();
   }
-
-  static async doesCandidateExists(request, response, nextMiddleware) {
-    const candidateId = request.validatedData.candidateId;
-
-    if (candidateId) {
-      try {
-        await UsersService.getById(candidateId);
-      } catch {
-        throw new RecordNotFoundError(
-          "No user with the informed candidate id was found"
-        );
-      }
-    }
-
-    return nextMiddleware();
-  }
 }
 
 module.exports = { LearnersMiddlewares };

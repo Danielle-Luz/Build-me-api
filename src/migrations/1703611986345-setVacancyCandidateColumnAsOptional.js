@@ -12,7 +12,7 @@ class SetVacancyCandidateColumnAsOptional1703611986345 {
       `ALTER TABLE "vacancies" ALTER COLUMN "chosenCandidateId" DROP NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_0bda0421ec8c418883cb210efd3" FOREIGN KEY ("chosenCandidateId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_0bda0421ec8c418883cb210efd3" FOREIGN KEY ("chosenCandidateId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
   }
 
@@ -27,7 +27,7 @@ class SetVacancyCandidateColumnAsOptional1703611986345 {
       `ALTER TABLE "vacancies" ALTER COLUMN "chosenCandidateId" SET NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_0bda0421ec8c418883cb210efd3" FOREIGN KEY ("chosenCandidateId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "vacancies" ADD CONSTRAINT "FK_0bda0421ec8c418883cb210efd3" FOREIGN KEY ("chosenCandidateId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
   }
 }

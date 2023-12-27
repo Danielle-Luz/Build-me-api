@@ -30,25 +30,6 @@ class LearnersService {
       .getOne();
   }
 
-  static async update(id, updatedData) {
-    const updatedLearner = await AppDatasource.createQueryBuilder()
-      .update(Learners)
-      .set(updatedData)
-      .where("id = :id", { id })
-      .returning("*")
-      .execute();
-
-    const wasLearnerUpdated = updatedLearner.affected != 0;
-
-    if (!wasLearnerUpdated) {
-      throw new RecordNotFoundError(
-        "No learner with the informed id was found"
-      );
-    }
-
-    return updatedLearner.raw[0];
-  }
-
   static async delete(id) {
     const deletedLearner = await AppDatasource.createQueryBuilder()
       .delete()

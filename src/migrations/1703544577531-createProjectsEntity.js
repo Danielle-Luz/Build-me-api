@@ -9,10 +9,10 @@ class CreateProjectsEntity1703544577531 {
       `ALTER TABLE "ratings" ADD "projectId" integer NOT NULL`
     );
     await queryRunner.query(
-      `ALTER TABLE "projects" ADD CONSTRAINT "FK_f55144dc92df43cd1dad5d29b90" FOREIGN KEY ("createdById") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "projects" ADD CONSTRAINT "FK_f55144dc92df43cd1dad5d29b90" FOREIGN KEY ("createdById") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_bcbc72d958b4ecd1fa378457488" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "ratings" ADD CONSTRAINT "FK_bcbc72d958b4ecd1fa378457488" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE SET NULL ON UPDATE NO ACTION`
     );
   }
 

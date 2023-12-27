@@ -11,7 +11,7 @@ const {
 const { newRatingSchema, updatedRatingSchema } = require("./ratings");
 const { newProjectSchema, updateProjectSchema } = require("./projects");
 const { newVacancySchema, updatedVacancySchema } = require("./vacancies");
-const { newLearnerSchema, updatedLearnerSchema } = require("./learners");
+const { newLearnerSchema } = require("./learners");
 
 module.exports = {
   nameSchema,
@@ -22,7 +22,6 @@ module.exports = {
   newUserSchema,
   newVacancySchema,
   userLoginSchema,
-  updatedLearnerSchema,
   updatedPermissionSchema,
   updateProjectSchema,
   updatedRatingSchema,
