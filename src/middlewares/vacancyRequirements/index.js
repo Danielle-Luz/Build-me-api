@@ -2,7 +2,7 @@ const { VacanciesService, TechnologiesService } = require("../../services");
 
 class VacancyRequirementsMiddlewares {
   static async doesVacancyExists(request, response, nextMiddleware) {
-    const { vacancyId } = request.validatedData;
+    const vacancyId = request.validatedData.vacancyId;
 
     await VacanciesService.getVacancyById(vacancyId);
 
@@ -10,7 +10,7 @@ class VacancyRequirementsMiddlewares {
   }
 
   static async doesTechnologyExists(request, response, nextMiddleware) {
-    const { technologyId } = request.validatedData;
+    const technologyId = request.validatedData.technologyId;
 
     await TechnologiesService.getById(technologyId);
 
