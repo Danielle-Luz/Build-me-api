@@ -6,4 +6,4 @@ const memberSelectionMethod = [
 
 const skillLevels = ["Básico", "Intermediário", "Avançado"];
 
-module.exports = [memberSelectionMethod, skillLevels];
+module.exports = { memberSelectionMethod, skillLevels };
