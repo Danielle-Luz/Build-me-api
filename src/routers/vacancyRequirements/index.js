@@ -20,6 +20,7 @@ vacancyRequirementsRouter.post(
   VacancyRequirementsMiddlewares.hasPermissionOnRoute,
   VacancyRequirementsMiddlewares.doesTechnologyExists,
   VacancyRequirementsMiddlewares.doesVacancyExists,
+  VacancyRequirementsMiddlewares.isTechnologyAlreadyRelatedToVacancy,
   VacancyRequirementsController.create
 );
 
@@ -39,6 +40,7 @@ vacancyRequirementsRouter.patch(
   VacancyRequirementsMiddlewares.hasPermissionOnRoute,
   UtilsMiddlewares.validateSchema(updatedVacancyRequirementSchema),
   VacancyRequirementsMiddlewares.doesTechnologyExists,
+  VacancyRequirementsMiddlewares.isTechnologyAlreadyRelatedToVacancy,
   VacancyRequirementsController.update
 );
 

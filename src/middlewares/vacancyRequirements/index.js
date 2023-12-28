@@ -1,3 +1,4 @@
+const { DuplicatedInfoError } = require("../../errors");
 const {
   VacanciesService,
   TechnologiesService,
@@ -8,18 +9,21 @@ const { UtilsMiddlewares } = require("../utils");
 
 class VacancyRequirementsMiddlewares {
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
-    const relatedVacancyId =
-      request.method == "POST"
-        ? request.validatedData.vacancyId
-        : request.params.id;
+    let relatedVacancyId;
 
-    const vacancyRequirement =
-      await VacancyRequirementsService.getVacancyRequirementById(
-        relatedVacancyId
-      );
+    if (request.method == "POST") {
+      relatedVacancyId = request.validatedData.vacancyId;
+    } else {
+      const vacancyRequirementId = request.params.id;
+      const vacancyRequirement =
+        await VacancyRequirementsService.getVacancyRequirementById(
+          vacancyRequirementId
+        );
+      relatedVacancyId = vacancyRequirement.vacancyId;
+    }
 
     const relatedVacancy = await VacanciesService.getVacancyById(
-      vacancyRequirement.vacancyId
+      relatedVacancyId
     );
     const relatedProject = await ProjectsService.getById(
       relatedVacancy.projectId
@@ -49,6 +53,44 @@ class VacancyRequirementsMiddlewares {
 
     if (technologyId) {
       await TechnologiesService.getById(technologyId);
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isTechnologyAlreadyRelatedToVacancy(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    let relatedVacancyId;
+    const relatedTechnologyId = request.validatedData.technologyId;
+
+    if (!relatedTechnologyId) return nextMiddleware();
+
+    if (request.method == "PATCH") {
+      const vacancyRequirement =
+        await VacancyRequirementsService.getVacancyRequirementById(
+          request.params.id
+        );
+      relatedVacancyId = vacancyRequirement.vacancyId;
+    } else {
+      relatedVacancyId = request.validatedData.vacancyId;
+    }
+
+    const vacancyRequirements =
+      await VacancyRequirementsService.getVacancyRequirementsByVacancyId(
+        relatedVacancyId
+      );
+
+    const foundVacancyRequirementWithTechnology = vacancyRequirements.find(
+      (requirement) => requirement.technologyId == relatedTechnologyId
+    );
+
+    if (foundVacancyRequirementWithTechnology) {
+      throw new DuplicatedInfoError(
+        "This technology is already related with the provided vacancy"
+      );
     }
 
     return nextMiddleware();
