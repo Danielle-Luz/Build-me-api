@@ -6,6 +6,7 @@ const { TechnologiesMiddlewares } = require("./technologies");
 const { UsersMiddlewares } = require("./users/index");
 const { UtilsMiddlewares } = require("./utils/index");
 const { VacanciesMiddlewares } = require("./vacancies");
+const { VacancyRequirementsMiddlewares } = require("./vacancyRequirements");
 
 module.exports = {
   LearnersMiddlewares,
@@ -16,4 +17,5 @@ module.exports = {
   UsersMiddlewares,
   UtilsMiddlewares,
   VacanciesMiddlewares,
+  VacancyRequirementsMiddlewares,
 };
