@@ -10,6 +10,7 @@ const {
   projectsRouter,
   vacanciesRouter,
   technologiesRouter,
+  vacancyRequirementsRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
@@ -28,6 +29,7 @@ app.use("/roles", rolesRouter);
 app.use("/technologies", technologiesRouter);
 app.use("/users", usersRouter);
 app.use("/vacancies", vacanciesRouter);
+app.use("/vacancyRequirements", vacancyRequirementsRouter);
 app.use(errorHandler);
 
 module.exports = { app };
