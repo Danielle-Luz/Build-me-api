@@ -2,7 +2,9 @@ const {
   VacanciesService,
   TechnologiesService,
   ProjectsService,
+  VacancyRequirementsService,
 } = require("../../services");
+const { UtilsMiddlewares } = require("../utils");
 
 class VacancyRequirementsMiddlewares {
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
@@ -11,8 +13,13 @@ class VacancyRequirementsMiddlewares {
         ? request.validatedData.vacancyId
         : request.params.id;
 
+    const vacancyRequirement =
+      await VacancyRequirementsService.getVacancyRequirementById(
+        relatedVacancyId
+      );
+
     const relatedVacancy = await VacanciesService.getVacancyById(
-      relatedVacancyId
+      vacancyRequirement.vacancyId
     );
     const relatedProject = await ProjectsService.getById(
       relatedVacancy.projectId
@@ -30,7 +37,9 @@ class VacancyRequirementsMiddlewares {
   static async doesVacancyExists(request, response, nextMiddleware) {
     const vacancyId = request.validatedData.vacancyId;
 
-    await VacanciesService.getVacancyById(vacancyId);
+    if (vacancyId) {
+      await VacanciesService.getVacancyById(vacancyId);
+    }
 
     return nextMiddleware();
   }
@@ -38,7 +47,9 @@ class VacancyRequirementsMiddlewares {
   static async doesTechnologyExists(request, response, nextMiddleware) {
     const technologyId = request.validatedData.technologyId;
 
-    await TechnologiesService.getById(technologyId);
+    if (technologyId) {
+      await TechnologiesService.getById(technologyId);
+    }
 
     return nextMiddleware();
   }
