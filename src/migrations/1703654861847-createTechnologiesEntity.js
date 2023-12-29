@@ -1,5 +1,3 @@
-const { MigrationInterface, QueryRunner } = require("typeorm");
-
 module.exports = class CreateTechnologiesEntity1703654861847 {
   name = "CreateTechnologiesEntity1703654861847";
 
