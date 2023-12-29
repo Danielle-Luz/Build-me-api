@@ -4,6 +4,9 @@ const { UserSkillsService } = require("../../services");
 class UserSkillsController {
   static async create(request, response) {
     const { validatedData } = request;
+    const loggedUserId = request.loggedUser.id;
+
+    validatedData.userId = loggedUserId;
 
     const createdUserSkill = await UserSkillsService.create(validatedData);
 

@@ -5,16 +5,13 @@ const {
   UtilsMiddlewares,
   UserSkillsMiddlewares,
 } = require("../../middlewares");
-const {
-  newUserSkillsSchema,
-  updatedUserSkillsSchema,
-} = require("../../schemas/userSkills");
+const { userSkillsSchema } = require("../../schemas/userSkills");
 
 const userSkillsRouter = Router();
 
 userSkillsRouter.post(
   "/",
-  UtilsMiddlewares.validateSchema(newUserSkillsSchema),
+  UtilsMiddlewares.validateSchema(userSkillsSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   UtilsMiddlewares.hasPermissionOnRoute,
@@ -41,7 +38,7 @@ userSkillsRouter.get("/:id", UserSkillsController.getById);
 
 userSkillsRouter.patch(
   "/:id",
-  UtilsMiddlewares.validateSchema(updatedUserSkillsSchema),
+  UtilsMiddlewares.validateSchema(userSkillsSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   UtilsMiddlewares.wasNoFieldUpdated,
