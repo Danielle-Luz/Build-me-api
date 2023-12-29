@@ -24,7 +24,7 @@ userSkillsRouter.post(
 
 userSkillsRouter.get("/users/:id", UserSkillsController.getUserSkillsByUserId);
 userSkillsRouter.get(
-  "/skills/:skillLevel",
+  "/skillLevel/:skillLevel",
   UserSkillsController.getBySkillLevel
 );
 userSkillsRouter.get(
