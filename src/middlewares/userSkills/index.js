@@ -18,7 +18,7 @@ class UserSkillsMiddlewares {
       const foundUserSkill = await UserSkillsService.getById(userSkillId);
       userId = foundUserSkill.userId;
     } else {
-      userId = request.validatedData.userId;
+      userId = request.loggedUser.id;
     }
 
     const duplicatedUserSkill = await UserSkillsService.getTechnologyFromUser(
