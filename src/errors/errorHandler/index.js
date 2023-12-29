@@ -2,7 +2,7 @@ const { ZodError } = require("zod");
 const { AppError } = require("../AppError/index");
 const { StatusCodes } = require("http-status-codes");
 
-exports.errorHandler = (error, request, response, next) => {
+const errorHandler = (error, request, response, next) => {
   let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   let errorMessage = { message: error.message };
 
@@ -17,3 +17,5 @@ exports.errorHandler = (error, request, response, next) => {
 
   return response.status(statusCode).json(errorMessage);
 };
+
+module.exports = { errorHandler };

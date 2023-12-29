@@ -1,6 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
-exports.Technologies = new EntitySchema({
+const Technologies = new EntitySchema({
   name: "technologies",
   columns: {
     id: {
@@ -19,3 +19,5 @@ exports.Technologies = new EntitySchema({
     },
   },
 });
+
+module.exports = { Technologies };

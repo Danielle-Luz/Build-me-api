@@ -1,6 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
-exports.Learners = new EntitySchema({
+const Learners = new EntitySchema({
   synchronize: false,
   name: "learners",
   columns: {
@@ -35,3 +35,5 @@ exports.Learners = new EntitySchema({
     },
   },
 });
+
+module.exports = { Learners };

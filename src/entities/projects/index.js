@@ -1,7 +1,7 @@
 const { EntitySchema } = require("typeorm");
 const { memberSelectionMethod } = require("../../enumValues");
 
-exports.Projects = new EntitySchema({
+const Projects = new EntitySchema({
   synchronize: false,
   name: "projects",
   columns: {
@@ -63,3 +63,5 @@ exports.Projects = new EntitySchema({
     },
   },
 });
+
+module.exports = { Projects };

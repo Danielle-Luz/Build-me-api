@@ -1,6 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
-exports.VacancyRequirements = new EntitySchema({
+const VacancyRequirements = new EntitySchema({
   synchronize: false,
   name: "vacancy_requirements",
   columns: {
@@ -35,3 +35,5 @@ exports.VacancyRequirements = new EntitySchema({
     },
   },
 });
+
+module.exports = { VacancyRequirements };

@@ -1,6 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
-exports.Ratings = new EntitySchema({
+const Ratings = new EntitySchema({
   synchronize: false,
   name: "ratings",
   columns: {
@@ -57,3 +57,5 @@ exports.Ratings = new EntitySchema({
   },
   checks: [{ expression: "grade >= 0 AND grade <= 5" }],
 });
+
+module.exports = { Ratings };

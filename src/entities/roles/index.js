@@ -1,6 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
-exports.Roles = new EntitySchema({
+const Roles = new EntitySchema({
   synchronize: false,
   name: "roles",
   columns: {
@@ -30,3 +30,5 @@ exports.Roles = new EntitySchema({
     },
   },
 });
+
+module.exports = { Roles };

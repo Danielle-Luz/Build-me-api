@@ -1,6 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
-exports.Resources = new EntitySchema({
+const Resources = new EntitySchema({
   synchronize: false,
   name: "resources",
   columns: {
@@ -24,3 +24,5 @@ exports.Resources = new EntitySchema({
     },
   },
 });
+
+module.exports = { Resources };

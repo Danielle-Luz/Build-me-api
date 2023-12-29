@@ -21,4 +21,6 @@ const datasourceConfigurations = () => {
   };
 };
 
-exports.AppDatasource = new DataSource(datasourceConfigurations());
+const AppDatasource = new DataSource(datasourceConfigurations());
+
+module.exports = { AppDatasource };
