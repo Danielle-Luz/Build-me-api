@@ -22,6 +22,6 @@ module.exports = {
   UsersService,
   UserSkillsService,
   VacanciesService,
-  VacancyRequirementsService,
   VacancySubscriptionsService,
+  VacancyRequirementsService,
 };
