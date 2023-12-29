@@ -22,13 +22,19 @@ userSkillsRouter.post(
   UserSkillsController.create
 );
 
-userSkillsRouter.get("/users/:id", UserSkillsController.getUserSkillsByUserId);
+userSkillsRouter.get(
+  "/users/:userId",
+  UserSkillsMiddlewares.doesUserExists,
+  UserSkillsController.getUserSkillsByUserId
+);
 userSkillsRouter.get(
   "/skillLevel/:skillLevel",
+  UserSkillsMiddlewares.isSkillLevelValid,
   UserSkillsController.getBySkillLevel
 );
 userSkillsRouter.get(
   "/technologies/:technologyId",
+  UserSkillsMiddlewares.doesTechnologyExists,
   UserSkillsController.getByTechnologyId
 );
 userSkillsRouter.get("/:id", UserSkillsController.getById);
