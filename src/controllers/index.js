@@ -8,6 +8,7 @@ const { TechnologiesController } = require("./technologies");
 const { UserSkillsController } = require("./userSkills");
 const { UsersController } = require("./users/index");
 const { VacanciesController } = require("./vacancies");
+const { VacancySubscriptionsController } = require("./vacancySubscriptions");
 const { VacancyRequirementsController } = require("./vancancyRequirements");
 
 module.exports = {
@@ -21,5 +22,6 @@ module.exports = {
   UsersController,
   UserSkillsController,
   VacanciesController,
+  VacancySubscriptionsController,
   VacancyRequirementsController,
 };
