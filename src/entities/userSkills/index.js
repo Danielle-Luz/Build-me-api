@@ -21,6 +21,7 @@ exports.UserSkills = new EntitySchema({
     },
     score: {
       type: "int",
+      default: 0,
     },
   },
   relations: {
