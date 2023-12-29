@@ -1,7 +1,7 @@
 const { EntitySchema } = require("typeorm");
 
 const UserSkills = new EntitySchema({
-  name: "userSkills",
+  name: "user_skills",
   columns: {
     id: {
       generated: true,

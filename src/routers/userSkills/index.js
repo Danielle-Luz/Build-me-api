@@ -14,7 +14,7 @@ userSkillsRouter.post(
   UtilsMiddlewares.validateSchema(userSkillsSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  UtilsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.hasPermissionOnRoute,
   UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
   UserSkillsController.create
 );
@@ -42,7 +42,7 @@ userSkillsRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   UtilsMiddlewares.wasNoFieldUpdated,
-  UtilsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.hasPermissionOnRoute,
   UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
   UserSkillsController.update
 );
@@ -51,7 +51,7 @@ userSkillsRouter.delete(
   "/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  UtilsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.hasPermissionOnRoute,
   UserSkillsController.delete
 );
 

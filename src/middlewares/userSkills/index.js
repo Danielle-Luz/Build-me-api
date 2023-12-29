@@ -5,8 +5,27 @@ const {
   TechnologiesService,
   UsersService,
 } = require("../../services");
+const { UtilsMiddlewares } = require("../utils");
 
 class UserSkillsMiddlewares {
+  static async hasPermissionOnRoute(request, response, nextMiddleware) {
+    const isCreatingUserSkill = request.method == "POST";
+    const userSkillId = request.params.id;
+    let userId = request.loggedUser.id;
+
+    if (!isCreatingUserSkill) {
+      const userSkill = await UserSkillsService.getById(userSkillId);
+      userId = userSkill.userId;
+    }
+
+    return await UtilsMiddlewares.hasPermissionOnRoute(
+      request,
+      response,
+      nextMiddleware,
+      userId
+    );
+  }
+
   static async wasTechnologyAlreadyAdded(request, response, nextMiddleware) {
     const { technologyId } = request.validatedData;
     let userId;

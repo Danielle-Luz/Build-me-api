@@ -23,17 +23,19 @@ class VacancyRequirementsService {
   }
 
   static async getVacancyRequirementById(id) {
-    try {
-      return await AppDatasource.createQueryBuilder()
-        .select("vacancy_requirements")
-        .from(VacancyRequirements, "vacancy_requirements")
-        .where("vacancy_requirements.id = :id", { id })
-        .getOneOrFail();
-    } catch {
+    const foundVacancyRequirement = await AppDatasource.createQueryBuilder()
+      .select("vacancy_requirements")
+      .from(VacancyRequirements, "vacancy_requirements")
+      .where("vacancy_requirements.id = :id", { id })
+      .getOne();
+      
+    if (!foundVacancyRequirement) {
       throw new RecordNotFoundError(
         "No vacancy requirement with the informed id was found"
       );
     }
+
+    return foundVacancyRequirement;
   }
 
   static async update(id, updatedData) {

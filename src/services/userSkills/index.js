@@ -1,4 +1,3 @@
-
 const { AppDatasource } = require("../../data-source");
 const { UserSkills } = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
@@ -25,17 +24,18 @@ class UserSkillsService {
   }
 
   static async getById(id) {
-    try {
-      return AppDatasource.createQueryBuilder()
-        .select("userSkills")
-        .from(UserSkills, "userSkills")
-        .where("userSkills.id = :id", { id })
-        .getOneOrFail();
-    } catch {
+    const foundUserSkill = await AppDatasource.createQueryBuilder()
+      .select("userSkills")
+      .from(UserSkills, "userSkills")
+      .where("userSkills.id = :id", { id })
+      .getOne();
+    if (!foundUserSkill) {
       throw new RecordNotFoundError(
         "No user skill with the informed id was found"
       );
     }
+
+    return foundUserSkill;
   }
 
   static async getBySkillLevel(skillLevel) {
@@ -89,8 +89,8 @@ class UserSkillsService {
   static async delete(id) {
     const deletedUserSkill = await AppDatasource.createQueryBuilder()
       .delete()
-      .from(UserSkills, "userSkills")
-      .where("userSkills.id = :id", { id })
+      .from(UserSkills, "user_skills")
+      .where("user_skills.id = :id", { id })
       .execute();
 
     const wasUserSkillDeleted = deletedUserSkill.affected !== 0;
