@@ -18,7 +18,7 @@ class VacancySubscriptionsService {
     return AppDatasource.createQueryBuilder()
       .select("subscriptions")
       .from(VacancySubscriptions, "subscriptions")
-      .innerJoinAndSelect("subscriptions.user", "user")
+      .innerJoinAndSelect("subscriptions.userId", "user")
       .where("subscriptions.vacancyId = :vacancyId", { vacancyId })
       .orderBy("subscriptions.createdDate")
       .getMany();
@@ -28,7 +28,7 @@ class VacancySubscriptionsService {
     return AppDatasource.createQueryBuilder()
       .select("subscriptions")
       .from(VacancySubscriptions, "subscriptions")
-      .innerJoinAndSelect("subscriptions.vacancy", "vacancy")
+      .innerJoinAndSelect("subscriptions.vacancyId", "vacancy")
       .where("subscriptions.userId = :userId", { userId })
       .orderBy("subscriptions.createdDate")
       .getMany();
@@ -38,7 +38,8 @@ class VacancySubscriptionsService {
     const foundVacancySubscription = await AppDatasource.createQueryBuilder()
       .select("subscriptions")
       .from(VacancySubscriptions, "subscriptions")
-      .innerJoinAndSelect("subscriptions.vacancy", "vacancy")
+      .innerJoinAndSelect("subscriptions.vacancyId", "vacancy")
+      .innerJoinAndSelect("subscriptions.userId", "user")
       .where("subscriptions.id = :vacancySubscriptionId", {
         vacancySubscriptionId,
       })

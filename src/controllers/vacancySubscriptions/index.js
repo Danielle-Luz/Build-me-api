@@ -4,6 +4,7 @@ const { VacancySubscriptionsService } = require("../../services");
 class VacancySubscriptionsController {
   static async create(request, response) {
     const { validatedData } = request;
+    validatedData.userId = request.loggedUser.id;
 
     const newVacancySubscription = await VacancySubscriptionsService.create(
       validatedData

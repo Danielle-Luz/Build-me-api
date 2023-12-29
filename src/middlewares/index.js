@@ -8,6 +8,7 @@ const { UsersMiddlewares } = require("./users/index");
 const { UtilsMiddlewares } = require("./utils/index");
 const { VacanciesMiddlewares } = require("./vacancies");
 const { VacancyRequirementsMiddlewares } = require("./vacancyRequirements");
+const { VacancySubscriptionsMiddlewares } = require("./vacancySubscriptions");
 
 module.exports = {
   LearnersMiddlewares,
@@ -20,4 +21,5 @@ module.exports = {
   UtilsMiddlewares,
   VacanciesMiddlewares,
   VacancyRequirementsMiddlewares,
+  VacancySubscriptionsMiddlewares,
 };
