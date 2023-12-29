@@ -56,6 +56,16 @@ class UserSkillsService {
       .getOne();
   }
 
+  static async getByTechnologyId(technologyId) {
+    return AppDatasource.createQueryBuilder()
+      .select("userSkills")
+      .from(UserSkills, "userSkills")
+      .innerJoinAndSelect("userSkills.userId", "user")
+      .where("userSkills.technologyId = :technologyId", { technologyId })
+      .orderBy("userSkills.score", "DESC")
+      .getMany();
+  }
+
   static async update(id, updatedData) {
     const updatedUserSkill = await AppDatasource.createQueryBuilder()
       .update(UserSkills)

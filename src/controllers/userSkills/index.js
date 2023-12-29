@@ -34,10 +34,12 @@ class UserSkillsController {
     return response.status(StatusCodes.OK).json(foundUserSkills);
   }
 
-  static async getById(request, response) {
-    const skillLevel = request.params.skillLevel;
+  static async getByTechnologyId(request, response) {
+    const technologyId = request.params.technologyId;
 
-    const foundUserSkills = await UserSkillsService.getBySkillLevel(skillLevel);
+    const foundUserSkills = await UserSkillsService.getByTechnologyId(
+      technologyId
+    );
 
     return response.status(StatusCodes.OK).json(foundUserSkills);
   }

@@ -27,6 +27,10 @@ userSkillsRouter.get(
   "/skills/:skillLevel",
   UserSkillsController.getBySkillLevel
 );
+userSkillsRouter.get(
+  "/technologies/:technologyId",
+  UserSkillsController.getByTechnologyId
+);
 userSkillsRouter.get("/:id", UserSkillsController.getById);
 
 userSkillsRouter.patch(
