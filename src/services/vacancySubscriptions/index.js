@@ -16,36 +16,36 @@ class VacancySubscriptionsService {
 
   static async getByVacancyId(vacancyId) {
     return AppDatasource.createQueryBuilder()
-      .select("subscriptions")
-      .from(VacancySubscriptions, "subscriptions")
-      .innerJoinAndSelect("subscriptions.userId", "user")
-      .where("subscriptions.vacancyId = :vacancyId", { vacancyId })
-      .orderBy("subscriptions.createdDate")
+      .select("vacancy_subscriptions")
+      .from(VacancySubscriptions, "vacancy_subscriptions")
+      .innerJoinAndSelect("vacancy_subscriptions.user", "user")
+      .where("vacancy_subscriptions.vacancyId = :vacancyId", { vacancyId })
+      .orderBy("vacancy_subscriptions.createdDate")
       .getMany();
   }
 
   static async getByUserId(userId) {
     return AppDatasource.createQueryBuilder()
-      .select("subscriptions")
-      .from(VacancySubscriptions, "subscriptions")
-      .innerJoinAndSelect("subscriptions.vacancyId", "vacancy")
-      .where("subscriptions.userId = :userId", { userId })
-      .orderBy("subscriptions.createdDate")
+      .select("vacancy_subscriptions")
+      .from(VacancySubscriptions, "vacancy_subscriptions")
+      .innerJoinAndSelect("vacancy_subscriptions.vacancy", "vacancy")
+      .where("vacancy_subscriptions.userId = :userId", { userId })
+      .orderBy("vacancy_subscriptions.createdDate")
       .getMany();
   }
 
   static async getById(vacancySubscriptionId) {
     const foundVacancySubscription = await AppDatasource.createQueryBuilder()
-      .select("subscriptions")
-      .from(VacancySubscriptions, "subscriptions")
-      .innerJoinAndSelect("subscriptions.vacancyId", "vacancy")
-      .innerJoinAndSelect("subscriptions.userId", "user")
-      .where("subscriptions.id = :vacancySubscriptionId", {
+      .select("vacancy_subscriptions")
+      .from(VacancySubscriptions, "vacancy_subscriptions")
+      .innerJoinAndSelect("vacancy_subscriptions.vacancy", "vacancy")
+      .innerJoinAndSelect("vacancy_subscriptions.user", "user")
+      .where("vacancy_subscriptions.id = :vacancySubscriptionId", {
         vacancySubscriptionId,
       })
       .getOne();
 
-    if (!foundVacancySubscription) {
+      if (!foundVacancySubscription) {
       throw new RecordNotFoundError(
         "No vacancy subscription with the informed id was found"
       );
@@ -57,8 +57,8 @@ class VacancySubscriptionsService {
   static async delete(vacancySubscriptionId) {
     const deletedSubscription = await AppDatasource.createQueryBuilder()
       .delete()
-      .from(VacancySubscriptions, "subscriptions")
-      .where("subscriptions.id = :vacancySubscriptionId", {
+      .from(VacancySubscriptions, "vacancy_subscriptions")
+      .where("vacancy_subscriptions.id = :vacancySubscriptionId", {
         vacancySubscriptionId,
       })
       .execute();

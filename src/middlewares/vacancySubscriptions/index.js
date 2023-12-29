@@ -1,4 +1,5 @@
 const { VacancySubscriptionsService } = require("../../services");
+const { UtilsMiddlewares } = require("../utils");
 
 class VacancySubscriptionsMiddlewares {
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
@@ -10,7 +11,6 @@ class VacancySubscriptionsMiddlewares {
       const vacancySubscription = await VacancySubscriptionsService.getById(
         vacancySubscriptionId
       );
-      console.log("vacancy subs", vacancySubscription);
       userId = vacancySubscription.userId.id;
     }
 

@@ -23,6 +23,7 @@ const VacancySubscriptions = new EntitySchema({
     user: {
       target: "users",
       type: "many-to-one",
+      inverseSide: "subscriptions",
       joinColumn: {
         name: "userId",
       },
@@ -30,6 +31,7 @@ const VacancySubscriptions = new EntitySchema({
     vacancy: {
       target: "vacancies",
       type: "many-to-one",
+      inverseSide: "subscriptions",
       joinColumn: {
         name: "vacancyId",
       },

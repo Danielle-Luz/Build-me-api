@@ -1,7 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
 const Vacancies = new EntitySchema({
-  synchronize: false,
   name: "vacancies",
   columns: {
     id: {
@@ -44,6 +43,12 @@ const Vacancies = new EntitySchema({
       inverseSide: "vacancies",
       target: "users",
       type: "many-to-one",
+    },
+    subscriptions: {
+      inverseSide: "vacancy",
+      onDelete: "CASCADE",
+      target: "vacancy_subscriptions",
+      type: "one-to-many",
     },
   },
 });
