@@ -1,4 +1,3 @@
-
 const { Router } = require("express");
 const { VacancySubscriptionsController } = require("../../controllers");
 const {
@@ -16,16 +15,19 @@ vacancySubscriptionsRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacancySubscriptionsMiddlewares.hasPermissionOnRoute,
+  VacancySubscriptionsMiddlewares.doesVacancyExists,
   VacancySubscriptionsController.create
 );
 
 vacancySubscriptionsRouter.get(
   "/vacancies/:vacancyId",
+  VacancySubscriptionsMiddlewares.doesVacancyExists,
   VacancySubscriptionsController.getByVacancyId
 );
 
 vacancySubscriptionsRouter.get(
   "/users/:userId",
+  VacancySubscriptionsMiddlewares.doesUserExists,
   VacancySubscriptionsController.getByUserId
 );
 
