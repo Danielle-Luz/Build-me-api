@@ -1,3 +1,5 @@
+const { EntitySchema } = require("typeorm");
+
 const VacancySubscriptions = new EntitySchema({
   name: "vacancy_subscriptions",
   columns: {
