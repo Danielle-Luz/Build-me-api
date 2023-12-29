@@ -36,13 +36,13 @@ class UserSkillsMiddlewares {
   }
 
   static async isSkillLevelValid(request, response, nextMiddleware) {
-    const { skillLevel } = request.params;
-    const isSkillLevelValid = skillLevels.includes(skillLevel);
+    const { skillLevel: searchedSkillLevel } = request.params;
+    const isSkillLevelValid = skillLevels.includes(searchedSkillLevel);
 
     if (!isSkillLevelValid) {
       throw new InvalidParamValueError(
-        `Skill level not found, the values available are: ${skillLevel.join(
-          ","
+        `Skill level not found, the values available are: ${skillLevels.join(
+          ", "
         )}`
       );
     }

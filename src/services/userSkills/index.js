@@ -53,7 +53,7 @@ class UserSkillsService {
       .select("userSkills")
       .from(UserSkills, "userSkills")
       .where("userSkills.technologyId = :technologyId", { technologyId })
-      .where("userSkills.userId = :userId", { userId })
+      .andWhere("userSkills.userId = :userId", { userId })
       .getOne();
   }
 

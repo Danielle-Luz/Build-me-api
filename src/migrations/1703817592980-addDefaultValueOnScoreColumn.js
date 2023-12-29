@@ -3,13 +3,13 @@ module.exports = class AddDefaultValueOnScoreColumn1703817592980 {
 
   async up(queryRunner) {
     await queryRunner.query(
-      `ALTER TABLE "userSkills" ALTER COLUMN "score" SET DEFAULT 0`
+      `ALTER TABLE "user_skills" ALTER COLUMN "score" SET DEFAULT 0`
     );
   }
 
   async down(queryRunner) {
     await queryRunner.query(
-      `ALTER TABLE "userSkills" ALTER COLUMN "score" SET DEFAULT NULL`
+      `ALTER TABLE "user_skills" ALTER COLUMN "score" SET DEFAULT NULL`
     );
   }
 };
