@@ -11,6 +11,7 @@ const {
   vacanciesRouter,
   technologiesRouter,
   vacancyRequirementsRouter,
+  userSkillsRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
@@ -28,6 +29,7 @@ app.use("/resources", resourcesRouter);
 app.use("/roles", rolesRouter);
 app.use("/technologies", technologiesRouter);
 app.use("/users", usersRouter);
+app.use("/userSkills", userSkillsRouter);
 app.use("/vacancies", vacanciesRouter);
 app.use("/vacancyRequirements", vacancyRequirementsRouter);
 app.use(errorHandler);
