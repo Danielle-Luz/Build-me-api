@@ -20,7 +20,10 @@ const {
   newVacancyRequirementSchema,
   updatedVacancyRequirementSchema,
 } = require("./vacancyRequirements");
-const { newUserSkillsSchema } = require("./userSkills");
+const {
+  newUserSkillsSchema,
+  updatedUserSkillsSchema,
+} = require("./userSkills");
 
 module.exports = {
   nameSchema,
@@ -39,6 +42,7 @@ module.exports = {
   updatedRatingSchema,
   updatedTechnologySchema,
   updatedUserSchema,
+  updatedUserSkillsSchema,
   updatedVacancySchema,
   updatedVacancyRequirementSchema,
 };

@@ -5,6 +5,9 @@ const newUserSkillsSchema = z.object({
   technologyId: z.number(),
 });
 
+const updatedUserSkillsSchema = newUserSkillsSchema.omit({ userId: true });
+
 module.exports = {
   newUserSkillsSchema,
+  updatedUserSkillsSchema,
 };
