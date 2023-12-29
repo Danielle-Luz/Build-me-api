@@ -12,11 +12,11 @@ class VacancySubscriptionsController {
     return response.status(StatusCodes.CREATED).json(newVacancySubscription);
   }
 
-  static async getAllByVacancyId(request, response) {
+  static async getByVacancyId(request, response) {
     const { vacancyId } = request.params;
 
     const vacancySubscriptions =
-      await VacancySubscriptionsService.getAllByVacancyId(vacancyId);
+      await VacancySubscriptionsService.getByVacancyId(vacancyId);
 
     return response.status(StatusCodes.OK).json(vacancySubscriptions);
   }

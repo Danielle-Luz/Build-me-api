@@ -14,7 +14,7 @@ class VacancySubscriptionsService {
     return createdVacancySubscription.generatedMaps[0];
   }
 
-  static async getAllByVacancyId(vacancyId) {
+  static async getByVacancyId(vacancyId) {
     return AppDatasource.createQueryBuilder()
       .select("subscriptions")
       .from(VacancySubscriptions, "subscriptions")
