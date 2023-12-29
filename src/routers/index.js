@@ -9,6 +9,7 @@ const { userSkillsRouter } = require("./userSkills");
 const { usersRouter } = require("./users/index");
 const { vacanciesRouter } = require("./vacancies");
 const { vacancyRequirementsRouter } = require("./vacancyRequirements");
+const { vacancySubscriptionsRouter } = require("./vacancySubscriptions");
 
 module.exports = {
   learnersRouter,
@@ -22,4 +23,5 @@ module.exports = {
   userSkillsRouter,
   vacanciesRouter,
   vacancyRequirementsRouter,
+  vacancySubscriptionsRouter,
 };

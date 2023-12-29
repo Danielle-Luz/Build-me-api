@@ -7,9 +7,9 @@ const {
 } = require("../../middlewares");
 const { newVacancySubscriptionSchema } = require("../../schemas");
 
-const vacancySubscriptionRouter = Router();
+const vacancySubscriptionsRouter = Router();
 
-vacancySubscriptionRouter.post(
+vacancySubscriptionsRouter.post(
   "/",
   UtilsMiddlewares.validateSchema(newVacancySubscriptionSchema),
   UsersMiddlewares.isTokenFilled,
@@ -18,19 +18,19 @@ vacancySubscriptionRouter.post(
   VacancySubscriptionsController.create
 );
 
-vacancySubscriptionRouter.get(
+vacancySubscriptionsRouter.get(
   "/vacancies/:vacancyId",
   VacancySubscriptionsController.getByVacancyId
 );
 
-vacancySubscriptionRouter.get(
+vacancySubscriptionsRouter.get(
   "/users/:userId",
   VacancySubscriptionsController.getByUserId
 );
 
-vacancySubscriptionRouter.get("/:id", VacancySubscriptionsController.getById);
+vacancySubscriptionsRouter.get("/:id", VacancySubscriptionsController.getById);
 
-vacancySubscriptionRouter.delete(
+vacancySubscriptionsRouter.delete(
   "/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
@@ -38,4 +38,4 @@ vacancySubscriptionRouter.delete(
   VacancySubscriptionsController.delete
 );
 
-module.exports = { vacancySubscriptionRouter };
+module.exports = { vacancySubscriptionsRouter };
