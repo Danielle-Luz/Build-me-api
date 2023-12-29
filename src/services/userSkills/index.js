@@ -19,6 +19,7 @@ class UserSkillsService {
       .select("userSkills")
       .from(UserSkills, "userSkills")
       .where("userSkills.userId = :userId", { userId })
+      .orderBy("userSkills.score", "DESC")
       .getMany();
   }
 
@@ -34,6 +35,26 @@ class UserSkillsService {
         "No user skill with the informed id was found"
       );
     }
+  }
+
+  static async getBySkillLevel(skillLevel) {
+    return AppDatasource.createQueryBuilder()
+      .select("userSkills")
+      .from(UserSkills, "userSkills")
+      .innerJoinAndSelect("userSkills.userId", "user")
+      .where("userSkills.skillLevel = :skillLevel", { skillLevel })
+      .orderBy("userSkills.score", "DESC")
+      .getMany();
+  }
+
+  static async getByTechnologyId(technologyId) {
+    return AppDatasource.createQueryBuilder()
+      .select("userSkills")
+      .from(UserSkills, "userSkills")
+      .innerJoinAndSelect("userSkills.userId", "user")
+      .where("userSkills.technologyId = :technologyId", { technologyId })
+      .orderBy("userSkills.score", "DESC")
+      .getMany();
   }
 
   static async update(id, updatedData) {

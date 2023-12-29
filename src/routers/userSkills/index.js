@@ -12,8 +12,9 @@ userSkillsRouter.post(
   UserSkillsController.create
 );
 
-userSkillsRouter.get("/:id", UserSkillsController.getById);
 userSkillsRouter.get("/users/:id", UserSkillsController.getUserSkillsByUserId);
+userSkillsRouter.get("/skills/:skillLevel", UserSkillsController.getBySkillLevel);
+userSkillsRouter.get("/:id", UserSkillsController.getById);
 
 userSkillsRouter.delete(
   "/:id",

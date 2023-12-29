@@ -26,6 +26,22 @@ class UserSkillsController {
     return response.status(StatusCodes.OK).json(foundUserSkill);
   }
 
+  static async getBySkillLevel(request, response) {
+    const skillLevel = request.params.skillLevel;
+
+    const foundUserSkills = await UserSkillsService.getBySkillLevel(skillLevel);
+
+    return response.status(StatusCodes.OK).json(foundUserSkills);
+  }
+
+  static async getById(request, response) {
+    const skillLevel = request.params.skillLevel;
+
+    const foundUserSkills = await UserSkillsService.getBySkillLevel(skillLevel);
+
+    return response.status(StatusCodes.OK).json(foundUserSkills);
+  }
+
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;
