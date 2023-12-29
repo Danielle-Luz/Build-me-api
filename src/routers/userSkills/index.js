@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { UserSkillsController } = require("../../controllers");
-const { UsersMiddlewares, UtilsMiddlewares } = require("../../middlewares");
+const {
+  UsersMiddlewares,
+  UtilsMiddlewares,
+  UserSkillsMiddlewares,
+} = require("../../middlewares");
 const {
   newUserSkillsSchema,
   updatedUserSkillsSchema,
@@ -14,6 +18,7 @@ userSkillsRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   UtilsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
   UserSkillsController.create
 );
 
@@ -29,7 +34,9 @@ userSkillsRouter.patch(
   UtilsMiddlewares.validateSchema(updatedUserSkillsSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  UtilsMiddlewares.wasNoFieldUpdated,
   UtilsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
   UserSkillsController.update
 );
 

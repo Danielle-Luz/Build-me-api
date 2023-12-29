@@ -25,7 +25,7 @@ class UserSkillsService {
 
   static async getById(id) {
     try {
-      return await AppDatasource.createQueryBuilder()
+      return AppDatasource.createQueryBuilder()
         .select("userSkills")
         .from(UserSkills, "userSkills")
         .where("userSkills.id = :id", { id })
@@ -47,14 +47,13 @@ class UserSkillsService {
       .getMany();
   }
 
-  static async getByTechnologyId(technologyId) {
+  static async getTechnologyFromUser(technologyId, userId) {
     return AppDatasource.createQueryBuilder()
       .select("userSkills")
       .from(UserSkills, "userSkills")
-      .innerJoinAndSelect("userSkills.userId", "user")
       .where("userSkills.technologyId = :technologyId", { technologyId })
-      .orderBy("userSkills.score", "DESC")
-      .getMany();
+      .where("userSkills.userId = :userId", { userId })
+      .getOne();
   }
 
   static async update(id, updatedData) {
