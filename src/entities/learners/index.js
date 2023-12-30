@@ -21,13 +21,13 @@ const Learners = new EntitySchema({
     },
   },
   relations: {
-    vacancyId: {
+    vacancy: {
       joinColumn: { name: "vacancyId" },
       inverseSide: "learners",
       target: "vacancies",
       type: "many-to-one",
     },
-    candidateId: {
+    candidate: {
       joinColumn: { name: "candidateId" },
       inverseSide: "learners",
       target: "users",

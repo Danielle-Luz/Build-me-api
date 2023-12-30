@@ -16,10 +16,16 @@ learnersRouter.post(
   UsersMiddlewares.validateToken,
   LearnersMiddlewares.hasPermissionOnRoute,
   LearnersMiddlewares.doesVacancyExists,
+  LearnersMiddlewares.isVacationsUnderLearnersLimit,
   LearnersController.create
 );
 
 learnersRouter.get("/", LearnersController.getAll);
+learnersRouter.get(
+  "/vacancies/:vacancyId",
+  LearnersMiddlewares.doesVacancyExists,
+  LearnersController.getLearnersByVacancyId
+);
 learnersRouter.get("/:id", LearnersController.getById);
 
 learnersRouter.delete(

@@ -38,6 +38,24 @@ class LearnersService {
     return foundLearner;
   }
 
+  static async getLearnersCountByVacancyId(vacancyId) {
+    return AppDatasource.createQueryBuilder()
+      .select("COUNT(learners.id)", "learnersCount")
+      .from(Learners, "learners")
+      .where("learners.vacancyId = :vacancyId", { vacancyId })
+      .getRawOne();
+  }
+
+  static async getLearnersByVacancyId(vacancyId) {
+    return AppDatasource.createQueryBuilder()
+      .select("learners")
+      .from(Learners, "learners")
+      .where("learners.vacancyId = :vacancyId", { vacancyId })
+      .innerJoinAndSelect("learners.candidate", "candidate")
+      .orderBy("learners.createdDate", "DESC")
+      .getMany();
+  }
+
   static async delete(id) {
     const deletedLearner = await AppDatasource.createQueryBuilder()
       .delete()

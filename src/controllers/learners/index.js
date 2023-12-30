@@ -24,6 +24,16 @@ class LearnersController {
     return response.status(StatusCodes.OK).json(foundLearner);
   }
 
+  static async getLearnersByVacancyId(request, response) {
+    const { vacancyId } = request.params;
+
+    const foundLearners = await LearnersService.getLearnersByVacancyId(
+      vacancyId
+    );
+
+    return response.status(StatusCodes.OK).json(foundLearners);
+  }
+
   static async delete(request, response) {
     const id = request.params.id;
 
