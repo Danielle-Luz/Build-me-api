@@ -1,7 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { AppError, CloseDateError } = require("../../errors");
-const { ProjectsService } = require("../../services");
+const { AppError, CloseDateError, InvalidParamValueError } = require("../../errors");
+const { ProjectsService, UsersService } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
+const { memberSelectionMethod } = require("../../enumValues");
 
 class ProjectsMiddlewares {
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
@@ -30,6 +31,31 @@ class ProjectsMiddlewares {
       const errorMessage =
         "The close date should be later than or equal to the current date";
       throw new CloseDateError(errorMessage);
+    }
+
+    return nextMiddleware();
+  }
+
+  static async doesUserExists(request, response, nextMiddleware) {
+    const createdById = request.params.createdById;
+
+    await UsersService.getById(createdById);
+
+    return nextMiddleware();
+  }
+
+  static async isSelectionMethodValid(request, response, nextMiddleware) {
+    const { selectionMethod: searchedSelectionMethod } = request.params;
+    const isSelectionMethodValid = memberSelectionMethod.includes(
+      searchedSelectionMethod
+    );
+
+    if (!isSelectionMethodValid) {
+      throw new InvalidParamValueError(
+        `Member selection method not found, the values available are: ${memberSelectionMethod.join(
+          ", "
+        )}`
+      );
     }
 
     return nextMiddleware();

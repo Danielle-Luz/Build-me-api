@@ -22,10 +22,15 @@ projectsRouter.get("/", ProjectsController.getAll);
 projectsRouter.get("/open", ProjectsController.getOpenProjects);
 projectsRouter.get(
   "/selectionMethod/:selectionMethod",
+  ProjectsMiddlewares.isSelectionMethodValid,
   ProjectsController.getProjectsByMemberSelectionMethod
 );
 projectsRouter.get("/:id", ProjectsController.getById);
-projectsRouter.get("/users/:createdById", ProjectsController.getUserProjects);
+projectsRouter.get(
+  "/users/:createdById",
+  ProjectsMiddlewares.doesUserExists,
+  ProjectsController.getUserProjects
+);
 projectsRouter.get("/search/:value", ProjectsController.getProjectsByFilter);
 
 projectsRouter.patch(
