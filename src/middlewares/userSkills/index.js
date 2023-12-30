@@ -70,9 +70,18 @@ class UserSkillsMiddlewares {
   }
 
   static async doesTechnologyExists(request, response, nextMiddleware) {
-    const { technologyId } = request.params;
+    const isGettingUserSkill = request.method == "GET";
+    let technologyId;
 
-    await TechnologiesService.getById(technologyId);
+    if (isGettingUserSkill) {
+      technologyId = request.params.technologyId;
+    } else {
+      technologyId = request.validatedData.technologyId;
+    }
+
+    if (technologyId) {
+      await TechnologiesService.getById(technologyId);
+    }
 
     return nextMiddleware();
   }

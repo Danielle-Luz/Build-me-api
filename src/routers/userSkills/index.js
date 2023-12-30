@@ -15,6 +15,7 @@ userSkillsRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   UserSkillsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.doesTechnologyExists,
   UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
   UserSkillsController.create
 );
@@ -43,6 +44,7 @@ userSkillsRouter.patch(
   UsersMiddlewares.validateToken,
   UtilsMiddlewares.wasNoFieldUpdated,
   UserSkillsMiddlewares.hasPermissionOnRoute,
+  UserSkillsMiddlewares.doesTechnologyExists,
   UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
   UserSkillsController.update
 );
