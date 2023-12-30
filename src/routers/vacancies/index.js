@@ -24,6 +24,7 @@ vacanciesRouter.post(
 vacanciesRouter.get("/", VacanciesController.getAll);
 vacanciesRouter.get(
   "/unrelated/projects/:projectId",
+  VacanciesMiddlewares.doesProjectExists,
   VacanciesController.getProjectVacanciesWithoutCandidate
 );
 vacanciesRouter.get(
@@ -32,19 +33,24 @@ vacanciesRouter.get(
 );
 vacanciesRouter.get(
   "/projects/:projectId",
+  VacanciesMiddlewares.doesProjectExists,
   VacanciesController.getProjectVacancies
 );
 vacanciesRouter.get("/:id", VacanciesController.getVacancyById);
 vacanciesRouter.get(
   "/users/:userId",
+  VacanciesMiddlewares.doesCandidateExists,
   VacanciesController.getVacantionsRelatedToUser
 );
 vacanciesRouter.get(
   "/projects/:projectId/users/:userId",
+  VacanciesMiddlewares.doesProjectExists,
+  VacanciesMiddlewares.doesCandidateExists,
   VacanciesController.getVacanciesMatchingUserSkillsForProject
 );
 vacanciesRouter.get(
   "/available/users/:userId",
+  VacanciesMiddlewares.doesCandidateExists,
   VacanciesController.getAllVacanciesMatchingUserSkills
 );
 

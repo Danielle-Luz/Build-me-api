@@ -50,9 +50,16 @@ class VacanciesMiddlewares {
   }
 
   static async doesCandidateExists(request, response, nextMiddleware) {
-    const chosenCandidateId = request.validatedData.chosenCandidateId;
+    const isCreatingVacancy = request.method == "POST";
+    let chosenCandidateId;
 
-    if (chosenCandidateId) {
+    if (isCreatingVacancy) {
+      chosenCandidateId = request.validatedData.chosenCandidateId;
+    } else {
+      chosenCandidateId = request.params.userId;
+    }
+
+    if (chosenCandidateId != undefined) {
       try {
         await UsersService.getById(chosenCandidateId);
       } catch {
@@ -66,8 +73,15 @@ class VacanciesMiddlewares {
   }
 
   static async doesProjectExists(request, response, nextMiddleware) {
-    const projectId = request.validatedData.projectId;
-    
+    const isCreatingVacancy = request.method == "POST";
+    let projectId;
+
+    if (isCreatingVacancy) {
+      projectId = request.validatedData.projectId;
+    } else {
+      projectId = request.params.projectId;
+    }
+
     await ProjectsService.getById(projectId);
 
     return nextMiddleware();
