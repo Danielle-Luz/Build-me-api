@@ -1,4 +1,5 @@
 const { PermissionsHelper } = require("./permissions");
+const { ProjectsHelper } = require("./projects");
 const { UsersHelper } = require("./users/index");
 
-module.exports = { PermissionsHelper, UsersHelper };
+module.exports = { PermissionsHelper, ProjectsHelper, UsersHelper };

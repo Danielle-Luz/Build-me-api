@@ -1,5 +1,6 @@
 const { AppDatasource } = require("../../data-source");
 const { Projects } = require("../../entities");
+const { ProjectsHelper } = require("../../helpers");
 const { RecordNotFoundError } = require("../../errors");
 
 class ProjectsService {
@@ -11,7 +12,19 @@ class ProjectsService {
       .returning("*")
       .execute();
 
-    return createdProject.generatedMaps[0];
+    const createdProjectData = createdProject.generatedMaps[0];
+
+    const hasRandomSelectionMethod =
+      newProject.memberSelectionMethod == "Aleatória";
+
+    if (hasRandomSelectionMethod) {
+      ProjectsHelper.scheduleCandidatesSelectionOnCloseDate(
+        createdProjectData.id,
+        createdProjectData.closeDate
+      );
+    }
+
+    return createdProjectData;
   }
 
   static async getAll() {

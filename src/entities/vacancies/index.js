@@ -44,7 +44,7 @@ const Vacancies = new EntitySchema({
       target: "users",
       type: "many-to-one",
     },
-    subscription: {
+    subscriptions: {
       inverseSide: "vacancy",
       onDelete: "CASCADE",
       target: "vacancy_subscriptions",
