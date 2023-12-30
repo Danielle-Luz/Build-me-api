@@ -49,7 +49,10 @@ class VacancyRequirementsService {
       .leftJoin(
         UserSkills,
         "user_skills",
-        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel"
+        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel AND user_skills.userId = :userId",
+        {
+          userId,
+        }
       )
       .innerJoin(
         Vacancies,
@@ -65,11 +68,7 @@ class VacancyRequirementsService {
         "vacancy.projectId AS projectId",
         "vacancy.chosenCandidateId AS chosenCandidateId",
       ])
-      .where("user_skills.userId IS NULL")
-      .orWhere("user_skills.userId = :userId", {
-        userId,
-      })
-      .andWhere("vacancy.projectId = :projectId", { projectId })
+      .where("vacancy.projectId = :projectId", { projectId })
       .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
       .groupBy("vacancy.id")
       .getRawMany();
