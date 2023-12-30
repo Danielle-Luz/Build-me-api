@@ -5,6 +5,7 @@ const {
   UserSkills,
 } = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
+const { ProjectsService } = require("../projects");
 
 class VacanciesService {
   static async create(newVacancie) {
@@ -180,6 +181,20 @@ class VacanciesService {
     }
 
     return updatedVacancie.raw[0];
+  }
+
+  static async setUserAsChosenIfArrivalMethodOnProject(userId, vacancyId) {
+    const subscriptedVacancy = await VacanciesService.getVacancyById(vacancyId);
+    const vacancyRelatedProject = await ProjectsService.getById(
+      subscriptedVacancy.projectId
+    );
+    const hasArrivalSelectionMethod =
+      vacancyRelatedProject.memberSelectionMethod == "Ordem de inscrição";
+
+    if (hasArrivalSelectionMethod) {
+      const vacancyWithChosenCandidate = { chosenCandidateId: userId };
+      VacanciesService.update(vacancyId, vacancyWithChosenCandidate);
+    }
   }
 
   static async delete(id) {

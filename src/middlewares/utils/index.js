@@ -13,7 +13,7 @@ class UtilsMiddlewares {
   }
 
   static async hasPermissionOnRoute(request, response, nextMiddleware, userId) {
-    const loggedUserRoleId = request.loggedUser.roleId.id;
+    const loggedUserRoleId = request.loggedUser.roleId;
     const accessedResourceName = request.originalUrl.split("/")[1];
     const routeRequiredPermission = PermissionsHelper.getPermissionByHttpMethod(
       request.method

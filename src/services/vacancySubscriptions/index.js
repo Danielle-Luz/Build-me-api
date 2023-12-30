@@ -1,6 +1,7 @@
 const { AppDatasource } = require("../../data-source");
 const { VacancySubscriptions } = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
+const { VacanciesService } = require("../vacancies");
 
 class VacancySubscriptionsService {
   static async create(newVacancySubscription) {
@@ -10,6 +11,11 @@ class VacancySubscriptionsService {
       .values(newVacancySubscription)
       .returning("*")
       .execute();
+
+    VacanciesService.setUserAsChosenIfArrivalMethodOnProject(
+      newVacancySubscription.userId,
+      newVacancySubscription.vacancyId
+    );
 
     return createdVacancySubscription.generatedMaps[0];
   }
