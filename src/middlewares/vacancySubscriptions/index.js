@@ -39,7 +39,8 @@ class VacancySubscriptionsMiddlewares {
       vacancyId = request.params.vacancyId;
     }
 
-    await VacanciesService.getVacancyById(vacancyId);
+    const subscribedVacancy = await VacanciesService.getVacancyById(vacancyId);
+    request.subscribedVacancy = subscribedVacancy;
 
     return nextMiddleware();
   }
@@ -66,7 +67,7 @@ class VacancySubscriptionsMiddlewares {
         userId
       );
 
-    if (requirementsStatus.unmetRequirementsCount > 0) {
+    if (requirementsStatus?.unmetRequirementsCount > 0) {
       throw new AppError(
         "The user can't apply to this vacancy because he doesn't meet the vacancy's requirements",
         StatusCodes.UNPROCESSABLE_ENTITY
@@ -89,6 +90,20 @@ class VacancySubscriptionsMiddlewares {
     if (submittedSubscription) {
       throw new DuplicatedInfoError(
         "This user already created a subscription to this vacancy"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async hasVacancyChosenCandidate(request, response, nextMiddleware) {
+    const { subscribedVacancy } = request;
+
+    const hasChosenCandidate = subscribedVacancy.chosenCandidateId != null;
+
+    if (hasChosenCandidate) {
+      throw new DuplicatedInfoError(
+        "Vacancy is already assigned to a candidate"
       );
     }
 

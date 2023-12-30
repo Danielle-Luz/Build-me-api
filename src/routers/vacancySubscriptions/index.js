@@ -16,6 +16,7 @@ vacancySubscriptionsRouter.post(
   UsersMiddlewares.validateToken,
   VacancySubscriptionsMiddlewares.hasPermissionOnRoute,
   VacancySubscriptionsMiddlewares.doesVacancyExists,
+  VacancySubscriptionsMiddlewares.hasVacancyChosenCandidate,
   VacancySubscriptionsMiddlewares.doesUserMeetVacationRequirements,
   VacancySubscriptionsMiddlewares.wasSubscriptionAlreadyDone,
   VacancySubscriptionsController.create
