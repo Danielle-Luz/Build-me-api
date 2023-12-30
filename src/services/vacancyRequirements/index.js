@@ -42,7 +42,7 @@ class VacancyRequirementsService {
     return foundVacancyRequirement;
   }
 
-  static async getVacanciesMatchingUserSkills(projectId, userId) {
+  static async getVacanciesMatchingUserSkillsForProject(projectId, userId) {
     return AppDatasource.createQueryBuilder()
       .select()
       .from(VacancyRequirements, "vacancy_requirements")
