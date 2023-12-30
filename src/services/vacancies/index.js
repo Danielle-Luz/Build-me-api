@@ -46,7 +46,7 @@ class VacanciesService {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
-      .innerJoin("vacancies.projectId", "project")
+      .innerJoin("vacancies.project", "project")
       .where("project.closeDate >= CURRENT_DATE")
       .andWhere("vacancies.chosenCandidateId is null")
       .orderBy("vacancies.createdDate", "DESC")

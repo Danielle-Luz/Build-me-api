@@ -56,6 +56,26 @@ class LearnersService {
       .getMany();
   }
 
+  static async getVacancyLearnerByCandidateId(vacancyId, candidateId) {
+    return AppDatasource.createQueryBuilder()
+      .select("learners")
+      .from(Learners, "learners")
+      .where("learners.vacancyId = :vacancyId", { vacancyId })
+      .andWhere("learners.candidateId = :candidateId", { candidateId })
+      .getOne();
+  }
+
+  static async getLearnersByCandidateId(candidateId) {
+    return AppDatasource.createQueryBuilder()
+      .select("learners")
+      .from(Learners, "learners")
+      .where("learners.candidateId = :candidateId", { candidateId })
+      .innerJoinAndSelect("learners.vacancy", "vacancy")
+      .innerJoinAndSelect("vacancy.project", "project")
+      .orderBy("learners.createdDate", "DESC")
+      .getMany();
+  }
+
   static async delete(id) {
     const deletedLearner = await AppDatasource.createQueryBuilder()
       .delete()

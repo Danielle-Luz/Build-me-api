@@ -17,6 +17,7 @@ learnersRouter.post(
   LearnersMiddlewares.hasPermissionOnRoute,
   LearnersMiddlewares.doesVacancyExists,
   LearnersMiddlewares.isVacationsUnderLearnersLimit,
+  LearnersMiddlewares.isUserAlreadyLearning,
   LearnersController.create
 );
 
@@ -25,6 +26,11 @@ learnersRouter.get(
   "/vacancies/:vacancyId",
   LearnersMiddlewares.doesVacancyExists,
   LearnersController.getLearnersByVacancyId
+);
+learnersRouter.get(
+  "/users/:candidateId",
+  LearnersMiddlewares.doesCandidateExists,
+  LearnersController.getLearnersByCandidateId
 );
 learnersRouter.get("/:id", LearnersController.getById);
 

@@ -32,7 +32,7 @@ const Vacancies = new EntitySchema({
     },
   },
   relations: {
-    projectId: {
+    project: {
       joinColumn: { name: "projectId" },
       inverseSide: "vacancies",
       target: "projects",
