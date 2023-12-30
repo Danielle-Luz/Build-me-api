@@ -34,11 +34,11 @@ class VacancyRequirementsController {
     return response.status(StatusCodes.OK).json(foundVacancyRequirement);
   }
 
-  static async getVacanciesThatMeetFilters(request, response) {
+  static async getVacanciesMatchingUserSkills(request, response) {
     const { projectId, userId } = request.params;
 
     const foundRequirementsCount =
-      await VacancyRequirementsService.getVacanciesThatMeetFilters(
+      await VacancyRequirementsService.getVacanciesMatchingUserSkills(
         projectId,
         userId
       );
