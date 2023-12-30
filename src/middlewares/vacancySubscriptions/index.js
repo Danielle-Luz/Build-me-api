@@ -1,7 +1,10 @@
+const { StatusCodes } = require("http-status-codes");
+const { AppError } = require("../../errors");
 const {
   VacancySubscriptionsService,
   VacanciesService,
   UsersService,
+  VacancyRequirementsService,
 } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
@@ -45,6 +48,30 @@ class VacancySubscriptionsMiddlewares {
     const { userId } = request.params;
 
     await UsersService.getById(userId);
+
+    return nextMiddleware();
+  }
+
+  static async doesUserMeetVacationRequirements(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const { vacancyId } = request.validatedData;
+    const userId = request.loggedUser.id;
+
+    const requirementsStatus =
+      await VacancyRequirementsService.getRequirementsFulfillmentStatus(
+        vacancyId,
+        userId
+      );
+
+    if (requirementsStatus.unmetRequirementsCount > 0) {
+      throw new AppError(
+        "The user can't apply to this vacancy because he doesn't meet the vacancy's requirements",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    }
 
     return nextMiddleware();
   }

@@ -49,7 +49,7 @@ class VacancyRequirementsService {
       .leftJoin(
         UserSkills,
         "user_skills",
-        "user_skills.technologyId = vacancy_requirements.technologyId AND   user_skills.skillLevel = vacancy_requirements.skillLevel"
+        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel"
       )
       .innerJoin(
         Vacancies,
@@ -73,6 +73,28 @@ class VacancyRequirementsService {
       .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
       .groupBy("vacancy.id")
       .getRawMany();
+  }
+
+  static async getRequirementsFulfillmentStatus(vacancyId, userId) {
+    return AppDatasource.createQueryBuilder()
+      .select(
+        "COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END)",
+        "unmetRequirementsCount"
+      )
+      .addSelect(
+        "COUNT(CASE WHEN user_skills.userId IS NOT NULL THEN 1 END)",
+        "metRequirementsCount"
+      )
+      .from(VacancyRequirements, "vacancy_requirements")
+      .leftJoin(
+        UserSkills,
+        "user_skills",
+        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel AND user_skills.userId = :userId",
+        { userId }
+      )
+      .where("vacancy_requirements.vacancyId = :vacancyId", { vacancyId })
+      .groupBy("vacancy_requirements.vacancyId")
+      .getRawOne();
   }
 
   static async update(id, updatedData) {
