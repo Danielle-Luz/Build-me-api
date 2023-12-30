@@ -5,7 +5,7 @@ const {
   AppError,
 } = require("../../errors");
 const { RatingCooldownError } = require("../../errors/RatingCooldownError");
-const { RatingsServices, VacanciesService } = require("../../services");
+const { RatingsServices, VacanciesService, UsersService } = require("../../services");
 
 class RatingsMiddlewares {
   static async isSelfRating(request, response, nextMiddleware) {
@@ -90,6 +90,25 @@ class RatingsMiddlewares {
     }
 
     return nextMiddleware();
+  }
+
+  static doesUserExists(userPropertyName) {
+    return async (request, response, nextMiddleware) => {
+      const isGettingRating = request.method == "GET";
+      let userId;
+
+      if (isGettingRating) {
+        userId = request.params[userPropertyName];
+      } else {
+        userId = request.validatedData[userPropertyName];
+      }
+
+      if (userId) {
+        await UsersService.getById(userId);
+      }
+
+      return nextMiddleware();
+    };
   }
 }
 
