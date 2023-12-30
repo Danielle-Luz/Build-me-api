@@ -42,38 +42,6 @@ class VacancyRequirementsService {
     return foundVacancyRequirement;
   }
 
-  static async getVacanciesMatchingUserSkillsForProject(projectId, userId) {
-    return AppDatasource.createQueryBuilder()
-      .select()
-      .from(VacancyRequirements, "vacancy_requirements")
-      .leftJoin(
-        UserSkills,
-        "user_skills",
-        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel AND user_skills.userId = :userId",
-        {
-          userId,
-        }
-      )
-      .innerJoin(
-        Vacancies,
-        "vacancy",
-        "vacancy_requirements.vacancyId = vacancy.id"
-      )
-      .addSelect([
-        "vacancy.id AS id",
-        "vacancy.name AS name",
-        "vacancy.description AS description",
-        "vacancy.createdDate AS createdDate",
-        "vacancy.learnersLimit AS learnersLimit",
-        "vacancy.projectId AS projectId",
-        "vacancy.chosenCandidateId AS chosenCandidateId",
-      ])
-      .where("vacancy.projectId = :projectId", { projectId })
-      .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
-      .groupBy("vacancy.id")
-      .getRawMany();
-  }
-
   static async getRequirementsFulfillmentStatus(vacancyId, userId) {
     return AppDatasource.createQueryBuilder()
       .select(

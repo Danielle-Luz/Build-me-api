@@ -57,6 +57,27 @@ class VacanciesController {
     return response.status(StatusCodes.OK).json(vacancysRelatedToUser);
   }
 
+  static async getVacanciesMatchingUserSkillsForProject(request, response) {
+    const { projectId, userId } = request.params;
+
+    const foundMathingVacancies =
+      await VacanciesService.getVacanciesMatchingUserSkillsForProject(
+        projectId,
+        userId
+      );
+
+    return response.status(StatusCodes.OK).json(foundMathingVacancies);
+  }
+
+  static async getAllVacanciesMatchingUserSkills(request, response) {
+    const { userId } = request.params;
+
+    const foundMathingVacancies =
+      await VacanciesService.getAllVacanciesMatchingUserSkills(userId);
+
+    return response.status(StatusCodes.OK).json(foundMathingVacancies);
+  }
+
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;

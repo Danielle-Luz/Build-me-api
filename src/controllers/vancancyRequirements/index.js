@@ -34,18 +34,6 @@ class VacancyRequirementsController {
     return response.status(StatusCodes.OK).json(foundVacancyRequirement);
   }
 
-  static async getVacanciesMatchingUserSkillsForProject(request, response) {
-    const { projectId, userId } = request.params;
-
-    const foundRequirementsCount =
-      await VacancyRequirementsService.getVacanciesMatchingUserSkillsForProject(
-        projectId,
-        userId
-      );
-
-    return response.status(StatusCodes.OK).json(foundRequirementsCount);
-  }
-
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;
