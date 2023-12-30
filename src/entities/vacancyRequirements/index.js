@@ -21,13 +21,13 @@ const VacancyRequirements = new EntitySchema({
     },
   },
   relations: {
-    vacancyId: {
+    vacancy: {
       joinColumn: { name: "vacancyId" },
       inverseSide: "vacancyRequirements",
       target: "vacancies",
       type: "many-to-one",
     },
-    technologyId: {
+    technology: {
       joinColumn: { name: "technologyId" },
       inverseSide: "vacancyRequirements",
       target: "technologies",

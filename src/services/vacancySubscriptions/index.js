@@ -45,13 +45,17 @@ class VacancySubscriptionsService {
       })
       .getOne();
 
-      if (!foundVacancySubscription) {
+    if (!foundVacancySubscription) {
       throw new RecordNotFoundError(
         "No vacancy subscription with the informed id was found"
       );
     }
 
     return foundVacancySubscription;
+  }
+
+  static async doesUserMeetVacationRequirements(vacancyId, userId) {
+    
   }
 
   static async delete(vacancySubscriptionId) {

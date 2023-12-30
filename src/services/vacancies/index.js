@@ -79,7 +79,7 @@ class VacanciesService {
   }
 
   static async getProjectColleagues(projectId, chosenCandidateIds) {
-    return await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select(["vacancies.chosenCandidateId"])
       .from(Vacancies, "vacancies")
       .where("vacancies.chosenCandidateId IN (:...chosenCandidateIds)", {
@@ -89,7 +89,7 @@ class VacanciesService {
       .groupBy("vacancies.chosenCandidateId")
       .getRawMany();
   }
-
+  
   static async update(id, updatedData) {
     const updatedVacancie = await AppDatasource.createQueryBuilder()
       .update(Vacancies)

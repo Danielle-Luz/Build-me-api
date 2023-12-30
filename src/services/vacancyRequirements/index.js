@@ -1,5 +1,9 @@
 const { AppDatasource } = require("../../data-source");
-const { VacancyRequirements } = require("../../entities");
+const {
+  VacancyRequirements,
+  UserSkills,
+  Vacancies,
+} = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
 
 class VacancyRequirementsService {
@@ -28,7 +32,7 @@ class VacancyRequirementsService {
       .from(VacancyRequirements, "vacancy_requirements")
       .where("vacancy_requirements.id = :id", { id })
       .getOne();
-      
+
     if (!foundVacancyRequirement) {
       throw new RecordNotFoundError(
         "No vacancy requirement with the informed id was found"
@@ -36,6 +40,39 @@ class VacancyRequirementsService {
     }
 
     return foundVacancyRequirement;
+  }
+
+  static async getVacanciesThatMeetFilters(projectId, userId) {
+    return AppDatasource.createQueryBuilder()
+      .select()
+      .from(VacancyRequirements, "vacancy_requirements")
+      .leftJoin(
+        UserSkills,
+        "user_skills",
+        "user_skills.technologyId = vacancy_requirements.technologyId AND   user_skills.skillLevel = vacancy_requirements.skillLevel"
+      )
+      .innerJoin(
+        Vacancies,
+        "vacancy",
+        "vacancy_requirements.vacancyId = vacancy.id"
+      )
+      .addSelect([
+        "vacancy.id AS id",
+        "vacancy.name AS name",
+        "vacancy.description AS description",
+        "vacancy.createdDate AS createdDate",
+        "vacancy.learnersLimit AS learnersLimit",
+        "vacancy.projectId AS projectId",
+        "vacancy.chosenCandidateId AS chosenCandidateId",
+      ])
+      .where("user_skills.userId IS NULL")
+      .orWhere("user_skills.userId = :userId", {
+        userId,
+      })
+      .andWhere("vacancy.projectId = :projectId", { projectId })
+      .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
+      .groupBy("vacancy.id")
+      .getRawMany();
   }
 
   static async update(id, updatedData) {

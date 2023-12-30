@@ -32,6 +32,10 @@ vacancyRequirementsRouter.get(
   "/:id",
   VacancyRequirementsController.getVacancyRequirementById
 );
+vacancyRequirementsRouter.get(
+  "/projects/:projectId/users/:userId",
+  VacancyRequirementsController.getVacanciesThatMeetFilters
+);
 
 vacancyRequirementsRouter.patch(
   "/:id",

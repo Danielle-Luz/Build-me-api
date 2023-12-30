@@ -1,4 +1,8 @@
-const { VacancySubscriptionsService } = require("../../services");
+const {
+  VacancySubscriptionsService,
+  VacanciesService,
+  UsersService,
+} = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
 class VacancySubscriptionsMiddlewares {
@@ -11,7 +15,7 @@ class VacancySubscriptionsMiddlewares {
       const vacancySubscription = await VacancySubscriptionsService.getById(
         vacancySubscriptionId
       );
-      userId = vacancySubscription.userId.id;
+      userId = vacancySubscription.userId;
     }
 
     return await UtilsMiddlewares.hasPermissionOnRoute(
@@ -20,6 +24,29 @@ class VacancySubscriptionsMiddlewares {
       nextMiddleware,
       userId
     );
+  }
+
+  static async doesVacancyExists(request, response, nextMiddleware) {
+    const isCreatingVacancySubscription = request.method == "POST";
+    let vacancyId;
+
+    if (isCreatingVacancySubscription) {
+      vacancyId = request.validatedData.vacancyId;
+    } else {
+      vacancyId = request.params.vacancyId;
+    }
+
+    await VacanciesService.getVacancyById(vacancyId);
+
+    return nextMiddleware();
+  }
+
+  static async doesUserExists(request, response, nextMiddleware) {
+    const { userId } = request.params;
+
+    await UsersService.getById(userId);
+
+    return nextMiddleware();
   }
 }
 
