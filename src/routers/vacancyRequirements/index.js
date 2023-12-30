@@ -26,6 +26,7 @@ vacancyRequirementsRouter.post(
 
 vacancyRequirementsRouter.get(
   "/vacancies/:vacancyId",
+  VacancyRequirementsMiddlewares.doesVacancyExists,
   VacancyRequirementsController.getVacancyRequirementsByVacancyId
 );
 vacancyRequirementsRouter.get(

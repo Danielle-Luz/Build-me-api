@@ -39,7 +39,14 @@ class VacancyRequirementsMiddlewares {
   }
 
   static async doesVacancyExists(request, response, nextMiddleware) {
-    const vacancyId = request.validatedData.vacancyId;
+    const isGettingVacancyRequirement = request.method == "GET";
+    let vacancyId;
+
+    if (isGettingVacancyRequirement) {
+      vacancyId = request.params.vacancyId;
+    } else {
+      vacancyId = request.validatedData.vacancyId;
+    }
 
     if (vacancyId) {
       await VacanciesService.getVacancyById(vacancyId);
