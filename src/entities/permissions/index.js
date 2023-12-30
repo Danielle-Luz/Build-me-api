@@ -15,7 +15,7 @@ const Permissions = new EntitySchema({
     delete: { type: "boolean" },
   },
   relations: {
-    roleId: {
+    role: {
       joinColumn: {
         name: "roleId",
       },
@@ -23,7 +23,7 @@ const Permissions = new EntitySchema({
       target: "roles",
       type: "many-to-one",
     },
-    resourceId: {
+    resource: {
       joinColumn: {
         name: "resourceId",
       },

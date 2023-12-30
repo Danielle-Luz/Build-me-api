@@ -42,7 +42,7 @@ class UserSkillsService {
     return AppDatasource.createQueryBuilder()
       .select("userSkills")
       .from(UserSkills, "userSkills")
-      .innerJoinAndSelect("userSkills.userId", "user")
+      .innerJoinAndSelect("userSkills.user", "user")
       .where("userSkills.skillLevel = :skillLevel", { skillLevel })
       .orderBy("userSkills.score", "DESC")
       .getMany();
@@ -61,7 +61,7 @@ class UserSkillsService {
     return AppDatasource.createQueryBuilder()
       .select("userSkills")
       .from(UserSkills, "userSkills")
-      .innerJoinAndSelect("userSkills.userId", "user")
+      .innerJoinAndSelect("userSkills.user", "user")
       .where("userSkills.technologyId = :technologyId", { technologyId })
       .orderBy("userSkills.score", "DESC")
       .getMany();

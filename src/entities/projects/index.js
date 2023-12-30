@@ -43,7 +43,7 @@ const Projects = new EntitySchema({
     },
   },
   relations: {
-    createdById: {
+    createdBy: {
       joinColumn: { name: "createdById" },
       inverseSide: "projects",
       target: "users",

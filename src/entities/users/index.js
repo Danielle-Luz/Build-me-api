@@ -28,7 +28,7 @@ const Users = new EntitySchema({
     deletedDate: { type: "timestamp", deleteDate: true },
   },
   relations: {
-    roleId: {
+    role: {
       joinColumn: {
         name: "roleId",
       },

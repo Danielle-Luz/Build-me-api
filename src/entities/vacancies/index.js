@@ -38,13 +38,13 @@ const Vacancies = new EntitySchema({
       target: "projects",
       type: "many-to-one",
     },
-    chosenCandidateId: {
+    chosenCandidate: {
       joinColumn: { name: "chosenCandidateId" },
       inverseSide: "vacancies",
       target: "users",
       type: "many-to-one",
     },
-    subscriptions: {
+    subscription: {
       inverseSide: "vacancy",
       onDelete: "CASCADE",
       target: "vacancy_subscriptions",

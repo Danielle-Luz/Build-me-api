@@ -41,7 +41,7 @@ class UsersService {
     return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
-      .innerJoinAndSelect("users.roleId", "role")
+      .innerJoinAndSelect("users.role", "role")
       .getMany();
   }
 
@@ -49,7 +49,7 @@ class UsersService {
     return AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
-      .innerJoinAndSelect("users.roleId", "role")
+      .innerJoinAndSelect("users.role", "role")
       .where("users.email = :email", { email })
       .withDeleted()
       .getOne();

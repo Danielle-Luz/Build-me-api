@@ -1,5 +1,9 @@
 const { AppDatasource } = require("../../data-source");
-const { Vacancies, VacancyRequirements, UserSkills } = require("../../entities");
+const {
+  Vacancies,
+  VacancyRequirements,
+  UserSkills,
+} = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
 
 class VacanciesService {
@@ -27,7 +31,7 @@ class VacanciesService {
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .where("vacancies.projectId = :projectId", { projectId })
-      .leftJoinAndSelect("vacancies.chosenCandidateId", "candidate")
+      .leftJoinAndSelect("vacancies.chosenCandidate", "candidate")
       .orderBy("vacancies.name")
       .getMany();
   }
@@ -46,7 +50,8 @@ class VacanciesService {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
-      .innerJoin("vacancies.project", "project")
+      .innerJoinAndSelect("vacancies.project", "project")
+      .leftJoinAndSelect("vacancies.chosenCandidate", "candidate")
       .where("project.closeDate >= CURRENT_DATE")
       .andWhere("vacancies.chosenCandidateId is null")
       .orderBy("vacancies.createdDate", "DESC")
@@ -89,8 +94,7 @@ class VacanciesService {
       .groupBy("vacancies.chosenCandidateId")
       .getRawMany();
   }
-  
-  
+
   static async getVacanciesMatchingUserSkillsForProject(projectId, userId) {
     return AppDatasource.createQueryBuilder()
       .select()
@@ -117,7 +121,9 @@ class VacanciesService {
         "vacancy.projectId AS projectId",
         "vacancy.chosenCandidateId AS chosenCandidateId",
       ])
+      .innerJoin("vacancy.project", "project")
       .where("vacancy.projectId = :projectId", { projectId })
+      .andWhere("project.closeDate >= CURRENT_DATE")
       .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
       .groupBy("vacancy.id")
       .getRawMany();
@@ -149,6 +155,8 @@ class VacanciesService {
         "vacancy.projectId AS projectId",
         "vacancy.chosenCandidateId AS chosenCandidateId",
       ])
+      .innerJoin("vacancy.project", "project")
+      .where("project.closeDate >= CURRENT_DATE")
       .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
       .groupBy("vacancy.id")
       .orderBy("vacancy.createdDate")

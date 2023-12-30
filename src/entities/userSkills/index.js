@@ -26,13 +26,13 @@ const UserSkills = new EntitySchema({
     },
   },
   relations: {
-    userId: {
+    user: {
       joinColumn: { name: "userId" },
       inverseSide: "userSkills",
       target: "users",
       type: "many-to-one",
     },
-    technologyId: {
+    technology: {
       joinColumn: { name: "technologyId" },
       inverseSide: "userSkills",
       target: "technologies",

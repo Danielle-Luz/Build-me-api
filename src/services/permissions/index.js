@@ -1,6 +1,4 @@
 const { AppDatasource } = require("../../data-source");
-const { Resources } = require("../../entities/index");
-const { Roles } = require("../../entities/index");
 const { RecordNotFoundError } = require("../../errors");
 const { Permissions } = require("../../entities/index");
 
@@ -17,17 +15,12 @@ class PermissionsService {
   }
 
   static async getAll() {
-    const allPermissions = await AppDatasource.createQueryBuilder()
+    return AppDatasource.createQueryBuilder()
       .select("permissions")
       .from(Permissions)
-      .innerJoinAndSelect("permissions.roleId", "role")
-      .innerJoinAndSelect("permissions.resourceId", "resource")
+      .innerJoinAndSelect("permissions.role", "role")
+      .innerJoinAndSelect("permissions.resource", "resource")
       .getMany();
-
-    return allPermissions.map((permission) => {
-      const { resourceId, roleId, ...otherColumns } = permission;
-      return { ...otherColumns, resource: resourceId, role: roleId };
-    });
   }
 
   static async getPermissionsByRoleId(roleId) {}
@@ -36,7 +29,7 @@ class PermissionsService {
     return AppDatasource.createQueryBuilder()
       .select("permissions")
       .from(Permissions, "permissions")
-      .innerJoin("permissions.resourceId", "resource")
+      .innerJoin("permissions.resource", "resource")
       .where("resource.name = :resourceName", { resourceName })
       .andWhere("permissions.roleId = :roleId", { roleId })
       .getOne();
