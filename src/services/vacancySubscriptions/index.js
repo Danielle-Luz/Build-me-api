@@ -54,8 +54,13 @@ class VacancySubscriptionsService {
     return foundVacancySubscription;
   }
 
-  static async doesUserMeetVacationRequirements(vacancyId, userId) {
-    
+  static async getUserVacancySubscription(vacancyId, userId) {
+    return AppDatasource.createQueryBuilder()
+      .select("vacancy_subscriptions")
+      .from(VacancySubscriptions, "vacancy_subscriptions")
+      .where("vacancy_subscriptions.vacancyId = :vacancyId", { vacancyId })
+      .andWhere("vacancy_subscriptions.userId = :userId", { userId })
+      .getOne();
   }
 
   static async delete(vacancySubscriptionId) {

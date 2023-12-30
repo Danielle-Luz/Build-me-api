@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { AppError } = require("../../errors");
+const { AppError, DuplicatedInfoError } = require("../../errors");
 const {
   VacancySubscriptionsService,
   VacanciesService,
@@ -70,6 +70,25 @@ class VacancySubscriptionsMiddlewares {
       throw new AppError(
         "The user can't apply to this vacancy because he doesn't meet the vacancy's requirements",
         StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async wasSubscriptionAlreadyDone(request, response, nextMiddleware) {
+    const { vacancyId } = request.validatedData;
+    const loggedUserId = request.loggedUser.id;
+
+    const submittedSubscription =
+      await VacancySubscriptionsService.getUserVacancySubscription(
+        vacancyId,
+        loggedUserId
+      );
+
+    if (submittedSubscription) {
+      throw new DuplicatedInfoError(
+        "This user already created a subscription to this vacancy"
       );
     }
 
