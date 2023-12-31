@@ -122,10 +122,6 @@ class VacancySubscriptionsMiddlewares {
     const userId = request.loggedUser.id;
     const maxVacancyAssociationLimit = 3;
 
-    if (!userId) {
-      return nextMiddleware();
-    }
-
     const openProjectVacanciesRelatedToUser =
       await VacanciesService.getVacanciesFromOpenProjectsRelatedToUser(userId);
 
