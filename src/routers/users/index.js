@@ -13,8 +13,14 @@ const {
 const usersRouter = Router();
 
 usersRouter.get("", UsersController.getAll);
-usersRouter.get("/:id", UsersController.getById);
+usersRouter.get(
+  "/logged",
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  UsersController.getLoggedUser
+);
 usersRouter.get("/search/:value", UsersController.getUsersBySearchedValue);
+usersRouter.get("/:id", UsersController.getById);
 
 usersRouter.post(
   "/login",

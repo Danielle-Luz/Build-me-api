@@ -38,6 +38,10 @@ class UsersController {
     return response.status(StatusCodes.OK).json(foundUsers);
   }
 
+  static async getLoggedUser(request, response) {
+    return response.status(StatusCodes.OK).json(request.loggedUser);
+  }
+
   static async update(request, response) {
     const id = request.params.id;
     const updatedUser = await UsersService.update(id, request.validatedData);

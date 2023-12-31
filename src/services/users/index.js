@@ -47,13 +47,26 @@ class UsersService {
   }
 
   static async getUserByEmail(email) {
-    return AppDatasource.createQueryBuilder()
+    const foundUser = await AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .innerJoinAndSelect("users.role", "role")
+      .leftJoinAndSelect("users.vacancies", "vacancies")
+      .leftJoinAndSelect("users.learners", "learners")
       .where("users.email = :email", { email })
       .withDeleted()
       .getOne();
+
+    const associationLimits = {
+      isAbleToCandidateToVacancy:
+        foundUser.vacancies.length < associationLimitsByEntity.vacancy,
+      isAbleToCandidateAsLearner:
+        foundUser.learners.length < associationLimitsByEntity.learner,
+    };
+
+    const { learners, vacancies, ...otherProperties } = foundUser;
+
+    return { ...otherProperties, associationLimits };
   }
 
   static async getUserByUsername(username) {
@@ -78,14 +91,7 @@ class UsersService {
       throw new RecordNotFoundError("No user found with the informed id");
     }
 
-    const associationLimits = {
-      isAbleToCandidateToVacancy: foundUser.vacancies.length < associationLimitsByEntity.vacancy,
-      isAbleToCandidateAsLearner: foundUser.learners.length < associationLimitsByEntity.learner,
-    };
-
-    const { learners, vacancies, ...otherProperties } = foundUser;
-
-    return { ...otherProperties, associationLimits };
+    return foundUser;
   }
 
   static async getUsersBySearchedValue(value) {
@@ -97,7 +103,7 @@ class UsersService {
       .orWhere("users.firstName ilike :formattedValue", { formattedValue })
       .orWhere("users.lastName ilike :formattedValue", { formattedValue })
       .orWhere("users.email ilike :formattedValue", { formattedValue })
-      .orWhere("users.github_username ilike :formattedValue", {
+      .orWhere("users.githubUsername ilike :formattedValue", {
         formattedValue,
       })
       .getMany();

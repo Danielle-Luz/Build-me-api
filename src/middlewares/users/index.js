@@ -3,10 +3,7 @@ const {
   RecordNotFoundError,
 } = require("../../errors/index");
 const { InvalidTokenError } = require("../../errors/index");
-const {
-  UsersService,
-  RolesService,
-} = require("../../services/index");
+const { UsersService, RolesService } = require("../../services/index");
 const { verify } = require("jsonwebtoken");
 const { UtilsMiddlewares } = require("../utils");
 
@@ -95,7 +92,12 @@ class UsersMiddlewares {
 
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
     const modifiedUserId = request.params.id;
-    return await UtilsMiddlewares.hasPermissionOnRoute(request, response, nextMiddleware, modifiedUserId);
+    return await UtilsMiddlewares.hasPermissionOnRoute(
+      request,
+      response,
+      nextMiddleware,
+      modifiedUserId
+    );
   }
 }
 
