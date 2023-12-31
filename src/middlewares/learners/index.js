@@ -3,6 +3,7 @@ const {
   RecordNotFoundError,
   AppError,
   DuplicatedInfoError,
+  AssociationLimitReachedError,
 } = require("../../errors");
 const {
   LearnersService,
@@ -89,6 +90,28 @@ class LearnersMiddlewares {
     if (foundLearner) {
       throw new DuplicatedInfoError(
         "This user was already registered as a learner for this vacancy"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async hasReachedLearnerAssociationLimit(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const candidateId = request.loggedUser.id;
+    const maxLearnerAssociationLimit = 5;
+
+    const learnerAssociatedWithOpenProjects =
+      await LearnersService.getLearnerCountByCandidateId(candidateId);
+
+    if (
+      learnerAssociatedWithOpenProjects.quantity >= maxLearnerAssociationLimit
+    ) {
+      throw new AssociationLimitReachedError(
+        `The user has already reached the limit of ${maxLearnerAssociationLimit} subscriptions as a learner that he is able to join simultaneously in open projects`
       );
     }
 

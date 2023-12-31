@@ -76,6 +76,17 @@ class LearnersService {
       .getMany();
   }
 
+  static async getLearnerCountByCandidateId(candidateId) {
+    return AppDatasource.createQueryBuilder()
+      .select("COUNT(learners.id)", "quantity")
+      .from(Learners, "learners")
+      .innerJoin("learners.vacancy", "vacancy")
+      .innerJoin("vacancy.project", "project")
+      .where("learners.candidateId = :candidateId", { candidateId })
+      .andWhere("project.closeDate >= CURRENT_DATE")
+      .getRawOne();
+  }
+
   static async delete(id) {
     const deletedLearner = await AppDatasource.createQueryBuilder()
       .delete()

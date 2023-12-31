@@ -18,6 +18,7 @@ learnersRouter.post(
   LearnersMiddlewares.doesVacancyExists,
   LearnersMiddlewares.isVacationsUnderLearnersLimit,
   LearnersMiddlewares.isUserAlreadyLearning,
+  LearnersMiddlewares.hasReachedLearnerAssociationLimit,
   LearnersController.create
 );
 
