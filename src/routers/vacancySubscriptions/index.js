@@ -19,6 +19,7 @@ vacancySubscriptionsRouter.post(
   VacancySubscriptionsMiddlewares.hasVacancyChosenCandidate,
   VacancySubscriptionsMiddlewares.doesUserMeetVacationRequirements,
   VacancySubscriptionsMiddlewares.wasSubscriptionAlreadyDone,
+  VacancySubscriptionsMiddlewares.hasReachedOpenProjectVacancyAssociationLimit,
   VacancySubscriptionsController.create
 );
 

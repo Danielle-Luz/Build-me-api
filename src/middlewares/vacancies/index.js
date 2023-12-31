@@ -1,4 +1,8 @@
-const { CloseDateError, RecordNotFoundError } = require("../../errors");
+const {
+  CloseDateError,
+  RecordNotFoundError,
+  AssociationLimitReachedError,
+} = require("../../errors");
 const {
   ProjectsService,
   VacanciesService,
@@ -83,6 +87,34 @@ class VacanciesMiddlewares {
     }
 
     await ProjectsService.getById(projectId);
+
+    return nextMiddleware();
+  }
+
+  static async hasReachedOpenProjectVacancyLimit(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const { chosenCandidateId } = request.validatedData;
+    const maxVacancyAssociationLimit = 3;
+
+    if (!chosenCandidateId) {
+      return nextMiddleware();
+    }
+
+    const openProjectVacanciesRelatedToUser =
+      await VacanciesService.getVacanciesFromOpenProjectsRelatedToUser(
+        chosenCandidateId
+      );
+
+    if (
+      openProjectVacanciesRelatedToUser.quantity >= maxVacancyAssociationLimit
+    ) {
+      throw new AssociationLimitReachedError(
+        `The user has already reached the limit of ${maxVacancyAssociationLimit} open projects that he can join simultaneously`
+      );
+    }
 
     return nextMiddleware();
   }

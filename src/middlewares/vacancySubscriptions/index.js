@@ -1,5 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
-const { AppError, DuplicatedInfoError } = require("../../errors");
+const {
+  AppError,
+  DuplicatedInfoError,
+  AssociationLimitReachedError,
+} = require("../../errors");
 const {
   VacancySubscriptionsService,
   VacanciesService,
@@ -104,6 +108,32 @@ class VacancySubscriptionsMiddlewares {
     if (hasChosenCandidate) {
       throw new DuplicatedInfoError(
         "Vacancy is already assigned to a candidate"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async hasReachedOpenProjectVacancyAssociationLimit(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const userId = request.loggedUser.id;
+    const maxVacancyAssociationLimit = 3;
+
+    if (!userId) {
+      return nextMiddleware();
+    }
+
+    const openProjectVacanciesRelatedToUser =
+      await VacanciesService.getVacanciesFromOpenProjectsRelatedToUser(userId);
+
+    if (
+      openProjectVacanciesRelatedToUser.quantity >= maxVacancyAssociationLimit
+    ) {
+      throw new AssociationLimitReachedError(
+        `The user has already reached the limit of ${maxVacancyAssociationLimit} open projects that he can join simultaneously`
       );
     }
 

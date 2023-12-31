@@ -164,6 +164,16 @@ class VacanciesService {
       .getRawMany();
   }
 
+  static async getVacanciesFromOpenProjectsRelatedToUser(userId) {
+    return AppDatasource.createQueryBuilder()
+      .select("COUNT(vacancies.id)", "quantity")
+      .from(Vacancies, "vacancies")
+      .innerJoin("vacancies.project", "project")
+      .where("vacancies.chosenCandidateId = :userId", { userId })
+      .andWhere("project.closeDate >= CURRENT_DATE")
+      .getRawOne();
+  }
+
   static async update(id, updatedData) {
     const updatedVacancie = await AppDatasource.createQueryBuilder()
       .update(Vacancies)

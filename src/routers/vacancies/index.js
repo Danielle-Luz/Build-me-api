@@ -18,6 +18,7 @@ vacanciesRouter.post(
   VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesMiddlewares.doesCandidateExists,
   VacanciesMiddlewares.doesProjectExists,
+  VacanciesMiddlewares.hasReachedOpenProjectVacancyLimit,
   VacanciesController.create
 );
 
@@ -62,6 +63,7 @@ vacanciesRouter.patch(
   VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.doesCandidateExists,
   UtilsMiddlewares.wasNoFieldUpdated,
+  VacanciesMiddlewares.hasReachedOpenProjectVacancyLimit,
   VacanciesController.update
 );
 
