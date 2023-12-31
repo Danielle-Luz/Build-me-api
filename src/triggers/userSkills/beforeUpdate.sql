@@ -1,10 +1,10 @@
 create or replace function change_skill_level()
 returns trigger as $$
 begin
-	if new.score >= 3000 then
+	if new.score >= 2000 then
         new."skillLevel" = 'Avançado';
     else
-        if new.score >= 2000 then
+        if new.score >= 1000 then
             new."skillLevel" = 'Intermediário';
         else
             new."skillLevel" = 'Básico';
