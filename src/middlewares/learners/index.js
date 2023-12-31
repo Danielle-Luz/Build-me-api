@@ -56,11 +56,7 @@ class LearnersMiddlewares {
     return nextMiddleware();
   }
 
-  static async isVacationsUnderLearnersLimit(
-    request,
-    response,
-    nextMiddleware
-  ) {
+  static async isVacancyUnderLearnersLimit(request, response, nextMiddleware) {
     const { vacancyId } = request.validatedData;
     const { learnersLimit } = await VacanciesService.getVacancyById(vacancyId);
 

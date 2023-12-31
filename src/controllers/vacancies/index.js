@@ -5,9 +5,9 @@ class VacanciesController {
   static async create(request, response) {
     const { validatedData } = request;
 
-    const createdVacancie = await VacanciesService.create(validatedData);
+    const createdVacancy = await VacanciesService.create(validatedData);
 
-    return response.status(StatusCodes.CREATED).json(createdVacancie);
+    return response.status(StatusCodes.CREATED).json(createdVacancy);
   }
 
   static async getAll(request, response) {
@@ -48,13 +48,13 @@ class VacanciesController {
     return response.status(StatusCodes.OK).json(foundVacancy);
   }
 
-  static async getVacantionsRelatedToUser(request, response) {
+  static async getVacanciesRelatedToUser(request, response) {
     const userId = request.params.userId;
 
-    const vacancysRelatedToUser =
-      await VacanciesService.getVacantionsRelatedToUser(userId);
+    const vacanciesRelatedToUser =
+      await VacanciesService.getVacanciesRelatedToUser(userId);
 
-    return response.status(StatusCodes.OK).json(vacancysRelatedToUser);
+    return response.status(StatusCodes.OK).json(vacanciesRelatedToUser);
   }
 
   static async getVacanciesMatchingUserSkillsForProject(request, response) {
@@ -82,9 +82,9 @@ class VacanciesController {
     const { validatedData } = request;
     const id = request.params.id;
 
-    const updatedVacancie = await VacanciesService.update(id, validatedData);
+    const updatedVacancy = await VacanciesService.update(id, validatedData);
 
-    return response.status(StatusCodes.OK).json(updatedVacancie);
+    return response.status(StatusCodes.OK).json(updatedVacancy);
   }
 
   static async delete(request, response) {

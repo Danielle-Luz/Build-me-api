@@ -16,7 +16,7 @@ learnersRouter.post(
   UsersMiddlewares.validateToken,
   LearnersMiddlewares.hasPermissionOnRoute,
   LearnersMiddlewares.doesVacancyExists,
-  LearnersMiddlewares.isVacationsUnderLearnersLimit,
+  LearnersMiddlewares.isVacancyUnderLearnersLimit,
   LearnersMiddlewares.isUserAlreadyLearning,
   LearnersMiddlewares.hasReachedLearnerAssociationLimit,
   LearnersController.create

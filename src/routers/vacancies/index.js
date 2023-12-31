@@ -41,7 +41,7 @@ vacanciesRouter.get("/:id", VacanciesController.getVacancyById);
 vacanciesRouter.get(
   "/users/:userId",
   VacanciesMiddlewares.doesCandidateExists,
-  VacanciesController.getVacantionsRelatedToUser
+  VacanciesController.getVacanciesRelatedToUser
 );
 vacanciesRouter.get(
   "/projects/:projectId/users/:userId",

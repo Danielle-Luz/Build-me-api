@@ -8,15 +8,15 @@ const { RecordNotFoundError } = require("../../errors");
 const { ProjectsService } = require("../projects");
 
 class VacanciesService {
-  static async create(newVacancie) {
-    const createdVacancie = await AppDatasource.createQueryBuilder()
+  static async create(newVacancy) {
+    const createdVacancy = await AppDatasource.createQueryBuilder()
       .insert()
       .into(Vacancies)
-      .values(newVacancie)
+      .values(newVacancy)
       .returning("*")
       .execute();
 
-    return createdVacancie.generatedMaps[0];
+    return createdVacancy.generatedMaps[0];
   }
 
   static async getAll() {
@@ -78,7 +78,7 @@ class VacanciesService {
     return foundVacancy;
   }
 
-  static async getVacantionsRelatedToUser(userId) {
+  static async getVacanciesRelatedToUser(userId) {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
@@ -178,22 +178,22 @@ class VacanciesService {
   }
 
   static async update(id, updatedData) {
-    const updatedVacancie = await AppDatasource.createQueryBuilder()
+    const updatedVacancy = await AppDatasource.createQueryBuilder()
       .update(Vacancies)
       .set(updatedData)
       .where("id = :id", { id })
       .returning("*")
       .execute();
 
-    const wasVacancieUpdated = updatedVacancie.affected != 0;
+    const wasVacancyUpdated = updatedVacancy.affected != 0;
 
-    if (!wasVacancieUpdated) {
+    if (!wasVacancyUpdated) {
       throw new RecordNotFoundError(
-        "No vacancie with the informed id was found"
+        "No vacancy with the informed id was found"
       );
     }
 
-    return updatedVacancie.raw[0];
+    return updatedVacancy.raw[0];
   }
 
   static async setUserAsChosenIfArrivalMethodOnProject(userId, vacancyId) {
@@ -211,17 +211,17 @@ class VacanciesService {
   }
 
   static async delete(id) {
-    const deletedVacancie = await AppDatasource.createQueryBuilder()
+    const deletedVacancy = await AppDatasource.createQueryBuilder()
       .delete()
       .from(Vacancies, "vacancies")
       .where("vacancies.id = :id", { id })
       .execute();
 
-    const wasVacancieDeleted = deletedVacancie.affected != 0;
+    const wasVacancyDeleted = deletedVacancy.affected != 0;
 
-    if (!wasVacancieDeleted) {
+    if (!wasVacancyDeleted) {
       return new RecordNotFoundError(
-        "No vacancie with the informed id was found"
+        "No vacancy with the informed id was found"
       );
     }
   }
