@@ -11,6 +11,7 @@ const {
   VacancyRequirementsService,
 } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
+const { associationLimitsByEntity } = require("../../enumValues");
 
 class VacancySubscriptionsMiddlewares {
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
@@ -120,7 +121,7 @@ class VacancySubscriptionsMiddlewares {
     nextMiddleware
   ) {
     const userId = request.loggedUser.id;
-    const maxVacancyAssociationLimit = 3;
+    const maxVacancyAssociationLimit = associationLimitsByEntity.vacancy;
 
     const openProjectVacanciesRelatedToUser =
       await VacanciesService.getVacanciesFromOpenProjectsRelatedToUser(userId);

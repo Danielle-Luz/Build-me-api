@@ -11,6 +11,7 @@ const {
   UsersService,
 } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
+const { associationLimitsByEntity } = require("../../enumValues");
 
 class LearnersMiddlewares {
   static async hasPermissionOnRoute(request, response, nextMiddleware) {
@@ -102,7 +103,7 @@ class LearnersMiddlewares {
     nextMiddleware
   ) {
     const candidateId = request.loggedUser.id;
-    const maxLearnerAssociationLimit = 5;
+    const maxLearnerAssociationLimit = associationLimitsByEntity.learner;
 
     const learnerAssociatedWithOpenProjects =
       await LearnersService.getLearnerCountByCandidateId(candidateId);

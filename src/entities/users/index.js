@@ -55,7 +55,7 @@ const Users = new EntitySchema({
       type: "one-to-many",
     },
     vacancies: {
-      inverseSide: "chosenCandidateId",
+      inverseSide: "chosenCandidate",
       onDelete: "SET NULL",
       target: "vacancies",
       type: "one-to-many",
@@ -64,6 +64,12 @@ const Users = new EntitySchema({
       inverseSide: "user",
       onDelete: "CASCADE",
       target: "vacancy_subscriptions",
+      type: "one-to-many",
+    },
+    learners: {
+      inverseSide: "candidate",
+      onDelete: "CASCADE",
+      target: "learners",
       type: "one-to-many",
     },
   },

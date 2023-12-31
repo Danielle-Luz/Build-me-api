@@ -6,4 +6,13 @@ const memberSelectionMethod = [
 
 const skillLevels = ["Básico", "Intermediário", "Avançado"];
 
-module.exports = { memberSelectionMethod, skillLevels };
+const associationLimitsByEntity = {
+  vacancy: 3,
+  learner: 5,
+};
+
+module.exports = {
+  memberSelectionMethod,
+  skillLevels,
+  associationLimitsByEntity,
+};

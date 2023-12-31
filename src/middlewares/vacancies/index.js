@@ -1,3 +1,4 @@
+const { associationLimitsByEntity } = require("../../enumValues");
 const {
   CloseDateError,
   RecordNotFoundError,
@@ -97,7 +98,7 @@ class VacanciesMiddlewares {
     nextMiddleware
   ) {
     const { chosenCandidateId } = request.validatedData;
-    const maxVacancyAssociationLimit = 3;
+    const maxVacancyAssociationLimit = associationLimitsByEntity.vacancy;
 
     if (!chosenCandidateId) {
       return nextMiddleware();

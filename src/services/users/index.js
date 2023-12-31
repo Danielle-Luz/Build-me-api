@@ -4,6 +4,7 @@ const { Users } = require("../../entities/index");
 const { UsersHelper } = require("../../helpers/index");
 const { InvalidLoginInfoError } = require("../../errors/index");
 const { RecordNotFoundError } = require("../../errors/index");
+const { associationLimitsByEntity } = require("../../enumValues");
 
 class UsersService {
   static async create(newUser) {
@@ -69,13 +70,22 @@ class UsersService {
       .select("users")
       .from(Users, "users")
       .where("users.id = :id", { id })
+      .leftJoinAndSelect("users.vacancies", "vacancies")
+      .leftJoinAndSelect("users.learners", "learners")
       .getOne();
 
     if (!foundUser) {
       throw new RecordNotFoundError("No user found with the informed id");
     }
 
-    return foundUser;
+    const associationLimits = {
+      isAbleToCandidateToVacancy: foundUser.vacancies.length < associationLimitsByEntity.vacancy,
+      isAbleToCandidateAsLearner: foundUser.learners.length < associationLimitsByEntity.learner,
+    };
+
+    const { learners, vacancies, ...otherProperties } = foundUser;
+
+    return { ...otherProperties, associationLimits };
   }
 
   static async getUsersBySearchedValue(value) {
