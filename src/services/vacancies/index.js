@@ -23,6 +23,7 @@ class VacanciesService {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
+      .innerJoinAndSelect("vacancies.project", "project")
       .orderBy("vacancies.createdDate", "DESC")
       .getMany();
   }
@@ -63,6 +64,8 @@ class VacanciesService {
     const foundVacancy = await AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
+      .leftJoinAndSelect("vacancies.project", "project")
+      .leftJoinAndSelect("vacancies.chosenCandidate", "chosenCandidate")
       .where("vacancies.id = :id", { id })
       .getOne();
 

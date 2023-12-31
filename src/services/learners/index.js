@@ -70,8 +70,8 @@ class LearnersService {
       .select("learners")
       .from(Learners, "learners")
       .where("learners.candidateId = :candidateId", { candidateId })
-      .innerJoinAndSelect("learners.vacancy", "vacancy")
-      .innerJoinAndSelect("vacancy.project", "project")
+      .leftJoinAndSelect("learners.vacancy", "vacancy")
+      .leftJoinAndSelect("vacancy.project", "project")
       .orderBy("learners.createdDate", "DESC")
       .getMany();
   }
@@ -80,8 +80,8 @@ class LearnersService {
     return AppDatasource.createQueryBuilder()
       .select("COUNT(learners.id)", "quantity")
       .from(Learners, "learners")
-      .innerJoin("learners.vacancy", "vacancy")
-      .innerJoin("vacancy.project", "project")
+      .leftJoin("learners.vacancy", "vacancy")
+      .leftJoin("vacancy.project", "project")
       .where("learners.candidateId = :candidateId", { candidateId })
       .andWhere("project.closeDate >= CURRENT_DATE")
       .getRawOne();

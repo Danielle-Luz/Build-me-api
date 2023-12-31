@@ -108,7 +108,7 @@ class LearnersMiddlewares {
       await LearnersService.getLearnerCountByCandidateId(candidateId);
 
     if (
-      learnerAssociatedWithOpenProjects.quantity >= maxLearnerAssociationLimit
+      learnerAssociatedWithOpenProjects.quantity == maxLearnerAssociationLimit
     ) {
       throw new AssociationLimitReachedError(
         `The user has already reached the limit of ${maxLearnerAssociationLimit} subscriptions as a learner that he is able to join simultaneously in open projects`

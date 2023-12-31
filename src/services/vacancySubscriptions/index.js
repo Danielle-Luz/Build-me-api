@@ -35,6 +35,7 @@ class VacancySubscriptionsService {
       .select("vacancy_subscriptions")
       .from(VacancySubscriptions, "vacancy_subscriptions")
       .innerJoinAndSelect("vacancy_subscriptions.vacancy", "vacancy")
+      .innerJoinAndSelect("vacancy.project", "project")
       .where("vacancy_subscriptions.userId = :userId", { userId })
       .orderBy("vacancy_subscriptions.createdDate")
       .getMany();
