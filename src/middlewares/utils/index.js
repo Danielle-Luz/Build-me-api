@@ -1,5 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
-const { NoPermissionError, AppError } = require("../../errors");
+const {
+  NoPermissionError,
+  AppError,
+  InvalidBodyError,
+} = require("../../errors");
 const { PermissionsHelper } = require("../../helpers");
 const { PermissionsService } = require("../../services");
 
@@ -40,8 +44,7 @@ class UtilsMiddlewares {
     const wasNoFieldUpdated = updatedFields.length == 0;
 
     if (wasNoFieldUpdated) {
-      const errorMessage = "No valid field was provided for update";
-      throw new AppError(errorMessage, StatusCodes.BAD_REQUEST);
+      throw new InvalidBodyError("No valid field was provided for update");
     }
 
     return nextMiddleware();

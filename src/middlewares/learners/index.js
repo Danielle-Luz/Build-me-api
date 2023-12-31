@@ -1,7 +1,4 @@
-const { StatusCodes } = require("http-status-codes");
 const {
-  RecordNotFoundError,
-  AppError,
   DuplicatedInfoError,
   AssociationLimitReachedError,
 } = require("../../errors");
@@ -66,9 +63,8 @@ class LearnersMiddlewares {
     const learnersCountAfterInsert = Number(learnersCount) + 1;
 
     if (learnersCountAfterInsert > learnersLimit) {
-      throw new AppError(
-        `It's not possible to add a new learner, the limit of ${learnersLimit} learners related to this vacancy was already reached`,
-        StatusCodes.TOO_MANY_REQUESTS
+      throw new AssociationLimitReachedError(
+        `It's not possible to add a new learner, the limit of ${learnersLimit} learners related to this vacancy was already reached`
       );
     }
 

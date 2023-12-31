@@ -1,11 +1,10 @@
-const { StatusCodes } = require("http-status-codes");
-const {
-  NoPermissionError,
-  RecordNotFoundError,
-  AppError,
-} = require("../../errors");
+const { NoPermissionError, RecordNotFoundError } = require("../../errors");
 const { RatingCooldownError } = require("../../errors/RatingCooldownError");
-const { RatingsServices, VacanciesService, UsersService } = require("../../services");
+const {
+  RatingsServices,
+  VacanciesService,
+  UsersService,
+} = require("../../services");
 
 class RatingsMiddlewares {
   static async isSelfRating(request, response, nextMiddleware) {
@@ -84,9 +83,9 @@ class RatingsMiddlewares {
     const areColleagues = projectColleagues.length == 2;
 
     if (!areColleagues) {
-      const errorMessage =
-        "A user is unable to rate a user they haven't collaborated with on the specified project";
-      throw new AppError(errorMessage, StatusCodes.NOT_FOUND);
+      throw new NoPermissionError(
+        "A user is unable to rate a user they haven't collaborated with on the specified project"
+      );
     }
 
     return nextMiddleware();

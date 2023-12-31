@@ -1,8 +1,7 @@
-const { StatusCodes } = require("http-status-codes");
 const {
-  AppError,
   DuplicatedInfoError,
   AssociationLimitReachedError,
+  VacancyRequirementsError,
 } = require("../../errors");
 const {
   VacancySubscriptionsService,
@@ -73,9 +72,8 @@ class VacancySubscriptionsMiddlewares {
       );
 
     if (requirementsStatus?.unmetRequirementsCount > 0) {
-      throw new AppError(
-        "The user can't apply to this vacancy because he doesn't meet the vacancy's requirements",
-        StatusCodes.UNPROCESSABLE_ENTITY
+      throw new VacancyRequirementsError(
+        "The user can't apply to this vacancy because he doesn't meet the vacancy's requirements"
       );
     }
 
