@@ -63,6 +63,7 @@ vacanciesRouter.patch(
   VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.doesCandidateExists,
   UtilsMiddlewares.wasNoFieldUpdated,
+  VacanciesMiddlewares.isNewChosenCandidateEqualToPrevious,
   VacanciesMiddlewares.hasReachedOpenProjectVacancyLimit,
   VacanciesController.update
 );

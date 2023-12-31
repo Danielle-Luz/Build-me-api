@@ -3,6 +3,7 @@ const {
   CloseDateError,
   RecordNotFoundError,
   AssociationLimitReachedError,
+  DuplicatedInfoError,
 } = require("../../errors");
 const {
   ProjectsService,
@@ -21,6 +22,8 @@ class VacanciesMiddlewares {
       const vacancyId = request.params.id;
       const foundVacancy = await VacanciesService.getVacancyById(vacancyId);
       relatedProjectId = foundVacancy.projectId;
+
+      request.foundVacancy = foundVacancy;
     }
 
     const relatedProject = await ProjectsService.getById(relatedProjectId);
@@ -114,6 +117,25 @@ class VacanciesMiddlewares {
     ) {
       throw new AssociationLimitReachedError(
         `The user has already reached the limit of ${maxVacancyAssociationLimit} open projects that he can join simultaneously`
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static isNewChosenCandidateEqualToPrevious(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const { chosenCandidateId } = request.validatedData;
+
+    const isNewChosenCandidateEqualToPrevious =
+      chosenCandidateId == request.foundVacancy.chosenCandidateId;
+
+    if (chosenCandidateId && isNewChosenCandidateEqualToPrevious) {
+      throw new DuplicatedInfoError(
+        "The new chosen candidate is the same as the old one"
       );
     }
 
