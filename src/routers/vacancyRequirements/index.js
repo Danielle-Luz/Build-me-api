@@ -20,7 +20,9 @@ vacancyRequirementsRouter.post(
   VacancyRequirementsMiddlewares.hasPermissionOnRoute,
   VacancyRequirementsMiddlewares.doesTechnologyExists,
   VacancyRequirementsMiddlewares.doesVacancyExists,
+  VacancyRequirementsMiddlewares.doesRelatedVacancyHaveChosenCandidate,
   VacancyRequirementsMiddlewares.isTechnologyAlreadyRelatedToVacancy,
+  VacancyRequirementsMiddlewares.setScoreBasedOnSkillLevel,
   VacancyRequirementsController.create
 );
 
@@ -42,6 +44,7 @@ vacancyRequirementsRouter.patch(
   UtilsMiddlewares.validateSchema(updatedVacancyRequirementSchema),
   VacancyRequirementsMiddlewares.doesTechnologyExists,
   VacancyRequirementsMiddlewares.isTechnologyAlreadyRelatedToVacancy,
+  VacancyRequirementsMiddlewares.doesRelatedVacancyHaveChosenCandidate,
   VacancyRequirementsController.update
 );
 
@@ -50,6 +53,7 @@ vacancyRequirementsRouter.delete(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacancyRequirementsMiddlewares.hasPermissionOnRoute,
+  VacancyRequirementsMiddlewares.doesRelatedVacancyHaveChosenCandidate,
   VacancyRequirementsController.delete
 );
 

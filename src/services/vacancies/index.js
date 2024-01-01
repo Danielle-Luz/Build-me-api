@@ -106,7 +106,7 @@ class VacanciesService {
       .leftJoin(
         UserSkills,
         "user_skills",
-        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel AND user_skills.userId = :userId",
+        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.score >= vacancy_requirements.skillLevelScore AND user_skills.userId = :userId",
         {
           userId,
         }
@@ -140,7 +140,7 @@ class VacanciesService {
       .leftJoin(
         UserSkills,
         "user_skills",
-        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.skillLevel = vacancy_requirements.skillLevel AND user_skills.userId = :userId",
+        "user_skills.technologyId = vacancy_requirements.technologyId AND user_skills.score >= vacancy_requirements.skillLevelScore AND user_skills.userId = :userId",
         {
           userId,
         }

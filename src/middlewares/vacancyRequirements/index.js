@@ -1,4 +1,8 @@
-const { DuplicatedInfoError } = require("../../errors");
+const { skillLevelScores } = require("../../enumValues");
+const {
+  DuplicatedInfoError,
+  VacancyRequirementsError,
+} = require("../../errors");
 const {
   VacanciesService,
   TechnologiesService,
@@ -19,6 +23,7 @@ class VacancyRequirementsMiddlewares {
         await VacancyRequirementsService.getVacancyRequirementById(
           vacancyRequirementId
         );
+      request.foundVacancyRequirement = vacancyRequirement;
       relatedVacancyId = vacancyRequirement.vacancyId;
     }
 
@@ -76,11 +81,7 @@ class VacancyRequirementsMiddlewares {
     if (!relatedTechnologyId) return nextMiddleware();
 
     if (request.method == "PATCH") {
-      const vacancyRequirement =
-        await VacancyRequirementsService.getVacancyRequirementById(
-          request.params.id
-        );
-      relatedVacancyId = vacancyRequirement.vacancyId;
+      relatedVacancyId = request.foundVacancyRequirement.vacancyId;
     } else {
       relatedVacancyId = request.validatedData.vacancyId;
     }
@@ -97,6 +98,40 @@ class VacancyRequirementsMiddlewares {
     if (foundVacancyRequirementWithTechnology) {
       throw new DuplicatedInfoError(
         "This technology is already related with the provided vacancy"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static setScoreBasedOnSkillLevel(request, response, nextMiddleware) {
+    const { skillLevel } = request.validatedData;
+    request.validatedData.skillLevelScore = skillLevelScores[skillLevel];
+
+    return nextMiddleware();
+  }
+
+  static async doesRelatedVacancyHaveChosenCandidate(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const isCreatingVacancyRequirement = request.method == "POST";
+    let relatedVacancyId;
+
+    if (isCreatingVacancyRequirement) {
+      relatedVacancyId = request.validatedData.vacancyId;
+    } else {
+      relatedVacancyId = request.foundVacancyRequirement.vacancyId;
+    }
+
+    const relatedVacancy = await VacanciesService.getVacancyById(
+      relatedVacancyId
+    );
+
+    if (relatedVacancy.chosenCandidate) {
+      throw new VacancyRequirementsError(
+        "Unable to perform operation. The vacancy is already linked to an user"
       );
     }
 
