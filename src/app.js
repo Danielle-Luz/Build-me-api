@@ -13,6 +13,7 @@ const {
   vacancyRequirementsRouter,
   userSkillsRouter,
   vacancySubscriptionsRouter,
+  questionsRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use("/learners", learnersRouter);
 app.use("/permissions", permissionsRouter);
 app.use("/projects", projectsRouter);
+app.use("/questions", questionsRouter);
 app.use("/ratings", ratingsRouter);
 app.use("/resources", resourcesRouter);
 app.use("/roles", rolesRouter);
