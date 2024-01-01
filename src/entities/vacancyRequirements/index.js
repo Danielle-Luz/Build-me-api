@@ -1,7 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
 const VacancyRequirements = new EntitySchema({
-  synchronize: false,
   name: "vacancy_requirements",
   columns: {
     id: {
@@ -18,6 +17,10 @@ const VacancyRequirements = new EntitySchema({
     skillLevel: {
       length: 50,
       type: "varchar",
+    },
+    skillLevelScore: {
+      type: "int",
+      nullable: true,
     },
   },
   relations: {
