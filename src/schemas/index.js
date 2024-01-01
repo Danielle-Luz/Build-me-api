@@ -22,13 +22,15 @@ const {
 } = require("./vacancyRequirements");
 const { userSkillsSchema } = require("./userSkills");
 const { newVacancySubscriptionSchema } = require("./vacancySubscriptions");
+const { newQuestionSchema, updatedQuestionSchema } = require("./questions");
 
 module.exports = {
   nameSchema,
   newLearnerSchema,
   newPermissionSchema,
-  newRatingSchema,
   newProjectSchema,
+  newQuestionSchema,
+  newRatingSchema,
   newTechnologySchema,
   newUserSchema,
   userSkillsSchema,
@@ -38,6 +40,7 @@ module.exports = {
   userLoginSchema,
   updatedPermissionSchema,
   updateProjectSchema,
+  updatedQuestionSchema,
   updatedRatingSchema,
   updatedTechnologySchema,
   updatedUserSchema,
