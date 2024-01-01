@@ -5,7 +5,7 @@ const newVacancySchema = z.object({
   description: z.string().optional(),
   learnersLimit: z.number().int(),
   projectId: z.number().int(),
-  chosenCandidateId: z.number().int().optional(),
+  chosenCandidateId: z.union([z.number().int().optional(), z.null()]),
 });
 
 const updatedVacancySchema = newVacancySchema
