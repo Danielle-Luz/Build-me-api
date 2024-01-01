@@ -73,6 +73,7 @@ vacanciesRouter.delete(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacanciesMiddlewares.hasPermissionOnRoute,
+  VacanciesMiddlewares.doesVacancyHasChosenCandidate,
   VacanciesController.delete
 );
 

@@ -1,9 +1,11 @@
+const { StatusCodes } = require("http-status-codes");
 const { associationLimitsByEntity } = require("../../enumValues");
 const {
   CloseDateError,
   RecordNotFoundError,
   AssociationLimitReachedError,
   DuplicatedInfoError,
+  AppError,
 } = require("../../errors");
 const {
   ProjectsService,
@@ -136,6 +138,19 @@ class VacanciesMiddlewares {
     if (chosenCandidateId && isNewChosenCandidateEqualToPrevious) {
       throw new DuplicatedInfoError(
         "The new chosen candidate is the same as the old one"
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static doesVacancyHasChosenCandidate(request, response, nextMiddleware) {
+    const { foundVacancy } = request;
+
+    if (foundVacancy.chosenCandidateId != null) {
+      throw new AppError(
+        "It's not possible to delete the vacancy because it is already associated with a chosen user",
+        StatusCodes.CONFLICT
       );
     }
 
