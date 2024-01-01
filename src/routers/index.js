@@ -1,6 +1,7 @@
 const { learnersRouter } = require("./learners");
 const { permissionsRouter } = require("./permissions/index");
 const { projectsRouter } = require("./projects");
+const { questionsRouter } = require("./questions");
 const { ratingsRouter } = require("./ratings");
 const { resourcesRouter } = require("./resources/index");
 const { rolesRouter } = require("./roles/index");
@@ -15,6 +16,7 @@ module.exports = {
   learnersRouter,
   permissionsRouter,
   projectsRouter,
+  questionsRouter,
   ratingsRouter,
   resourcesRouter,
   rolesRouter,
