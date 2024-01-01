@@ -26,6 +26,12 @@ const Questions = new EntitySchema({
         name: "technologyId",
       },
     },
+    answers: {
+      inverseSide: "question",
+      target: "answers",
+      type: "one-to-many",
+      eager: true,
+    },
   },
   checks: [{ expression: `"difficultyLevel" >= 1 AND "difficultyLevel" <= 3` }],
 });
