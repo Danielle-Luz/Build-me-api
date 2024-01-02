@@ -2,8 +2,8 @@ const { Router } = require("express");
 const { TestsController } = require("../../controllers");
 const {
   UsersMiddlewares,
-  TestsMiddlewares,
   UtilsMiddlewares,
+  TestsMiddlewares,
 } = require("../../middlewares");
 const { newTestAnswers } = require("../../schemas");
 
@@ -11,9 +11,10 @@ const testsRouter = Router();
 
 testsRouter.post(
   "/evaluate",
-  UtilsMiddlewares.validateSchema(newTestAnswers),
+  UtilsMiddlewares.validateSchema(newTestAnswers, "body", "parseAsync"),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
+  TestsMiddlewares.isQuestionDuplicated,
   TestsController.evaluateAnswersAndGetTestScore
 );
 

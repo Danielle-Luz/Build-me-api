@@ -36,6 +36,17 @@ class AnswersService {
     return foundAnswer;
   }
 
+  static async getRightAnswerByQuestionId(questionId) {
+    const rightAnswer = await AppDatasource.createQueryBuilder()
+      .select("answers")
+      .from(Answers, "answers")
+      .where("answers.questionId = :questionId", { questionId })
+      .andWhere("answers.isRight = true")
+      .getOne();
+
+    return rightAnswer;
+  }
+
   static async update(id, updatedData) {
     const updatedAnswer = await AppDatasource.createQueryBuilder()
       .update(Answers)

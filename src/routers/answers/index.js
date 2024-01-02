@@ -15,8 +15,9 @@ answersRouter.post(
   UtilsMiddlewares.validateSchema(newAnswerSchema),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  AnswersMiddlewares.doesQuestionExists,
   PermissionsMiddlewares.hasPermissionOnRoute,
+  AnswersMiddlewares.doesQuestionExists,
+  AnswersMiddlewares.doesQuestionsAlreadyHaveRightAnswer,
   AnswersController.create
 );
 
@@ -42,6 +43,7 @@ answersRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   PermissionsMiddlewares.hasPermissionOnRoute,
+  AnswersMiddlewares.doesQuestionsAlreadyHaveRightAnswer,
   AnswersController.update
 );
 

@@ -5,6 +5,7 @@ const { ProjectsMiddlewares } = require("./projects");
 const { QuestionsMiddlewares } = require("./questions");
 const { RatingsMiddlewares } = require("./ratings");
 const { TechnologiesMiddlewares } = require("./technologies");
+const { TestsMiddlewares } = require("./tests");
 const { UserSkillsMiddlewares } = require("./userSkills");
 const { UsersMiddlewares } = require("./users/index");
 const { UtilsMiddlewares } = require("./utils/index");
@@ -20,6 +21,7 @@ module.exports = {
   QuestionsMiddlewares,
   RatingsMiddlewares,
   TechnologiesMiddlewares,
+  TestsMiddlewares,
   UsersMiddlewares,
   UserSkillsMiddlewares,
   UtilsMiddlewares,

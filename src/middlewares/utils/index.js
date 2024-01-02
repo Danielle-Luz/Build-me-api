@@ -8,9 +8,15 @@ const { PermissionsHelper } = require("../../helpers");
 const { PermissionsService } = require("../../services");
 
 class UtilsMiddlewares {
-  static validateSchema(schema, validatedRequestProperty = "body") {
-    return (request, response, nextMiddleware) => {
-      const validatedData = schema.parse(request[validatedRequestProperty]);
+  static validateSchema(
+    schema,
+    validatedRequestProperty = "body",
+    parseMethod = "parse"
+  ) {
+    return async (request, response, nextMiddleware) => {
+      const validatedData = await schema[parseMethod](
+        request[validatedRequestProperty]
+      );
       request.validatedData = validatedData;
       return nextMiddleware();
     };

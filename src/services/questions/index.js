@@ -52,6 +52,7 @@ class QuestionsService {
     return AppDatasource.createQueryBuilder()
       .select("questions")
       .from(Questions, "questions")
+      .innerJoinAndSelect("questions.answers", "answers")
       .where("questions.technologyId = :technologyId", { technologyId })
       .orderBy("RANDOM()")
       .limit(10)
