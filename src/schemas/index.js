@@ -24,6 +24,7 @@ const { userSkillsSchema } = require("./userSkills");
 const { newVacancySubscriptionSchema } = require("./vacancySubscriptions");
 const { newQuestionSchema, updatedQuestionSchema } = require("./questions");
 const { newAnswerSchema, updatedAnswerSchema } = require("./answers");
+const { newTestAnswers } = require("./tests");
 
 module.exports = {
   nameSchema,
@@ -34,6 +35,7 @@ module.exports = {
   newQuestionSchema,
   newRatingSchema,
   newTechnologySchema,
+  newTestAnswers,
   newUserSchema,
   userSkillsSchema,
   newVacancySchema,
