@@ -54,7 +54,6 @@ class QuestionsService {
       .from(Questions, "questions")
       .where("questions.technologyId = :technologyId", { technologyId })
       .orderBy("RANDOM()")
-      .orderBy("questions.difficultyLevel", "ASC")
       .limit(10)
       .getMany();
   }
