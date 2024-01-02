@@ -58,6 +58,19 @@ class QuestionsService {
       .getMany();
   }
 
+  static async getQuestionsWithRightsAnswers(questionsIds) {
+    return AppDatasource.createQueryBuilder()
+      .select("questions")
+      .from(Questions, "questions")
+      .innerJoinAndSelect(
+        "questions.answers",
+        "answers",
+        "answers.isRight = true"
+      )
+      .where("questions.id IN(:...questionsIds)", { questionsIds })
+      .getMany();
+  }
+
   static async update(id, updatedData) {
     const updatedQuestion = await AppDatasource.createQueryBuilder()
       .update(Questions)
