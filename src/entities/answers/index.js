@@ -14,10 +14,6 @@ const Answers = new EntitySchema({
     questionId: {
       type: "int",
     },
-    isRight: {
-      type: "boolean",
-      default: false,
-    },
   },
   relations: {
     question: {

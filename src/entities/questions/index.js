@@ -14,6 +14,9 @@ const Questions = new EntitySchema({
     technologyId: {
       type: "int",
     },
+    rightAnswerId: {
+      type: "int",
+    },
     difficultyLevel: {
       type: "int",
     },
@@ -24,6 +27,13 @@ const Questions = new EntitySchema({
       type: "many-to-one",
       joinColumn: {
         name: "technologyId",
+      },
+    },
+    rightAnswer: {
+      target: "answers",
+      type: "many-to-one",
+      joinColumn: {
+        name: "rightAnswerId",
       },
     },
     answers: {
