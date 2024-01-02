@@ -1,4 +1,5 @@
 const { QuestionsService } = require("../services");
+const { AnswersController } = require("./answers");
 const { LearnersController } = require("./learners");
 const { PermissionsController } = require("./permissions/index");
 const { ProjectsController } = require("./projects");
@@ -14,6 +15,7 @@ const { VacancySubscriptionsController } = require("./vacancySubscriptions");
 const { VacancyRequirementsController } = require("./vancancyRequirements");
 
 module.exports = {
+  AnswersController,
   QuestionsService,
   LearnersController,
   PermissionsController,
