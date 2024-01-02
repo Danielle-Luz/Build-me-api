@@ -7,6 +7,7 @@ const { Ratings } = require("./ratings");
 const { Resources } = require("./resources/index");
 const { Roles } = require("./roles/index");
 const { Technologies } = require("./technologies");
+const { Tests } = require("./tests");
 const { Users } = require("./users/index");
 const { UserSkills } = require("./userSkills");
 const { Vacancies } = require("./vacancies");
@@ -23,6 +24,7 @@ module.exports = {
   Resources,
   Roles,
   Technologies,
+  Tests,
   Users,
   UserSkills,
   Vacancies,
