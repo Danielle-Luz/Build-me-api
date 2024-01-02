@@ -1,3 +1,4 @@
+const { TechnologiesService } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
 class QuestionsMiddlewares {
