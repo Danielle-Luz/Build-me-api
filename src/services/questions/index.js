@@ -67,6 +67,7 @@ class QuestionsService {
         "answers",
         "answers.isRight = true"
       )
+      .addSelect("answers.isRight")
       .where("questions.id IN(:...questionsIds)", { questionsIds })
       .getMany();
   }

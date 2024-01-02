@@ -8,6 +8,7 @@ const { RatingsController } = require("./ratings");
 const { ResourcesController } = require("./resources/index");
 const { RolesController } = require("./roles/index");
 const { TechnologiesController } = require("./technologies");
+const { TestsController } = require("./tests");
 const { UserSkillsController } = require("./userSkills");
 const { UsersController } = require("./users/index");
 const { VacanciesController } = require("./vacancies");
@@ -25,6 +26,7 @@ module.exports = {
   ResourcesController,
   RolesController,
   TechnologiesController,
+  TestsController,
   UsersController,
   UserSkillsController,
   VacanciesController,

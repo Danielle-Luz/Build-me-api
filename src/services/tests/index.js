@@ -1,8 +1,72 @@
 const { AppDatasource } = require("../../data-source");
 const { Tests } = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
+const { TestsHelper } = require("../../helpers");
+const { QuestionsService } = require("../questions");
+const { UserSkillsService } = require("../userSkills");
 
 class TestsService {
+  static async checkTestAnswers(testAnswers, testTakerId) {
+    const questionsIds = testAnswers.map(({ questionId }) => questionId);
+    const questionsWithRightAnswers =
+      await QuestionsService.getQuestionsWithRightsAnswers(questionsIds);
+
+    const initialScore = 0;
+    const rightAnswersScore = questionsWithRightAnswers.reduce(
+      TestsHelper.calculateTestScore(testAnswers),
+      initialScore
+    );
+
+    const testTechnology = questionsWithRightAnswers[0].technologyId;
+
+    const { createdTest, isBiggestScore } =
+      await TestsService.createTestAndUserSkill({
+        testTakerId,
+        testTechnology,
+        rightAnswersScore,
+      });
+
+    return { createdTest, isBiggestScore };
+  }
+
+  static async createTestAndUserSkill(testData) {
+    const newTest = {
+      userId: testData.testTakerId,
+      technologyId: testData.testTechnology,
+      score: testData.rightAnswersScore,
+    };
+
+    const skillLevelFromTestScore = TestsHelper.getSkillLevelFromTestScore(
+      testData.rightAnswersScore
+    );
+
+    const newUserSkill = {
+      userId: testData.testTakerId,
+      technologyId: testData.testTechnology,
+      skillLevel: skillLevelFromTestScore,
+      score: testData.rightAnswersScore,
+    };
+
+    const biggestScore = await TestsService.getLatestBiggestScore(
+      testData.testTakerId,
+      testData.testTechnology
+    );
+
+    const isNewTestScoreGreaterThanPrevious =
+      testData.rightAnswersScore > biggestScore;
+
+    if (isNewTestScoreGreaterThanPrevious) {
+      await UserSkillsService.upsert(newUserSkill, biggestScore);
+    }
+
+    const createdTest = await TestsService.create(newTest);
+
+    return {
+      createdTest,
+      isBiggestScore: isNewTestScoreGreaterThanPrevious,
+    };
+  }
+
   static async create(newTest) {
     const createdTest = await AppDatasource.createQueryBuilder()
       .insert()
@@ -55,22 +119,16 @@ class TestsService {
       .getMany();
   }
 
-  static async getMostRecentUserTestByTechnologyId(userId, technologyId) {
+  static async getLatestBiggestScore(userId, technologyId) {
     const foundTest = await AppDatasource.createQueryBuilder()
-      .select("tests")
+      .select("tests.score")
       .from(Tests, "tests")
       .where("tests.userId = :userId", { userId })
       .andWhere("tests.technologyId = :technologyId", { technologyId })
-      .orderBy("tests.createdDate", "DESC")
+      .orderBy("tests.score", "DESC")
       .getOne();
 
-    if (!foundTest) {
-      throw new RecordNotFoundError(
-        "No test found for the user and technology"
-      );
-    }
-
-    return foundTest;
+    return foundTest?.score || 0;
   }
 
   static async update(id, updatedData) {

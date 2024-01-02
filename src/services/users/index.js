@@ -56,8 +56,7 @@ class UsersService {
       .where("users.email = :email", { email })
       .withDeleted()
       .getOne();
-    console.log("\nvacancies length", 
-    foundUser.vacancies);
+
     const associationLimits = {
       isAbleToCandidateToVacancy:
         foundUser.vacancies.length < associationLimitsByEntity.vacancy,

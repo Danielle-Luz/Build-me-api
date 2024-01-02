@@ -1,5 +1,5 @@
 const { AppDatasource } = require("../../data-source");
-const { UserSkills } = require("../../entities");
+const { UserSkills, Tests } = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
 
 class UserSkillsService {
@@ -12,6 +12,27 @@ class UserSkillsService {
       .execute();
 
     return createdUserSkill.generatedMaps[0];
+  }
+
+  static async upsert(userSkill, previousScore = 0) {
+    let upsertedUserSkill;
+
+    const foundUserSkill = await UserSkillsService.getTechnologyFromUser(
+      userSkill.technologyId,
+      userSkill.userId
+    );
+
+    if (foundUserSkill) {
+      userSkill.score = foundUserSkill.score - previousScore + userSkill.score;
+      upsertedUserSkill = await UserSkillsService.update(
+        foundUserSkill.id,
+        userSkill
+      );
+    } else {
+      upsertedUserSkill = await UserSkillsService.create(userSkill);
+    }
+
+    return upsertedUserSkill;
   }
 
   static async getUserSkillsByUserId(userId) {

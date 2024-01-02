@@ -7,6 +7,7 @@ const { ratingsRouter } = require("./ratings");
 const { resourcesRouter } = require("./resources/index");
 const { rolesRouter } = require("./roles/index");
 const { technologiesRouter } = require("./technologies");
+const { testsRouter } = require("./tests");
 const { userSkillsRouter } = require("./userSkills");
 const { usersRouter } = require("./users/index");
 const { vacanciesRouter } = require("./vacancies");
@@ -23,6 +24,7 @@ module.exports = {
   resourcesRouter,
   rolesRouter,
   technologiesRouter,
+  testsRouter,
   usersRouter,
   userSkillsRouter,
   vacanciesRouter,
