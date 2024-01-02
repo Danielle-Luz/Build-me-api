@@ -2,7 +2,8 @@ const z = require("zod");
 
 const newQuestionSchema = z.object({
   question: z.string(),
-  technologyId: z.number(),
+  technologyId: z.number().int().positive(),
+  rightAnswerId: z.number().int().positive(),
   difficultyLevel: z.number().int().min(1).max(3),
 });
 

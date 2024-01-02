@@ -16,6 +16,7 @@ const Questions = new EntitySchema({
     },
     rightAnswerId: {
       type: "int",
+      select: false,
     },
     difficultyLevel: {
       type: "int",
