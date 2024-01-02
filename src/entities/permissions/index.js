@@ -9,6 +9,12 @@ const Permissions = new EntitySchema({
       primary: true,
       type: "int",
     },
+    roleId: {
+      type: "int",
+    },
+    resourceId: {
+      type: "int",
+    },
     create: { type: "boolean" },
     update: { type: "boolean" },
     read: { type: "boolean" },
