@@ -1,24 +1,8 @@
 const { Router } = require("express");
 const { UserSkillsController } = require("../../controllers");
-const {
-  UsersMiddlewares,
-  UtilsMiddlewares,
-  UserSkillsMiddlewares,
-} = require("../../middlewares");
-const { userSkillsSchema } = require("../../schemas/userSkills");
+const { UserSkillsMiddlewares } = require("../../middlewares");
 
 const userSkillsRouter = Router();
-
-userSkillsRouter.post(
-  "/",
-  UtilsMiddlewares.validateSchema(userSkillsSchema),
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
-  UserSkillsMiddlewares.hasPermissionOnRoute,
-  UserSkillsMiddlewares.doesTechnologyExists,
-  UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
-  UserSkillsController.create
-);
 
 userSkillsRouter.get(
   "/users/:userId",
@@ -36,25 +20,5 @@ userSkillsRouter.get(
   UserSkillsController.getByTechnologyId
 );
 userSkillsRouter.get("/:id", UserSkillsController.getById);
-
-userSkillsRouter.patch(
-  "/:id",
-  UtilsMiddlewares.validateSchema(userSkillsSchema),
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
-  UtilsMiddlewares.wasNoFieldUpdated,
-  UserSkillsMiddlewares.hasPermissionOnRoute,
-  UserSkillsMiddlewares.doesTechnologyExists,
-  UserSkillsMiddlewares.wasTechnologyAlreadyAdded,
-  UserSkillsController.update
-);
-
-userSkillsRouter.delete(
-  "/:id",
-  UsersMiddlewares.isTokenFilled,
-  UsersMiddlewares.validateToken,
-  UserSkillsMiddlewares.hasPermissionOnRoute,
-  UserSkillsController.delete
-);
 
 module.exports = { userSkillsRouter };
