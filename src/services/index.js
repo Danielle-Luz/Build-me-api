@@ -1,3 +1,4 @@
+const { AnswersService } = require("./answers");
 const { LearnersService } = require("./learners");
 const { PermissionsService } = require("./permissions/index");
 const { ProjectsService } = require("./projects");
@@ -13,6 +14,7 @@ const { VacancyRequirementsService } = require("./vacancyRequirements");
 const { VacancySubscriptionsService } = require("./vacancySubscriptions");
 
 module.exports = {
+  AnswersService,
   LearnersService,
   PermissionsService,
   ProjectsService,
