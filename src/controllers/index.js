@@ -4,6 +4,7 @@ const { LearnersController } = require("./learners");
 const { PermissionsController } = require("./permissions/index");
 const { ProjectsController } = require("./projects");
 const { QuestionsController } = require("./questions");
+const { RankingsController } = require("./rankings");
 const { RatingsController } = require("./ratings");
 const { ResourcesController } = require("./resources/index");
 const { RolesController } = require("./roles/index");
@@ -18,6 +19,7 @@ const { VacancyRequirementsController } = require("./vancancyRequirements");
 module.exports = {
   AnswersController,
   QuestionsService,
+  RankingsController,
   LearnersController,
   PermissionsController,
   ProjectsController,
