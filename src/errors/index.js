@@ -3,6 +3,7 @@ const {
   AssociationLimitReachedError,
 } = require("./AssociationLimitReachedError");
 const { CloseDateError } = require("./CloseDateError");
+const { DropoutBlockError } = require("./DropoutBlockError");
 const { DuplicatedInfoError } = require("./DuplicatedInfoError/index");
 const { InvalidBodyError } = require("./InvalidBodyError");
 const { InvalidLoginInfoError } = require("./InvalidLoginInfoError/index");
@@ -16,6 +17,7 @@ module.exports = {
   AppError,
   AssociationLimitReachedError,
   CloseDateError,
+  DropoutBlockError,
   DuplicatedInfoError,
   InvalidBodyError,
   InvalidLoginInfoError,

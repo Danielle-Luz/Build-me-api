@@ -3,7 +3,7 @@ const { AppError } = require("../AppError");
 
 class CloseDateError extends AppError {
   constructor(message) {
-    super(message, StatusCodes.UNPROCESSABLE_ENTITY);
+    super(message, StatusCodes.FORBIDDEN);
   }
 }
 
