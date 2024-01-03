@@ -6,6 +6,7 @@ const {
 } = require("../../entities");
 const { RecordNotFoundError } = require("../../errors");
 const { ProjectsService } = require("../projects");
+const { UsersService } = require("../users");
 
 class VacanciesService {
   static async create(newVacancy) {
@@ -208,6 +209,38 @@ class VacanciesService {
       const vacancyWithChosenCandidate = { chosenCandidateId: userId };
       VacanciesService.update(vacancyId, vacancyWithChosenCandidate);
     }
+  }
+
+  static async giveUpFromVacancy(vacancyId, loggedUserId) {
+    const updatedData = { chosenCandidateId: null };
+    const updatedVacancy = await VacanciesService.update(
+      vacancyId,
+      updatedData
+    );
+
+    const chosenCandidate = await UsersService.getById(loggedUserId);
+
+    const dropoutLimit = 3;
+    const dropoutData = {};
+
+    if (chosenCandidate.vacancyDropoutsNumber >= dropoutLimit) {
+      const daysUntilReapply = 30;
+      const nextApplicationDate = new Date();
+
+      nextApplicationDate.setDate(
+        nextApplicationDate.getDate() + daysUntilReapply
+      );
+
+      dropoutData.vacancyBlockDate = nextApplicationDate;
+      dropoutData.vacancyDropoutsNumber = 0;
+    } else {
+      dropoutData.vacancyDropoutsNumber =
+        chosenCandidate.vacancyDropoutsNumber + 1;
+    }
+
+    await UsersService.update(loggedUserId, dropoutData);
+
+    return { dropoutData };
   }
 
   static async delete(id) {
