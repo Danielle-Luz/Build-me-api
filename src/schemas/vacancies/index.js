@@ -12,4 +12,7 @@ const updatedVacancySchema = newVacancySchema
   .omit({ projectId: true, chosenCandidateId: true })
   .partial();
 
-module.exports = { newVacancySchema, updatedVacancySchema };
+module.exports = {
+  newVacancySchema,
+  updatedVacancySchema,
+};

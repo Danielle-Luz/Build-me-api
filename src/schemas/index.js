@@ -14,7 +14,10 @@ const {
   newTechnologySchema,
   updatedTechnologySchema,
 } = require("./technologies");
-const { newVacancySchema, updatedVacancySchema } = require("./vacancies");
+const {
+  newVacancySchema,
+  updatedVacancySchema,
+} = require("./vacancies");
 const { newLearnerSchema } = require("./learners");
 const {
   newVacancyRequirementSchema,

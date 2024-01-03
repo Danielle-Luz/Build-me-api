@@ -6,6 +6,7 @@ const {
   AssociationLimitReachedError,
   DuplicatedInfoError,
   AppError,
+  NoPermissionError,
 } = require("../../errors");
 const {
   ProjectsService,
@@ -43,15 +44,22 @@ class VacanciesMiddlewares {
     response,
     nextMiddleware
   ) {
-    const projectId = request.validatedData.projectId;
-    const relatedProject = await ProjectsService.getById(projectId);
+    const isCreating = request.method == "POST";
+    let projectId;
 
+    if (isCreating) {
+      projectId = request.validatedData.projectId;
+    } else {
+      projectId = request.foundVacancy.projectId;
+    }
+
+    const relatedProject = await ProjectsService.getById(projectId);
     const actualDate = new Date();
     const projectCloseDate = new Date(relatedProject.closeDate);
 
     if (projectCloseDate < actualDate) {
       const errorMessage =
-        "It's not possible to associate a vacancy with a project that has already been closed";
+        "It's not possible to associate or modify a vacancy from a project that has already been closed";
       throw new CloseDateError(errorMessage);
     }
 
@@ -150,6 +158,24 @@ class VacanciesMiddlewares {
       throw new AppError(
         "It's not possible to delete the vacancy because it is already associated with a chosen user",
         StatusCodes.CONFLICT
+      );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isLoggedUserEqualToChosenCandidate(
+    request,
+    response,
+    nextMiddleware
+  ) {
+    const loggedUserId = request.loggedUser.id;
+    const areUsersDifferent =
+      loggedUserId != request.foundVacancy.chosenCandidateId;
+
+    if (areUsersDifferent) {
+      throw new NoPermissionError(
+        "Only the selected user can withdraw from the associated vacancy"
       );
     }
 

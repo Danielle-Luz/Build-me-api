@@ -87,6 +87,15 @@ class VacanciesController {
     return response.status(StatusCodes.OK).json(updatedVacancy);
   }
 
+  static async giveUpFromVacancy(request, response) {
+    const { id } = request.params;
+
+    const updatedData = { chosenCandidateId: null };
+    const updatedVacancy = await VacanciesService.update(id, updatedData);
+
+    return response.status(StatusCodes.OK).json(updatedVacancy);
+  }
+
   static async delete(request, response) {
     const id = request.params.id;
 
