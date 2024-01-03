@@ -15,6 +15,7 @@ const {
   userSkillsRouter,
   vacancySubscriptionsRouter,
   questionsRouter,
+  rankingsRouter,
   testsRouter,
 } = require("./routers/index");
 const cors = require("cors");
@@ -30,6 +31,7 @@ app.use("/learners", learnersRouter);
 app.use("/permissions", permissionsRouter);
 app.use("/projects", projectsRouter);
 app.use("/questions", questionsRouter);
+app.use("/rankings", rankingsRouter);
 app.use("/ratings", ratingsRouter);
 app.use("/resources", resourcesRouter);
 app.use("/roles", rolesRouter);
