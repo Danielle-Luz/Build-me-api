@@ -1,7 +1,6 @@
 const { EntitySchema } = require("typeorm");
 
 const Users = new EntitySchema({
-  synchronize: false,
   name: "users",
   columns: {
     id: {
@@ -27,6 +26,8 @@ const Users = new EntitySchema({
     profilePicture: { type: "text", nullable: true },
     roleId: { type: "int" },
     deletedDate: { type: "timestamp", deleteDate: true },
+    vacancyDropoutsNumber: { type: "int", default: 0 },
+    vacancyBlockDate: { type: "timestamp", nullable: true },
   },
   relations: {
     role: {

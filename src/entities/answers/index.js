@@ -1,6 +1,7 @@
 const { EntitySchema } = require("typeorm");
 
 const Answers = new EntitySchema({
+  synchronize: false,
   name: "answers",
   columns: {
     id: {
