@@ -88,10 +88,13 @@ class VacanciesController {
   }
 
   static async giveUpFromVacancy(request, response) {
-    const { id } = request.params;
+    const { id: vacancyId } = request.params;
+    const loggedUserId = request.loggedUser.id;
 
-    const updatedData = { chosenCandidateId: null };
-    const updatedVacancy = await VacanciesService.update(id, updatedData);
+    const updatedVacancy = await VacanciesService.giveUpFromVacancy(
+      vacancyId,
+      loggedUserId
+    );
 
     return response.status(StatusCodes.OK).json(updatedVacancy);
   }
