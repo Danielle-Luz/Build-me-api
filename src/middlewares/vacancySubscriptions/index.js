@@ -2,6 +2,7 @@ const {
   DuplicatedInfoError,
   AssociationLimitReachedError,
   VacancyRequirementsError,
+  DropoutBlockError,
 } = require("../../errors");
 const {
   VacancySubscriptionsService,
@@ -130,6 +131,19 @@ class VacancySubscriptionsMiddlewares {
       throw new AssociationLimitReachedError(
         `The user has already reached the limit of ${maxVacancyAssociationLimit} open projects that he can join simultaneously`
       );
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isUserUnderDropoutBlock(request, response, nextMiddleware) {
+    const loggedUserId = request.loggedUser.id;
+    const droppingUser = await UsersService.getById(loggedUserId);
+    const vacancyBlockDate = new Date(droppingUser.vacancyBlockDate);
+    const currentDate = new Date();
+
+    if (currentDate < vacancyBlockDate) {
+      throw new DropoutBlockError(vacancyBlockDate.toLocaleDateString());
     }
 
     return nextMiddleware();
