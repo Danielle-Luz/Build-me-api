@@ -3,6 +3,7 @@ const { LearnersService } = require("./learners");
 const { PermissionsService } = require("./permissions/index");
 const { ProjectsService } = require("./projects");
 const { QuestionsService } = require("./questions");
+const { RankingsService } = require("./rankings");
 const { RatingsServices } = require("./ratings");
 const { ResourcesService } = require("./resources/index");
 const { RolesService } = require("./roles/index");
@@ -20,6 +21,7 @@ module.exports = {
   PermissionsService,
   ProjectsService,
   QuestionsService,
+  RankingsService,
   RatingsServices,
   ResourcesService,
   RolesService,
