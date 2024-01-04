@@ -39,13 +39,13 @@ const Users = new EntitySchema({
       type: "many-to-one",
     },
     ratingsMade: {
-      inverseSide: "authorId",
+      inverseSide: "author",
       onDelete: "CASCADE",
       target: "ratings",
       type: "one-to-many",
     },
     ratingsReceived: {
-      inverseSide: "ratedRecipientId",
+      inverseSide: "ratedRecipient",
       onDelete: "CASCADE",
       target: "ratings",
       type: "one-to-many",
