@@ -90,7 +90,7 @@ class VacanciesService {
 
   static async getProjectColleagues(projectId, chosenCandidateIds) {
     return AppDatasource.createQueryBuilder()
-      .select(["vacancies.chosenCandidateId"])
+      .select("vacancies.chosenCandidateId")
       .from(Vacancies, "vacancies")
       .where("vacancies.chosenCandidateId IN (:...chosenCandidateIds)", {
         chosenCandidateIds,
