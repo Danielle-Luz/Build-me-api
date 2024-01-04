@@ -30,7 +30,7 @@ const Ratings = new EntitySchema({
     },
   },
   relations: {
-    authorId: {
+    author: {
       joinColumn: {
         name: "authorId",
       },
@@ -38,7 +38,7 @@ const Ratings = new EntitySchema({
       target: "users",
       type: "many-to-one",
     },
-    ratedRecipientId: {
+    ratedRecipient: {
       joinColumn: {
         name: "ratedRecipientId",
       },
