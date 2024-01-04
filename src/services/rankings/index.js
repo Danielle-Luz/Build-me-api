@@ -127,12 +127,12 @@ class RankingsService {
         `candidate."lastName"`,
         `candidate."profilePicture"`,
       ])
+      .distinctOn(["candidate.id"])
       .addSelect(`technology."name"`, "technologyName")
       .addSelect("skills.score", "skillScore")
       .from(UserSkills, "skills")
       .innerJoin("skills.user", "candidate")
       .innerJoin("skills.technology", "technology")
-      .addSelect()
       .groupBy([
         `technology."name"`,
         `skills."userId"`,
@@ -142,7 +142,7 @@ class RankingsService {
         `candidate."lastName"`,
         `candidate."profilePicture"`,
       ])
-      .orderBy("skills.score", "DESC")
+      .orderBy({ "candidate.id": "ASC", "skills.score": "DESC" })
       .getRawMany();
   }
 }
