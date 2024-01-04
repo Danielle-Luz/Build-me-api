@@ -26,6 +26,8 @@ class RatingsServices {
     return AppDatasource.createQueryBuilder()
       .select("ratings")
       .from(Ratings, "ratings")
+      .leftJoinAndSelect("ratings.author", "author")
+      .leftJoinAndSelect("ratings.ratedRecipient", "ratedRecipient")
       .where("ratings.authorId = :authorId", { authorId })
       .getMany();
   }
@@ -37,6 +39,8 @@ class RatingsServices {
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
         ratedRecipientId,
       })
+      .leftJoinAndSelect("ratings.author", "author")
+      .leftJoinAndSelect("ratings.ratedRecipient", "ratedRecipient")
       .getMany();
   }
 
@@ -66,9 +70,12 @@ class RatingsServices {
     return AppDatasource.createQueryBuilder()
       .select("ratings")
       .from(Ratings, "ratings")
+      .leftJoinAndSelect("ratings.author", "author")
+      .leftJoinAndSelect("ratings.ratedRecipient", "ratedRecipient")
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
         ratedRecipientId,
       })
+      .andWhere("ratings.authorId = :authorId", { authorId })
       .andWhere("ratings.projectId = :projectId", { projectId })
       .orderBy("ratings.createdDate", "DESC")
       .getOne();
