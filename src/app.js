@@ -18,10 +18,10 @@ const {
   rankingsRouter,
   testsRouter,
   votationsRouter,
+  votesRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
-const { votesRouter } = require("./routers/votes");
 
 const app = express();
 
