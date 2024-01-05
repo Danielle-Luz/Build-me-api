@@ -31,8 +31,9 @@ class VacanciesService {
 
   static async getProjectVacancies(projectId) {
     return AppDatasource.createQueryBuilder()
-      .select("vacancies")
+      .select(["vacancies",`project."closeDate"`])
       .from(Vacancies, "vacancies")
+      .leftJoinAndSelect("vacancies.project", "project")
       .where("vacancies.projectId = :projectId", { projectId })
       .leftJoinAndSelect("vacancies.chosenCandidate", "candidate")
       .orderBy("vacancies.name")
@@ -175,6 +176,24 @@ class VacanciesService {
       .innerJoin("vacancies.project", "project")
       .where("vacancies.chosenCandidateId = :userId", { userId })
       .andWhere("project.closeDate >= CURRENT_DATE")
+      .getRawOne();
+  }
+
+  static async getVacancyProjectOwnerId(vacancyId) {
+    return AppDatasource.createQueryBuilder()
+      .select("project.createdById", "createdById")
+      .from(Vacancies, "vacancies")
+      .innerJoinAndSelect("vacancies.project", "project")
+      .where("vacancies.id = :vacancyId", { vacancyId })
+      .getRawOne();
+  }
+
+  static async getRelatedProjectMembersCount(projectId) {
+    return AppDatasource.createQueryBuilder()
+      .select("COUNT(vacancies.chosenCandidateId)", "membersCount")
+      .from(Vacancies, "vacancies")
+      .where("vacancies.projectId = :projectId", { projectId })
+      .groupBy("vacancies.chosenCandidateId")
       .getRawOne();
   }
 

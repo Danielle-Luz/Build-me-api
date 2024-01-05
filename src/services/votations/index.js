@@ -14,6 +14,22 @@ class VotationsService {
     return createdVotation.generatedMaps[0];
   }
 
+  static async getVotationById(votationId) {
+    const foundVotation = await AppDatasource.createQueryBuilder()
+      .select("votations")
+      .from(Votations, "votations")
+      .where("votations.id = :votationId", { votationId })
+      .getOne();
+
+    if (!foundVotation) {
+      throw new RecordNotFoundError(
+        "No votation with the informed id was found"
+      );
+    }
+
+    return foundVotation;
+  }
+
   static async getVotationsByProject(projectId) {
     return AppDatasource.createQueryBuilder()
       .select("votations")
@@ -21,7 +37,8 @@ class VotationsService {
       .innerJoin("votations.vacancy", "vacancy")
       .innerJoin("vacancy.project", "project")
       .where("project.id = :projectId", { projectId })
-      .getOne();
+      .andWhere("votations.isOpen = true")
+      .getMany();
   }
 
   static async update(votationId, updatedData) {
