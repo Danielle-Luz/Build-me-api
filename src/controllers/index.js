@@ -16,6 +16,7 @@ const { VacanciesController } = require("./vacancies");
 const { VacancySubscriptionsController } = require("./vacancySubscriptions");
 const { VacancyRequirementsController } = require("./vancancyRequirements");
 const { VotationsController } = require("./votations");
+const { VotesController } = require("./votes");
 
 module.exports = {
   AnswersController,
@@ -36,4 +37,5 @@ module.exports = {
   VacancySubscriptionsController,
   VacancyRequirementsController,
   VotationsController,
+  VotesController,
 };
