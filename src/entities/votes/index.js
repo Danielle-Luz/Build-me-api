@@ -1,6 +1,7 @@
 const { EntitySchema } = require("typeorm");
 
 const Votes = new EntitySchema({
+  synchronize: false,
   name: "votes",
   columns: {
     id: {
@@ -27,6 +28,7 @@ const Votes = new EntitySchema({
     voter: {
       target: "users",
       type: "many-to-one",
+      inverseSide: "voters",
       joinColumn: {
         name: "voterId",
       },
