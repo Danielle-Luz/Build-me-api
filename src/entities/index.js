@@ -13,6 +13,7 @@ const { UserSkills } = require("./userSkills");
 const { Vacancies } = require("./vacancies");
 const { VacancyRequirements } = require("./vacancyRequirements");
 const { VacancySubscriptions } = require("./vacancySubscriptions");
+const { Votations } = require("./votations");
 
 module.exports = {
   Answers,
@@ -30,4 +31,5 @@ module.exports = {
   Vacancies,
   VacancyRequirements,
   VacancySubscriptions,
+  Votations,
 };
