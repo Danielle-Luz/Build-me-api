@@ -84,6 +84,7 @@ class VacanciesService {
     return AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
+      .innerJoinAndSelect("vacancies.project", "project")
       .where("vacancies.chosenCandidateId = :userId", { userId })
       .orderBy("vacancies.createdDate", "DESC")
       .getMany();
