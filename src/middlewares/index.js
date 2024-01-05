@@ -12,6 +12,7 @@ const { UtilsMiddlewares } = require("./utils/index");
 const { VacanciesMiddlewares } = require("./vacancies");
 const { VacancyRequirementsMiddlewares } = require("./vacancyRequirements");
 const { VacancySubscriptionsMiddlewares } = require("./vacancySubscriptions");
+const { VotesMiddlewares } = require("./votes");
 
 module.exports = {
   AnswersMiddlewares,
@@ -28,4 +29,5 @@ module.exports = {
   VacanciesMiddlewares,
   VacancyRequirementsMiddlewares,
   VacancySubscriptionsMiddlewares,
+  VotesMiddlewares,
 };
