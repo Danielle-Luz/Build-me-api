@@ -15,10 +15,6 @@ const Votations = new EntitySchema({
       type: "int",
       default: 0,
     },
-    againstVotes: {
-      type: "int",
-      default: 0,
-    },
   },
   relations: {
     vacancy: {
