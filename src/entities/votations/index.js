@@ -11,6 +11,10 @@ const Votations = new EntitySchema({
     vacancyId: {
       type: "int",
     },
+    isOpen: {
+      type: "boolean",
+      default: true,
+    },
   },
   relations: {
     vacancy: {
