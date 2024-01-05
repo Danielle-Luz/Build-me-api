@@ -14,6 +14,7 @@ const { Vacancies } = require("./vacancies");
 const { VacancyRequirements } = require("./vacancyRequirements");
 const { VacancySubscriptions } = require("./vacancySubscriptions");
 const { Votations } = require("./votations");
+const { Votes } = require("./votes");
 
 module.exports = {
   Answers,
@@ -32,4 +33,5 @@ module.exports = {
   VacancyRequirements,
   VacancySubscriptions,
   Votations,
+  Votes,
 };
