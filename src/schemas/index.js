@@ -14,10 +14,7 @@ const {
   newTechnologySchema,
   updatedTechnologySchema,
 } = require("./technologies");
-const {
-  newVacancySchema,
-  updatedVacancySchema,
-} = require("./vacancies");
+const { newVacancySchema, updatedVacancySchema } = require("./vacancies");
 const { newLearnerSchema } = require("./learners");
 const {
   newVacancyRequirementSchema,
@@ -28,6 +25,8 @@ const { newVacancySubscriptionSchema } = require("./vacancySubscriptions");
 const { newQuestionSchema, updatedQuestionSchema } = require("./questions");
 const { newAnswerSchema, updatedAnswerSchema } = require("./answers");
 const { newTestAnswers } = require("./tests");
+const { newVotationSchema } = require("./votations");
+const { newVoteSchema } = require("./votes");
 
 module.exports = {
   nameSchema,
@@ -44,6 +43,8 @@ module.exports = {
   newVacancySchema,
   newVacancyRequirementSchema,
   newVacancySubscriptionSchema,
+  newVotationSchema,
+  newVoteSchema,
   updatedAnswerSchema,
   updatedPermissionSchema,
   updateProjectSchema,
