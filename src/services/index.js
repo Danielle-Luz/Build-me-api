@@ -15,6 +15,7 @@ const { VacanciesService } = require("./vacancies");
 const { VacancyRequirementsService } = require("./vacancyRequirements");
 const { VacancySubscriptionsService } = require("./vacancySubscriptions");
 const { VotationsService } = require("./votations");
+const { VotesService } = require("./votes");
 
 module.exports = {
   AnswersService,
@@ -34,4 +35,5 @@ module.exports = {
   VacancySubscriptionsService,
   VacancyRequirementsService,
   VotationsService,
+  VotesService,
 };
