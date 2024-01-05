@@ -11,7 +11,7 @@ class AnswersService {
       .returning("*")
       .execute();
 
-    return createdAnswer.generatedMaps[0];
+    return createdAnswer.generatedMaps;
   }
 
   static async getAnswersByQuestionId(questionId) {

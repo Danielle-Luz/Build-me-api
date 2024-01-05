@@ -1,5 +1,8 @@
 const z = require("zod");
-const { TestsMiddlewares } = require("../../middlewares");
+const {
+  QuestionsMiddlewares,
+  AnswersMiddlewares,
+} = require("../../middlewares");
 
 const newTestAnswers = z.array(
   z
@@ -7,10 +10,10 @@ const newTestAnswers = z.array(
       questionId: z.number().int().positive(),
       answerId: z.number().int().positive(),
     })
-    .refine(TestsMiddlewares.validateQuestionId, {
+    .refine(QuestionsMiddlewares.validateQuestionId, {
       message: "No question with the informed id was found",
     })
-    .refine(TestsMiddlewares.validateAnswerId, {
+    .refine(AnswersMiddlewares.validateAnswerId, {
       message: "No answer with the informed id was found",
     })
 );

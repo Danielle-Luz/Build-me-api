@@ -2,24 +2,6 @@ const { DuplicatedInfoError } = require("../../errors");
 const { QuestionsService, AnswersService } = require("../../services");
 
 class TestsMiddlewares {
-  static async validateQuestionId({ questionId }) {
-    try {
-      await QuestionsService.getQuestionById(questionId);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  static async validateAnswerId({ answerId }) {
-    try {
-      await AnswersService.getAnswerById(answerId);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
   static async isQuestionDuplicated(request, response, nextMiddleware) {
     const questionsIds = [];
     const duplicatedQuestionsIds = [];

@@ -31,21 +31,18 @@ class AnswersMiddlewares {
     return nextMiddleware();
   }
 
-  static async doesQuestionsAlreadyHaveRightAnswer(
+  static async doesSingleQuestionAlreadyHaveRightAnswer(
     request,
     response,
     nextMiddleware
   ) {
-    let answerData = request.validatedData;
-    const isUpdating = request.method == "PATCH";
+    const { isRight } = request.validatedData;
 
-    if (isUpdating) {
-      answerData = await AnswersService.getAnswerById(request.params.id);
-    }
+    if (isRight) {
+      const { questionId } = await AnswersService.getAnswerById(
+        request.params.id
+      );
 
-    const { questionId, isRight } = answerData;
-
-    if (questionId && isRight) {
       const existentRightAnswer =
         await AnswersService.getRightAnswerByQuestionId(questionId);
 
@@ -56,6 +53,35 @@ class AnswersMiddlewares {
     }
 
     return nextMiddleware();
+  }
+
+  static async doesVariousQuestionsAlreadyHaveRightAnswer({
+    questionId,
+    isRight,
+  }) {
+    const existentRightAnswer = await AnswersService.getRightAnswerByQuestionId(
+      questionId
+    );
+
+    try {
+      if (isRight && existentRightAnswer) {
+        throw new DuplicatedInfoError(
+          "This question already has a right answer"
+        );
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  static async validateAnswerId({ answerId }) {
+    try {
+      await AnswersService.getAnswerById(answerId);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 

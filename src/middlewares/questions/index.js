@@ -1,4 +1,4 @@
-const { TechnologiesService } = require("../../services");
+const { TechnologiesService, QuestionsService } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 
 class QuestionsMiddlewares {
@@ -28,6 +28,15 @@ class QuestionsMiddlewares {
     }
 
     return nextMiddleware();
+  }
+
+  static async validateQuestionId({ questionId }) {
+    try {
+      await QuestionsService.getQuestionById(questionId);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 

@@ -12,12 +12,10 @@ const answersRouter = Router();
 
 answersRouter.post(
   "/",
-  UtilsMiddlewares.validateSchema(newAnswerSchema),
+  UtilsMiddlewares.validateSchema(newAnswerSchema, "body", "parseAsync"),
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   PermissionsMiddlewares.hasPermissionOnRoute,
-  AnswersMiddlewares.doesQuestionExists,
-  AnswersMiddlewares.doesQuestionsAlreadyHaveRightAnswer,
   AnswersController.create
 );
 
@@ -43,7 +41,7 @@ answersRouter.patch(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   PermissionsMiddlewares.hasPermissionOnRoute,
-  AnswersMiddlewares.doesQuestionsAlreadyHaveRightAnswer,
+  AnswersMiddlewares.doesSingleQuestionAlreadyHaveRightAnswer,
   AnswersController.update
 );
 
