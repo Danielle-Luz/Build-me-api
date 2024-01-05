@@ -14,6 +14,7 @@ const { usersRouter } = require("./users/index");
 const { vacanciesRouter } = require("./vacancies");
 const { vacancyRequirementsRouter } = require("./vacancyRequirements");
 const { vacancySubscriptionsRouter } = require("./vacancySubscriptions");
+const { votationsRouter } = require("./votations");
 
 module.exports = {
   answersRouter,
@@ -32,4 +33,5 @@ module.exports = {
   vacanciesRouter,
   vacancyRequirementsRouter,
   vacancySubscriptionsRouter,
+  votationsRouter,
 };
