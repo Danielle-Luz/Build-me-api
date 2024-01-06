@@ -50,7 +50,10 @@ class VacanciesMiddlewares {
     if (isCreating) {
       projectId = request.validatedData.projectId;
     } else {
-      projectId = request.foundVacancy.projectId;
+      const vacancyId = request.params.id;
+      const foundVacancy = await VacanciesService.getVacancyById(vacancyId);
+      projectId = foundVacancy.projectId;
+      request.foundVacancy = foundVacancy;
     }
 
     const relatedProject = await ProjectsService.getById(projectId);

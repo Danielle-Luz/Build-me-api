@@ -71,7 +71,6 @@ vacanciesRouter.patch(
   "/giveup/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
   VacanciesMiddlewares.isLoggedUserEqualToChosenCandidate,
   VacanciesController.giveUpFromVacancy
