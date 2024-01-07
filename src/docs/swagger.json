@@ -12,11 +12,11 @@
   "tags": [
     {
       "name": "Answers",
-      "description": "Manage the available answers for each question",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
+      "description": "Manage the available answers for each question"
+    },
+    {
+      "name": "Learners",
+      "description": "Allow users to associate with a vacancy as learners, individuals who will learn about the technologies required for the vacancy with the help of the selected candidate"
     }
   ],
   "paths": {
@@ -431,6 +431,353 @@
           }
         }
       }
+    },
+    "/learners": {
+      "post": {
+        "summary": "Create a new learner",
+        "description": "Create a learner associated with a vacancy",
+        "tags": ["Learners"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/newLearner"
+              },
+              "examples": {
+                "Valid body": {
+                  "value": {
+                    "vacancyId": 14
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Learner created with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdLearner"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid vacancyId": {
+                    "value": {
+                      "vacancyId": "Expected number, received string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user didn't include the token before sending the request, it was invalid or the user doesn't have permission to access the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy with the informed id was found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The user already created a learner record related to the same vacancy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "This user was already registered as a learner for this vacancy"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "User reached learner association limit": {
+                    "description": "The user has registered three times as a learner for different vacancies from open projects and is attempting to become a learner for another vacancy",
+                    "value": {
+                      "message": "The user has already reached the limit of 3 subscriptions as a learner"
+                    }
+                  },
+                  "Vacancy reached learner association limit": {
+                    "description": "Each vacancy has a limit of learners that can be related and this one have reached its limit",
+                    "value": {
+                      "message": "It's not possible to add a new learner, the limit of 5 learners related to this vacancy was already reached"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all learners",
+        "description": "Retrieve a list of all learners",
+        "tags": ["Learners"],
+        "responses": {
+          "200": {
+            "description": "List of all learners",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdLearner"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/learners/vacancies/{vacancyId}": {
+      "get": {
+        "summary": "Get learners by vacancy id",
+        "description": "Retrieve learners associated with a specific vacancy",
+        "tags": ["Learners"],
+        "parameters": [
+          {
+            "name": "vacancyId",
+            "in": "path",
+            "description": "Id of the vacancy",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of learners associated with the vacancy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdLearner"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vacancy id not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/learners/users/{candidateId}": {
+      "get": {
+        "summary": "Get learners by candidate/user id",
+        "description": "Retrieve learner records linked to the user with the given id",
+        "tags": ["Learners"],
+        "parameters": [
+          {
+            "name": "candidateId",
+            "in": "path",
+            "description": "Id of the user",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of records with which the user, identified by the provided id, is associated as a learner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdLearner"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No user with the specified id was found in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No candidate with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/learners/{id}": {
+      "get": {
+        "summary": "Get a learner by id",
+        "description": "Retrieve the data of a specific learner by id",
+        "tags": ["Learners"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the learner",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data of the learner's record whose id was provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdLearner"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No learner record with the provided id was found in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No learner with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a learner by id",
+        "description": "Delete the learner's record whose id was provided",
+        "tags": ["Learners"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the learner",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Learner deleted successfully"
+          },
+          "404": {
+            "description": "No learner record with the provided id was found in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMessage"
+                },
+                "example": {
+                  "message": "No learner with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not an admin and is trying to delete a record related with other user",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -492,6 +839,45 @@
           "description": "Indicates if it's the question's right answer",
           "defalt": false,
           "example": true,
+          "required": true
+        }
+      }
+    },
+    "newLearner": {
+      "type": "object",
+      "properties": {
+        "vacancyId": {
+          "type": "number",
+          "description": "Id of the vacancy to which the learner is applying",
+          "required": true
+        }
+      }
+    },
+    "createdLearner": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "Id of the created learner",
+          "example": 27,
+          "required": true
+        },
+        "vacancyId": {
+          "type": "number",
+          "description": "Id of the vacancy associated with the learner",
+          "example": 34,
+          "required": true
+        },
+        "candidateId": {
+          "type": "number",
+          "description": "Id of the candidate learner",
+          "example": 3,
+          "required": true
+        },
+        "createdDate": {
+          "type": "string",
+          "description": "Date when the learner was created",
+          "example": "2023-12-31T19:54:06.490Z",
           "required": true
         }
       }
