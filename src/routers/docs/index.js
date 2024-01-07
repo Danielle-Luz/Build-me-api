@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const swaggerUi = require("swagger-ui-express");
-const {
-  swaggerConfig,
-  getSwaggerConfigAsJson,
-} = require("../../docs/swaggerConfig");
+const swaggerDocument = require("./../../docs/swagger.json");
 
 const docsRouter = Router();
 
-docsRouter.get("/docs.json", getSwaggerConfigAsJson);
-docsRouter.use("/", swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+docsRouter.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+docsRouter.get("/docs.json", (request, response) => {
+  response.setHeader("Content-Type", "application/json");
+  return response.send(swaggerDocument);
+});
 
 module.exports = { docsRouter };

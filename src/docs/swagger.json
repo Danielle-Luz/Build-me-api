@@ -1,0 +1,532 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Platform where users can manage and join programming projects",
+    "version": "1.0.0",
+    "title": "Build Me",
+    "contact": { "email": "daniln2209@gmail.com" }
+  },
+  "schemes": ["http"],
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Answers",
+      "description": "Manage the available answers for each question",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "paths": {
+    "/answers": {
+      "post": {
+        "summary": "Create one or more answers",
+        "description": "Create answers for questions that users can select during tests",
+        "produces": ["application/json"],
+        "tags": ["Answers"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/newAnswer"
+                }
+              },
+              "examples": {
+                "Valid body": {
+                  "value": [
+                    {
+                      "answer": "HTML defines the structure of a web page",
+                      "questionId": 1,
+                      "isRight": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "One or more answers created with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdAnswer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more answers are missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodErrorMessageList"
+                },
+                "examples": {
+                  "Missing properties and invalid formats": {
+                    "value": [
+                      {
+                        "0": [
+                          "Required",
+                          "Expected number, received string",
+                          "Expected boolean, received string"
+                        ]
+                      }
+                    ]
+                  },
+                  "Wrong question id": {
+                    "value": [
+                      {
+                        "0": ["No question with the informed id was found"]
+                      }
+                    ]
+                  },
+                  "The answer was marked as right while the related question was already associated with another right answer": {
+                    "value": [
+                      {
+                        "0": ["This question already has a right answer"]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user didn't include the token before sending the request, it was invalid or the user doesn't have permission to access the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/answers/questions/{questionId}": {
+      "get": {
+        "summary": "Question's related answers",
+        "description": "Shows all the answers related to a specific question",
+        "produces": ["application/json"],
+        "tags": ["Answers"],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "Id of the question for which the related answers should be shown",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All the answers related to the question",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdAnswer"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided question id does not correspond to any question identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No question with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user didn't include the token before sending the request, it was invalid or the user doesn't have permission to access the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/answers/{id}": {
+      "get": {
+        "summary": "Get a specific answer",
+        "description": "Show the data of a specific answer",
+        "produces": ["application/json"],
+        "tags": ["Answers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the answer that should be shown",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data for the provided answer id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdAnswer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided answer id does not correspond to any answer identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No answer with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user didn't include the token before sending the request, it was invalid or the user doesn't have permission to access the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a specific answer",
+        "description": "Update one or more fields of a specific answer",
+        "produces": ["application/json"],
+        "tags": ["Answers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the answer that should be updated",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/updatedAnswer"
+              },
+              "examples": {
+                "Valid body": {
+                  "value": {
+                    "answer": "HTML is a markup language"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The answer was updated with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdAnswer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The format of one or more values being updated is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Values with invalid formats": {
+                    "value": {
+                      "answer": "Expected string, received number",
+                      "isRight": "Expected boolean, received string"
+                    }
+                  },
+                  "The answer was marked as right while the related question was already associated with another right answer": {
+                    "value": {
+                      "message": "This questions already has a right answer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user didn't include the token before sending the request, it was invalid or the user doesn't have permission to access the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a specific answer",
+        "description": "",
+        "produces": ["application/json"],
+        "tags": ["Answers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the answer that should be deleted",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The answer was deleted with success"
+          },
+          "404": {
+            "description": "The provided answer id does not correspond to any answer identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No answer with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user didn't include the token before sending the request, it was invalid or the user doesn't have permission to access the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "newAnswer": {
+      "type": "object",
+      "properties": {
+        "answer": {
+          "type": "string",
+          "description": "One of the possible question's answers",
+          "required": true
+        },
+        "questionId": {
+          "type": "number",
+          "description": "The id of the question to which the answer is related",
+          "required": true
+        },
+        "isRight": {
+          "type": "boolean",
+          "description": "Indicates if it's the question's right answer",
+          "required": true
+        }
+      }
+    },
+    "updatedAnswer": {
+      "type": "object",
+      "properties": {
+        "answer": {
+          "type": "string",
+          "description": "One of the possible question's answers"
+        },
+        "isRight": {
+          "type": "boolean",
+          "description": "Indicates if it's the question's right answer"
+        }
+      }
+    },
+    "createdAnswer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "Id of the created answer",
+          "example": 1
+        },
+        "answer": {
+          "type": "string",
+          "description": "One of the possible question's answers",
+          "example": "HTML defines the structure of a web page",
+          "required": true
+        },
+        "questionId": {
+          "type": "number",
+          "description": "The id of the question to which the answer is related",
+          "example": 1,
+          "required": true
+        },
+        "isRight": {
+          "type": "boolean",
+          "description": "Indicates if it's the question's right answer",
+          "defalt": false,
+          "example": true,
+          "required": true
+        }
+      }
+    },
+    "errorMessage": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The reason of the error",
+          "example": "No user with the informed id was found"
+        }
+      }
+    },
+    "zodErrorMessageList": {
+      "type": "object",
+      "properties": {
+        "0": {
+          "type": "array",
+          "description": "A list with the error on the values detected by zod"
+        }
+      }
+    },
+    "zodSingleErrorMessage": {
+      "type": "object",
+      "properties": {
+        "answer": {
+          "type": "string",
+          "description": "The format error in the 'answer' field"
+        },
+        "isRight": {
+          "type": "boolean",
+          "description": "The format error in the 'isRight' field"
+        }
+      }
+    }
+  }
+}
