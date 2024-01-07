@@ -1,4 +1,5 @@
 const { answersRouter } = require("./answers");
+const { docsRouter } = require("./docs");
 const { learnersRouter } = require("./learners");
 const { permissionsRouter } = require("./permissions/index");
 const { projectsRouter } = require("./projects");
@@ -19,6 +20,7 @@ const { votesRouter } = require("./votes");
 
 module.exports = {
   answersRouter,
+  docsRouter,
   learnersRouter,
   permissionsRouter,
   projectsRouter,

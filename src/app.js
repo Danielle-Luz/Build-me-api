@@ -19,6 +19,7 @@ const {
   testsRouter,
   votationsRouter,
   votesRouter,
+  docsRouter,
 } = require("./routers/index");
 const cors = require("cors");
 const express = require("express");
@@ -29,6 +30,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/answers", answersRouter);
+app.use("/docs", docsRouter);
 app.use("/learners", learnersRouter);
 app.use("/permissions", permissionsRouter);
 app.use("/projects", projectsRouter);
