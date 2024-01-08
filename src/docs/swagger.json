@@ -17,6 +17,10 @@
     {
       "name": "Learners",
       "description": "Allow users to associate with a vacancy as learners, individuals who will learn about the technologies required for the vacancy with the help of the selected candidate"
+    },
+    {
+      "name": "Projects",
+      "description": "Manage programming projects where the users can colaborate by joining on related vacancies"
     }
   ],
   "paths": {
@@ -286,7 +290,8 @@
             "description": "Id of the answer that should be updated",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -726,7 +731,8 @@
             "description": "Id of the learner",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -739,7 +745,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/errorMessage"
+                  "$ref": "#/definitions/errorMessage"
                 },
                 "example": {
                   "message": "No learner with the informed id was found"
@@ -771,6 +777,494 @@
                     "value": {
                       "message": "The user is unauthorized to access the route or to perform this operation with other users records"
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects": {
+      "post": {
+        "summary": "Create a new project",
+        "description": "Create a new programming project",
+        "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/newProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdProject"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "name": "Expected string, received number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user doesn't have permission to create projects",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "A date before the current one was provided in the 'closeDate' field",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "The close date should be later than or equal to the current date"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all projects",
+        "description": "Retrieve a list of all projects",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "List of all created projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdProject"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}": {
+      "get": {
+        "summary": "Get a specific project",
+        "description": "Show the data of a specific project",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "ID of the project",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data for the provided project id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdProject"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided project id does not correspond to any project identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No project with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a specific project",
+        "description": "Update one or more fields of a specific project",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the project that should be updated",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/updatedProject"
+              },
+              "examples": {
+                "Valid body": {
+                  "value": {
+                    "name": "Project XPTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdProject"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Value with invalid property": {
+                    "value": {
+                      "name": "Expected string, received number"
+                    }
+                  },
+                  "No field provided for update": {
+                    "value": {
+                      "name": "No valid field was provided for update"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to update projects or is trying to update a project that was created by other user",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "A date before the current one was provided in the 'closeDate' field",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "The close date should be later than or equal to the current date"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided project id does not correspond to any project identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                }
+              },
+              "example": {
+                "message": "No project with the informed id was found"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project by id",
+        "description": "Delete the project's record whose id was provided",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the project",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Project deleted successfully"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not an admin and is trying to delete a project created by other user",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No project record with the provided id was found in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No project with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/open": {
+      "get": {
+        "summary": "Get open projects",
+        "description": "Show all the projects whose ‘closeDate’ field has a date later than the current one, meaning that the project's subscriptions are still open",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "List of open projects available for subscriptions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/newProject"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/selectionMethod/{selectionMethod}": {
+      "get": {
+        "summary": "Get projects by member selection method",
+        "description": "Shows all projects whose member selection method is equal to the specified one",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "selectionMethod",
+            "in": "path",
+            "description": "The way the users are selected for the project's vacancies",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of projects whose member selection method is equal to the specified one",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdProject"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The value provided is not one of the available member selection methods",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "Member selection method not found, the values available are: Aleatória, Ordem de inscrição e Escolha manual"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/users/{createdById}": {
+      "get": {
+        "summary": "Get projects by creator",
+        "description": "Show all the projects created by the user whose id was specified",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "createdById",
+            "in": "path",
+            "description": "Id of the user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of projects created by the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdProject"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/search/{value}": {
+      "get": {
+        "summary": "Searches projects by a value",
+        "description": "Shows the data of all projects that have the searched value in their description or name fields",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "description": "Searched value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of projects that have the searched value",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdProject"
                   }
                 }
               }
@@ -879,6 +1373,122 @@
           "description": "Date when the learner was created",
           "example": "2023-12-31T19:54:06.490Z",
           "required": true
+        }
+      }
+    },
+    "newProject": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the project",
+          "example": "Project ABC",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the project",
+          "example": "A description of Project ABC",
+          "required": true
+        },
+        "closeDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Closing date of the project",
+          "example": "2024-01-31T00:00:00Z",
+          "required": true
+        },
+        "repositoryUrl": {
+          "type": "string",
+          "description": "URL of the project's repository",
+          "example": "https://github.com/project_abc"
+        },
+        "memberSelectionMethod": {
+          "type": "string",
+          "description": "Method of selecting project members",
+          "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
+          "example": "Aleatória",
+          "required": true
+        }
+      }
+    },
+    "updatedProject": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the project",
+          "example": "Project ABC"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the project",
+          "example": "A description of Project ABC"
+        },
+        "closeDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Closing date of the project",
+          "example": "2024-01-31T00:00:00Z"
+        },
+        "repositoryUrl": {
+          "type": "string",
+          "description": "URL of the project's repository",
+          "example": "https://github.com/project_abc"
+        },
+        "memberSelectionMethod": {
+          "type": "string",
+          "description": "Method of selecting project members",
+          "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
+          "example": "Aleatória"
+        }
+      }
+    },
+    "createdProject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the created project",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the project",
+          "example": "Project ABC"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the project",
+          "example": "A description of Project ABC"
+        },
+        "createdById": {
+          "type": "number",
+          "description": "ID of the creator of the project",
+          "example": 123
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date when the project was created",
+          "example": "2024-01-01T00:00:00Z"
+        },
+        "closeDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Closing date of the project",
+          "example": "2024-01-31T00:00:00Z"
+        },
+        "repositoryUrl": {
+          "type": "string",
+          "description": "URL of the project's repository",
+          "example": "https://github.com/project_abc"
+        },
+        "memberSelectionMethod": {
+          "type": "string",
+          "description": "Method of selecting project members",
+          "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
+          "example": "Aleatória"
         }
       }
     },
