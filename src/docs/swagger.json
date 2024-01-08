@@ -1286,7 +1286,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/NewQuestionData"
+                "$ref": "#/definitions/newQuestion"
               },
               "example": {
                 "question": "Qual é a diferença entre HTML e HTML5?",
@@ -1384,7 +1384,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/QuestionsList"
+                  "$ref": "#/definitions/questionWithAnswers"
                 },
                 "example": [
                   {
@@ -1796,7 +1796,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/QuestionsList"
+                  "$ref": "#/definitions/questionWithAnswers"
                 },
                 "example": [
                   {
@@ -2103,7 +2103,7 @@
         }
       }
     },
-    "NewQuestionData": {
+    "newQuestion": {
       "type": "object",
       "properties": {
         "question": {
@@ -2198,7 +2198,7 @@
         }
       }
     },
-    "QuestionsList": {
+    "questionWithAnswers": {
       "type": "array",
       "items": {
         "type": "object",
