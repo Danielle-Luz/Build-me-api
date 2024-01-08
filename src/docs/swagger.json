@@ -21,6 +21,10 @@
     {
       "name": "Projects",
       "description": "Manage programming projects where the users can colaborate by joining on related vacancies"
+    },
+    {
+      "name": "Questions",
+      "description": "Manage the questions that can be associated with answers and used to create tests for evaluating the user’s skills"
     }
   ],
   "paths": {
@@ -1272,6 +1276,613 @@
           }
         }
       }
+    },
+    "/questions": {
+      "post": {
+        "summary": "Create a new question",
+        "tags": ["Questions"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/NewQuestionData"
+              },
+              "example": {
+                "question": "Qual é a diferença entre HTML e HTML5?",
+                "technologyId": 1,
+                "difficultyLevel": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Question created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdQuestion"
+                },
+                "example": {
+                  "id": 1,
+                  "question": "Qual é a diferença entre HTML e HTML5?",
+                  "technologyId": 1,
+                  "difficultyLevel": 2
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "question": ["Expected string, received number"],
+                      "technologyId": ["required"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Users that are not admins can't create questions",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all questions",
+        "tags": ["Questions"],
+        "responses": {
+          "200": {
+            "description": "List of all questions in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/QuestionsList"
+                },
+                "example": [
+                  {
+                    "id": 19,
+                    "question": "What is HTML?",
+                    "technologyId": 5,
+                    "difficultyLevel": 3
+                  },
+                  {
+                    "id": 23,
+                    "question": "What is CSS?",
+                    "technologyId": 3,
+                    "difficultyLevel": 1
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to see questions data",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/questions/{id}": {
+      "get": {
+        "summary": "Get question by id",
+        "description": "Retrieve the data of a specific question by id",
+        "tags": ["Questions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the question",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data of the question's record whose id was provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/questionWithTechnology"
+                },
+                "example": {
+                  "id": 18,
+                  "question": "What is JavaScript?",
+                  "technologyId": 3,
+                  "difficultyLevel": 2,
+                  "technology": {
+                    "id": 3,
+                    "name": "JavaScript",
+                    "iconUrl": "https://img.icons8.com/ios/150/javascript--v1.png"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to see questions data",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided question id does not correspond to any question identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No question with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update question by id",
+        "description": "Update one or more fields of a specific question",
+        "tags": ["Questions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the question that should be updated",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/updatedQuestion"
+              },
+              "example": {
+                "difficultyLevel": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "The format of the body properties is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "question": ["Expected string, received number"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Users that are not admins can't update questions",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Invalid question id": {
+                    "description": "The question being updated doesn't exist",
+                    "value": {
+                      "message": "No question with the informed id was found"
+                    }
+                  },
+                  "Invalid technology id": {
+                    "description": "The id of the technology that was provided for update doesn't exist",
+                    "value": {
+                      "message": "No technology with the informed id was found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete question by id",
+        "tags": ["Questions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the question",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Question deleted successfully"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "A user that is not admin can not delete questions",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided question id does not correspond to any question identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No question with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/questions/technologies/{technologyId}": {
+      "get": {
+        "summary": "Get questions by technology id",
+        "description": "Returns a list with all the questions related to the specified technology",
+        "tags": ["Questions"],
+        "parameters": [
+          {
+            "name": "technologyId",
+            "in": "path",
+            "description": "Id of the technology",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All the questions related to the technology",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/questionWithTechnology"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 18,
+                    "question": "What is JavaScript?",
+                    "technologyId": 3,
+                    "difficultyLevel": 2,
+                    "technology": {
+                      "id": 3,
+                      "name": "JavaScript",
+                      "iconUrl": "https://img.icons8.com/ios/150/javascript--v1.png"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to see questions data",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/questions/random/technologies/{technologyId}": {
+      "get": {
+        "summary": "Get random questions by technology id",
+        "description": "Returns a list, with a maximum of 10 random questions related to the specified technology, each question associated with its respective answer",
+        "tags": ["Questions"],
+        "parameters": [
+          {
+            "name": "technologyId",
+            "in": "path",
+            "description": "Id of the technology for which random questions should be obtained",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of random questions for the specified technology",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/QuestionsList"
+                },
+                "example": [
+                  {
+                    "id": 19,
+                    "question": "What is JavaScript?",
+                    "technologyId": 3,
+                    "difficultyLevel": 1,
+                    "answers": [
+                      {
+                        "id": 8,
+                        "answer": "Answer 3",
+                        "questionId": 19
+                      },
+                      {
+                        "id": 6,
+                        "answer": "Answer 1",
+                        "questionId": 19
+                      },
+                      {
+                        "id": 7,
+                        "answer": "Answer 2",
+                        "questionId": 19
+                      }
+                    ]
+                  },
+                  {
+                    "id": 20,
+                    "question": "What is CSS?",
+                    "technologyId": 3,
+                    "difficultyLevel": 3,
+                    "answers": [
+                      {
+                        "id": 9,
+                        "answer": "Answer 1",
+                        "questionId": 20
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to see questions data",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1489,6 +2100,145 @@
           "description": "Method of selecting project members",
           "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
           "example": "Aleatória"
+        }
+      }
+    },
+    "NewQuestionData": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "The question text"
+        },
+        "technologyId": {
+          "type": "integer",
+          "description": "The ID of the technology associated with the question"
+        },
+        "difficultyLevel": {
+          "type": "integer",
+          "description": "The difficulty level of the question (1-3)"
+        }
+      },
+      "required": ["question", "technologyId", "difficultyLevel"]
+    },
+    "createdQuestion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The id of the created question"
+        },
+        "question": {
+          "type": "string",
+          "description": "The question text"
+        },
+        "technologyId": {
+          "type": "integer",
+          "description": "The ID of the technology associated with the question"
+        },
+        "difficultyLevel": {
+          "type": "integer",
+          "description": "The difficulty level of the question (1-3)"
+        }
+      },
+      "required": ["question", "technologyId", "difficultyLevel"]
+    },
+    "updatedQuestion": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "The updated question text"
+        },
+        "technologyId": {
+          "type": "integer",
+          "description": "The updated ID of the technology associated with the question"
+        },
+        "difficultyLevel": {
+          "type": "integer",
+          "description": "The updated difficulty level of the question (1-3)"
+        }
+      }
+    },
+    "questionWithTechnology": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The ID of the question"
+        },
+        "question": {
+          "type": "string",
+          "description": "The question text"
+        },
+        "technologyId": {
+          "type": "integer",
+          "description": "The ID of the technology associated with the question"
+        },
+        "difficultyLevel": {
+          "type": "integer",
+          "description": "The difficulty level of the question (1-3)"
+        },
+        "technology": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the technology"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the technology"
+            },
+            "iconUrl": {
+              "type": "string",
+              "description": "The URL to the technology's icon image"
+            }
+          }
+        }
+      }
+    },
+    "QuestionsList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the question"
+          },
+          "question": {
+            "type": "string",
+            "description": "The question text"
+          },
+          "technologyId": {
+            "type": "integer",
+            "description": "The ID of the technology associated with the question"
+          },
+          "difficultyLevel": {
+            "type": "integer",
+            "description": "The difficulty level of the question (1-3)"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The ID of the answer"
+                },
+                "answer": {
+                  "type": "string",
+                  "description": "The answer text"
+                },
+                "questionId": {
+                  "type": "integer",
+                  "description": "The ID of the associated question"
+                }
+              }
+            }
+          }
         }
       }
     },
