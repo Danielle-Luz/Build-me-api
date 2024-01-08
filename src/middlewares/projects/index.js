@@ -1,5 +1,4 @@
-const { StatusCodes } = require("http-status-codes");
-const { AppError, CloseDateError, InvalidParamValueError } = require("../../errors");
+const { CloseDateError, InvalidParamValueError } = require("../../errors");
 const { ProjectsService, UsersService } = require("../../services");
 const { UtilsMiddlewares } = require("../utils");
 const { memberSelectionMethod } = require("../../enumValues");
