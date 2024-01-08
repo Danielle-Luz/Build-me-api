@@ -336,8 +336,8 @@
                 "examples": {
                   "Values with invalid formats": {
                     "value": {
-                      "answer": "Expected string, received number",
-                      "isRight": "Expected boolean, received string"
+                      "answer": ["Expected string, received number"],
+                      "isRight": ["Expected boolean, received string"]
                     }
                   },
                   "The answer was marked as right while the related question was already associated with another right answer": {
@@ -484,7 +484,7 @@
                 "examples": {
                   "Invalid vacancyId": {
                     "value": {
-                      "vacancyId": "Expected number, received string"
+                      "vacancyId": ["Expected number, received string"]
                     }
                   }
                 }
@@ -825,7 +825,7 @@
                 "examples": {
                   "Invalid body": {
                     "value": {
-                      "name": "Expected string, received number"
+                      "name": ["Expected string, received number"]
                     }
                   }
                 }
@@ -994,7 +994,7 @@
                 "examples": {
                   "Value with invalid property": {
                     "value": {
-                      "name": "Expected string, received number"
+                      "name": ["Expected string, received number"]
                     }
                   },
                   "No field provided for update": {
@@ -2264,13 +2264,11 @@
     "zodSingleErrorMessage": {
       "type": "object",
       "properties": {
-        "answer": {
-          "type": "string",
-          "description": "The format error in the 'answer' field"
+        "fieldWithError": {
+          "type": "array"
         },
-        "isRight": {
-          "type": "boolean",
-          "description": "The format error in the 'isRight' field"
+        "anotherFieldWithError": {
+          "type": "array"
         }
       }
     }
