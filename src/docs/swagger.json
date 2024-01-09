@@ -695,7 +695,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Id of the learner",
+            "description": "Id of the learner to be shown",
             "required": true,
             "schema": {
               "type": "number"
@@ -736,7 +736,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Id of the learner",
+            "description": "Id of the learner to be deleted",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1448,7 +1448,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Id of the question",
+            "description": "Id of the question to be shown",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1631,7 +1631,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Id of the question",
+            "description": "Id of the question to be deleted",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2392,6 +2392,197 @@
                 },
                 "example": {
                   "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/{id}": {
+      "patch": {
+        "summary": "Update a rating",
+        "tags": ["Ratings"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the rating to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/updatedRating"
+              },
+              "example": {
+                "grade": 5
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rating updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdRating"
+                },
+                "example": {
+                  "id": 2,
+                  "comment": "Good team work!",
+                  "grade": 5,
+                  "authorId": 3,
+                  "ratedRecipientId": 2,
+                  "createdDate": "2023-12-27T05:20:46.289Z",
+                  "projectId": 2
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "grade": ["Expected number, received boolean"]
+                    }
+                  },
+                  "No field provided for update": {
+                    "value": {
+                      "name": "No valid field was provided for update"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Updating other user's rating": {
+                    "description": "The user tried to update a rating created by other user",
+                    "value": {
+                      "message": "A user cannot change ratings from other users"
+                    }
+                  },
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Users that don't have permission can't update ratings",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided rating id does not correspond to any rating identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "message": "No rating with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a rating",
+        "tags": ["Ratings"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the rating to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rating deleted successfully"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Deleting other user's rating": {
+                    "description": "The user tried to delete a rating created by other user",
+                    "value": {
+                      "message": "A user cannot change ratings from other users"
+                    }
+                  },
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Users that don't have permission can't delete ratings",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided rating id does not correspond to any rating identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "message": "No rating with the informed id was found"
                 }
               }
             }
