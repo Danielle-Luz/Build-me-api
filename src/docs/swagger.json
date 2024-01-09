@@ -2252,6 +2252,152 @@
           }
         }
       }
+    },
+    "/ratings/made/{authorId}": {
+      "get": {
+        "summary": "Display user's created ratings",
+        "description": "Shows all the ratings created by a specific user for other users",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "Ratings created by the user with the provided id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdRating"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "comment": "Good team work!",
+                    "grade": 5,
+                    "authorId": 3,
+                    "ratedRecipientId": 2,
+                    "createdDate": "2023-12-27T05:20:46.289Z",
+                    "projectId": 2
+                  },
+                  {
+                    "id": 2,
+                    "comment": "Poor team work!",
+                    "grade": 1,
+                    "authorId": 3,
+                    "ratedRecipientId": 1,
+                    "createdDate": "2023-11-11T05:20:46.289Z",
+                    "projectId": 4
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided author id id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/reveived/{ratedRecipientId}": {
+      "get": {
+        "summary": "Display user's received ratings",
+        "description": "Shows all the ratings received by a specific user made by other users",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "Ratings received by the user with the provided id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdRating"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 9,
+                    "comment": "Amazing design skills!",
+                    "grade": 5,
+                    "authorId": 1,
+                    "ratedRecipientId": 2,
+                    "createdDate": "2024-01-02T03:18:23.289Z",
+                    "projectId": 2
+                  },
+                  {
+                    "id": 10,
+                    "comment": "You helped me a lot!",
+                    "grade": 5,
+                    "authorId": 4,
+                    "ratedRecipientId": 2,
+                    "createdDate": "2024-01-05T00:14:12.289Z",
+                    "projectId": 4
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided recipient id id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/average/{ratedRecipientId}": {
+      "get": {
+        "summary": "User's average rating score",
+        "description": "Shows the average score of the ratings received by the user",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "Average score of the ratings received by the user with the provided id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdRating"
+                  }
+                },
+                "example": { "averageRating": 8.5 }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided recipient id id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2789,6 +2935,14 @@
         },
         "projectId": {
           "type": "integer"
+        }
+      }
+    },
+    "ratingScore": {
+      "type": "object",
+      "properties": {
+        "averageRating": {
+          "type": "number"
         }
       }
     },
