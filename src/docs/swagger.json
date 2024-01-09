@@ -3141,6 +3141,43 @@
         }
       }
     },
+    "newTechnology": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "iconUrl"]
+    },
+    "createdTechnology": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "updatedTechnology": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        }
+      }
+    },
     "errorMessage": {
       "type": "object",
       "properties": {
