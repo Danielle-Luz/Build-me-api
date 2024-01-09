@@ -27,8 +27,12 @@
       "description": "Manage the questions that can be associated with answers and used to create tests for evaluating the user’s skills"
     },
     {
-      "name": "Rakings",
-      "description": "Displays user information related with other entities in a ranking"
+      "name": "Rankings",
+      "description": "Displays user information sorted into rankings based on various parameters, such as: the highest number of reviews received, the highest number of project participations, and more"
+    },
+    {
+      "name": "Ratings",
+      "description": "Manage the ratings that were created to assess the performance of colleagues in a project"
     }
   ],
   "paths": {
@@ -1003,7 +1007,7 @@
                   },
                   "No field provided for update": {
                     "value": {
-                      "name": "No valid field was provided for update"
+                      "message": "No valid field was provided for update"
                     }
                   }
                 }
@@ -2257,7 +2261,7 @@
       "get": {
         "summary": "Display user's created ratings",
         "description": "Shows all the ratings created by a specific user for other users",
-        "tags": ["Rankings"],
+        "tags": ["Ratings"],
         "responses": {
           "200": {
             "description": "Ratings created by the user with the provided id",
@@ -2312,7 +2316,7 @@
       "get": {
         "summary": "Display user's received ratings",
         "description": "Shows all the ratings received by a specific user made by other users",
-        "tags": ["Rankings"],
+        "tags": ["Ratings"],
         "responses": {
           "200": {
             "description": "Ratings received by the user with the provided id",
@@ -2367,7 +2371,7 @@
       "get": {
         "summary": "User's average rating score",
         "description": "Shows the average score of the ratings received by the user",
-        "tags": ["Rankings"],
+        "tags": ["Ratings"],
         "responses": {
           "200": {
             "description": "Average score of the ratings received by the user with the provided id",
@@ -2463,7 +2467,7 @@
                   },
                   "No field provided for update": {
                     "value": {
-                      "name": "No valid field was provided for update"
+                      "message": "No valid field was provided for update"
                     }
                   }
                 }
@@ -2512,7 +2516,7 @@
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
                 },
-                "examples": {
+                "example": {
                   "message": "No rating with the informed id was found"
                 }
               }
@@ -2581,7 +2585,7 @@
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
                 },
-                "examples": {
+                "example": {
                   "message": "No rating with the informed id was found"
                 }
               }
