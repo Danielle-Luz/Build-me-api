@@ -25,6 +25,10 @@
     {
       "name": "Questions",
       "description": "Manage the questions that can be associated with answers and used to create tests for evaluating the user’s skills"
+    },
+    {
+      "name": "Rakings",
+      "description": "Displays user information related with other entities in a ranking"
     }
   ],
   "paths": {
@@ -1883,6 +1887,234 @@
           }
         }
       }
+    },
+    "/rankings/vacancies/participations": {
+      "get": {
+        "summary": "Display users in order of the number of vacancies they've been selected for",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "List the users' information along with the frequency of their participation as candidates for vacancies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/participationRanking"
+                  }
+                },
+                "example": [
+                  {
+                    "applicationsCount": 5,
+                    "id": 1,
+                    "userId": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "profilePicture": "https://example.com/johndoe.jpg"
+                  },
+                  {
+                    "applicationsCount": 3,
+                    "id": 2,
+                    "userId": 2,
+                    "firstName": "Emily",
+                    "lastName": "Smith",
+                    "profilePicture": "https://example.com/emilysmith.jpg"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rankings/ratings/authored": {
+      "get": {
+        "summary": "Display users in order of the number of ratings they've created",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "List the users' information along with the number of ratings created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ratingsMadeRanking"
+                  }
+                },
+                "example": [
+                  {
+                    "ratingsMadeCount": 5,
+                    "id": 1,
+                    "userId": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "profilePicture": "https://example.com/johndoe.jpg"
+                  },
+                  {
+                    "ratingsMadeCount": 3,
+                    "id": 2,
+                    "userId": 2,
+                    "firstName": "Emily",
+                    "lastName": "Smith",
+                    "profilePicture": "https://example.com/emilysmith.jpg"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rankings/ratings/average": {
+      "get": {
+        "summary": "Display users in order of the average score of ratings they've received",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "List the users' information along with the average score",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ratingsAverageRanking"
+                  }
+                },
+                "example": [
+                  {
+                    "averageRating": 5,
+                    "userId": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "profilePicture": "https://example.com/johndoe.jpg"
+                  },
+                  {
+                    "averageRating": 3,
+                    "userId": 2,
+                    "firstName": "Emily",
+                    "lastName": "Smith",
+                    "profilePicture": "https://example.com/emilysmith.jpg"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "rankings/learners/subscriptions": {
+      "get": {
+        "summary": "Display users in order of the number of learner's subscriptions they have made",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "List the users' information along with the number of learner's subscriptions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ratingsSubscriptions"
+                  }
+                },
+                "example": [
+                  {
+                    "learnerSubscriptionsCount": 5,
+                    "userId": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "profilePicture": "https://example.com/johndoe.jpg"
+                  },
+                  {
+                    "learnerSubscriptionsCount": 3,
+                    "userId": 2,
+                    "firstName": "Emily",
+                    "lastName": "Smith",
+                    "profilePicture": "https://example.com/emilysmith.jpg"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "rankings/tests/scores": {
+      "get": {
+        "summary": "Display users in order of the total sum of their test scores",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "List the users' information along with the tests' scores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ratingsTestScores"
+                  }
+                },
+                "example": [
+                  {
+                    "totalTestsScore": 40.0,
+                    "userId": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "profilePicture": "https://example.com/johndoe.jpg"
+                  },
+                  {
+                    "totalTestsScore": 15.0,
+                    "userId": 2,
+                    "firstName": "Emily",
+                    "lastName": "Smith",
+                    "profilePicture": "https://example.com/emilysmith.jpg"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "rankings/userSkills/scores": {
+      "get": {
+        "summary": "Display users in order of the total sum of their skill scores",
+        "tags": ["Rankings"],
+        "responses": {
+          "200": {
+            "description": "List the users' information along with their total skills' scores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ratingsSkillScores"
+                  }
+                },
+                "example": [
+                  {
+                    "skillScore": 65.0,
+                    "userId": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "profilePicture": "https://example.com/johndoe.jpg",
+                    "technologyName": "Node JS"
+                  },
+                  {
+                    "skillScore": 40.0,
+                    "userId": 2,
+                    "firstName": "Emily",
+                    "lastName": "Smith",
+                    "profilePicture": "https://example.com/emilysmith.jpg",
+                    "technologyName": "HTML"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2239,6 +2471,132 @@
               }
             }
           }
+        }
+      }
+    },
+    "participationRanking": {
+      "type": "object",
+      "properties": {
+        "applicationsCount": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        }
+      }
+    },
+    "ratingsMadeRanking": {
+      "type": "object",
+      "properties": {
+        "ratingsMadeCount": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        }
+      }
+    },
+    "ratingsAverageRanking": {
+      "type": "object",
+      "properties": {
+        "averageRating": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        }
+      }
+    },
+    "ratingsSubscriptions": {
+      "type": "object",
+      "properties": {
+        "learnerSubscriptionsCount": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        }
+      }
+    },
+    "ratingsTestScores": {
+      "type": "object",
+      "properties": {
+        "totalTestsScore": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        }
+      }
+    },
+    "ratingsSkillScores": {
+      "type": "object",
+      "properties": {
+        "skillScore": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        },
+        "technologyName": {
+          "type": "string"
         }
       }
     },
