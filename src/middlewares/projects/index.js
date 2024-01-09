@@ -24,9 +24,10 @@ class ProjectsMiddlewares {
     const { validatedData } = request;
 
     const closeDate = new Date(validatedData.closeDate);
-    const actualDate = new Date();
+    const actualDateWithTime = new Date();
+    const actualDate = new Date(actualDateWithTime.toISOString().split("T")[0]);
 
-    if (closeDate < actualDate) {
+    if (closeDate <= actualDate) {
       const errorMessage =
         "The close date should be later than or equal to the current date";
       throw new CloseDateError(errorMessage);
