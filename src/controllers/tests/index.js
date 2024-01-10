@@ -40,11 +40,11 @@ class TestsController {
     return response.status(StatusCodes.OK).json(testsByUser);
   }
 
-  static async getTestByUserAndTechnology(request, response) {
+  static async getTestsByUserAndTechnology(request, response) {
     const { userId, technologyId } = request.params;
 
     const testByUserAndTechnology =
-      await TestsService.getTestByUserAndTechnology(userId, technologyId);
+      await TestsService.getTestsByUserAndTechnology(userId, technologyId);
 
     return response.status(StatusCodes.OK).json(testByUserAndTechnology);
   }

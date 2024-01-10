@@ -43,7 +43,7 @@ testsRouter.get(
   "/users/:userId/technologies/:technologyId",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  TestsController.getTestByUserAndTechnology
+  TestsController.getTestsByUserAndTechnology
 );
 
 module.exports = { testsRouter };
