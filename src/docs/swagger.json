@@ -34,6 +34,10 @@
       "name": "Ratings",
       "description": "Manage the ratings that were created to assess the performance of colleagues in a project"
     }
+    ,{
+      "name": "Technologies",
+      "description": "Administer the technologies that can be designated as requirements for projects' vacancies and user skills"
+    }
   ],
   "paths": {
     "/answers": {
@@ -2593,6 +2597,431 @@
           }
         }
       }
+    },
+    "/technologies": {
+      "post": {
+        "summary": "Create a new technology",
+        "tags": ["Technologies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/newTechnology"
+              },
+              "example": {
+                "name": "CSS",
+                "iconUrl": "https://css.png"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Technology created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdTechnology"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "CSS",
+                  "iconUrl": "https://css.png"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "name": ["required"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "A user that is not admin can not create technologies",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A technology name should be unique, it can't have the same name of an already existent one",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "A technology with this name was already created"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all technologies",
+        "tags": ["Technologies"],
+        "responses": {
+          "200": {
+            "description": "List of all technologies in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/questionWithAnswers"
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "CSS",
+                    "iconUrl": "https://css.png"
+                  },
+                  {
+                    "id": 2,
+                    "name": "JavaScript",
+                    "iconUrl": "https://javascript.png"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to see technologies data",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/technologies/{id}": {
+      "get": {
+        "summary": "Get a specific technology",
+        "description": "Show the information for the technology with the provided id",
+        "produces": ["application/json"],
+        "tags": ["Technologies"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the technology that should be shown",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data for the provided technology id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdTechnology"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "CSS",
+                  "iconUrl": "https://css.png"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user is not allowed to see technologies data",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a specific technology",
+        "description": "Update one or more fields of a specific technology",
+        "produces": ["application/json"],
+        "tags": ["Technologies"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the technology that should be updated",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/createdTechnology"
+              },
+              "examples": {
+                "Valid body": {
+                  "value": {
+                    "id": 1,
+                    "name": "CSS",
+                    "iconUrl": "https://css.png"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The technology was updated with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdTechnology"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "CSS",
+                  "iconUrl": "https://css.png"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The format of one or more values being updated is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "iconUrl": ["Expected string, received number"]
+                    }
+                  },
+                  "No field provided for update": {
+                    "value": {
+                      "message": "No valid field was provided for update"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "A user that is not admin can not update technologies",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A technology name should be unique, it can't have the same name of an already existent one",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "A technology with this name was already created"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a specific technology",
+        "description": "",
+        "produces": ["application/json"],
+        "tags": ["Technologies"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the technology that should be deleted",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The technology was deleted with success"
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "A user that is not admin can not delete technologies",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -3151,7 +3580,7 @@
           "type": "string"
         }
       },
-      "required": ["name", "iconUrl"]
+      "required": ["name"]
     },
     "createdTechnology": {
       "type": "object",
