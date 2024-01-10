@@ -3026,259 +3026,192 @@
           }
         }
       }
-    }
-  },
-  "/evaluate": {
-    "post": {
-      "summary": "Evaluate answers and get test score",
-      "description": "Evaluate submitted answers and calculate the test score",
-      "produces": ["application/json"],
-      "tags": ["Tests"],
-      "requestBody": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/testAnswer"
-              }
-            },
-            "examples": {
-              "Evaluate Test": {
-                "value": [
-                  {
-                    "questionId": 26,
-                    "answerId": 13
-                  },
-                  {
-                    "questionId": 25,
-                    "answerId": 14
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "description": "Test score calculated successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/createdTest"
-              },
-              "example": {
-                "createdTest": {
-                  "id": 70,
-                  "userId": 2,
-                  "technologyId": 6,
-                  "score": 200,
-                  "createdDate": "2024-01-10T09:26:53.944Z"
-                },
-                "isBiggestScore": true
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "Invalid input data format or duplicate questions",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/zodErrorMessageList"
-              },
-              "examples": {
-                "Missing properties and invalid formats": {
-                  "value": [
-                    {
-                      "0": ["Required"],
-                      "1": ["Expected number, received string"]
-                    }
-                  ]
-                },
-                "Duplicate question": {
-                  "value": [
-                    {
-                      "0": ["This question already exists in the test"]
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/errorMessage"
-              },
-              "examples": {
-                "Missing bearer token": {
-                  "description": "The user didn't include the token before sending the request",
-                  "value": {
-                    "message": "Missing bearer token"
-                  }
-                },
-                "Incorrect bearer token": {
-                  "description": "The provided token is invalid",
-                  "value": {
-                    "message": "jwt malformed"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "/:id": {
-    "get": {
-      "summary": "Get test by ID",
-      "description": "Retrieve details of a specific test by its ID",
-      "produces": ["application/json"],
-      "tags": ["Tests"],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "description": "ID of the test to retrieve",
-          "required": true,
-          "schema": {
-            "type": "number"
-          }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Details of the requested test",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/test"
-              },
-              "example": {
-                "id": 70,
-                "userId": 2,
-                "technologyId": 6,
-                "score": 200,
-                "createdDate": "2024-01-10T09:26:53.944Z"
-              }
-            }
-          }
-        },
-        "404": {
-          "description": "Test ID not found",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/errorMessage"
-              },
-              "example": {
-                "message": "No test with the informed ID was found"
-              }
-            }
-          }
-        },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/errorMessage"
-              },
-              "examples": {
-                "Missing bearer token": {
-                  "description": "The user didn't include the token before sending the request",
-                  "value": {
-                    "message": "Missing bearer token"
-                  }
-                },
-                "Incorrect bearer token": {
-                  "description": "The provided token is invalid",
-                  "value": {
-                    "message": "jwt malformed"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "/technologies/{technologyId}": {
-    "get": {
-      "summary": "Get tests by technology ID",
-      "description": "Retrieve tests related to a specific technology",
-      "produces": ["application/json"],
-      "tags": ["Tests"],
-      "parameters": [
-        {
-          "name": "technologyId",
-          "in": "path",
-          "description": "ID of the technology to retrieve tests",
-          "required": true,
-          "schema": {
-            "type": "number"
-          }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "List of tests related to the technology",
+    },
+    "/tests/evaluate": {
+      "post": {
+        "summary": "Evaluate answers and get test score",
+        "description": "Check if each question id is related to the correct answer id",
+        "produces": ["application/json"],
+        "tags": ["Tests"],
+        "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/test"
+                  "$ref": "#/definitions/testAnswer"
                 }
               },
               "example": [
                 {
-                  "id": 54,
-                  "userId": 1,
-                  "technologyId": 3,
-                  "score": 700,
-                  "createdDate": "2024-01-03T00:14:58.031Z"
+                  "questionId": 26,
+                  "answerId": 13
                 },
                 {
-                  "id": 55,
-                  "userId": 1,
-                  "technologyId": 3,
-                  "score": 1000,
-                  "createdDate": "2024-01-03T00:16:13.391Z"
-                },
-                {
-                  "id": 56,
-                  "userId": 1,
-                  "technologyId": 3,
-                  "score": 1000,
-                  "createdDate": "2024-01-03T00:16:29.230Z"
+                  "questionId": 25,
+                  "answerId": 14
                 }
               ]
             }
           }
         },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/errorMessage"
-              },
-              "examples": {
-                "Missing bearer token": {
-                  "description": "The user didn't include the token before sending the request",
-                  "value": {
-                    "message": "Missing bearer token"
-                  }
+        "responses": {
+          "200": {
+            "description": "Test score calculated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdTest"
                 },
-                "Incorrect bearer token": {
-                  "description": "The provided token is invalid",
-                  "value": {
-                    "message": "jwt malformed"
+                "example": {
+                  "createdTest": {
+                    "id": 70,
+                    "userId": 2,
+                    "technologyId": 6,
+                    "score": 200,
+                    "createdDate": "2024-01-10T09:26:53.944Z"
+                  },
+                  "isBiggestScore": true
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodErrorMessageList"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "description": "One or more answers are missing required properties, or the format of their values is incorrect",
+                    "value": [
+                      {
+                        "0": ["Required"],
+                        "1": ["Expected number, received string"]
+                      }
+                    ]
+                  },
+                  "Answer id or question id not found": {
+                    "description": "Answer id or question id provided in one or more objects are incorrect",
+                    "value": [
+                      {
+                        "0": [
+                          "No question with the informed id was found",
+                          "No answer with the informed id was found"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A question id cannot be repeated more than once or be related to more than one answer id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "The question(s) with id(s) 1, 2 were answered more than once"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tests/{id}": {
+      "get": {
+        "summary": "Get test by id",
+        "description": "Retrieve details of a specific test by its id",
+        "produces": ["application/json"],
+        "tags": ["Tests"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the test to retrieve",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the requested test",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdTest"
+                },
+                "example": {
+                  "id": 70,
+                  "userId": 2,
+                  "technologyId": 6,
+                  "score": 200,
+                  "createdDate": "2024-01-10T09:26:53.944Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Test id not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No test with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
                   }
                 }
               }
@@ -3286,56 +3219,79 @@
           }
         }
       }
-    }
-  },
-  "/users/{userId}": {
-    "get": {
-      "summary": "Get tests by user ID",
-      "description": "Retrieve tests related to a specific user",
-      "produces": ["application/json"],
-      "tags": ["Tests"],
-      "parameters": [
-        {
-          "name": "userId",
-          "in": "path",
-          "description": "ID of the user to retrieve tests",
-          "required": true,
-          "schema": {
-            "type": "number"
-          }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "List of tests related to the user",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/test"
-                }
-              }
+    },
+    "/tests/technologies/{technologyId}": {
+      "get": {
+        "summary": "Get tests by technology id",
+        "description": "Retrieve tests related to a specific technology",
+        "produces": ["application/json"],
+        "tags": ["Tests"],
+        "parameters": [
+          {
+            "name": "technologyId",
+            "in": "path",
+            "description": "Id of the technology to retrieve tests",
+            "required": true,
+            "schema": {
+              "type": "number"
             }
           }
-        },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/errorMessage"
-              },
-              "examples": {
-                "Missing bearer token": {
-                  "description": "The user didn't include the token before sending the request",
-                  "value": {
-                    "message": "Missing bearer token"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tests related to the technology",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdTest"
                   }
                 },
-                "Incorrect bearer token": {
-                  "description": "The provided token is invalid",
-                  "value": {
-                    "message": "jwt malformed"
+                "example": [
+                  {
+                    "id": 54,
+                    "userId": 1,
+                    "technologyId": 3,
+                    "score": 700,
+                    "createdDate": "2024-01-03T00:14:58.031Z"
+                  },
+                  {
+                    "id": 55,
+                    "userId": 1,
+                    "technologyId": 3,
+                    "score": 1000,
+                    "createdDate": "2024-01-03T00:16:13.391Z"
+                  },
+                  {
+                    "id": 56,
+                    "userId": 1,
+                    "technologyId": 3,
+                    "score": 1000,
+                    "createdDate": "2024-01-03T00:16:29.230Z"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
                   }
                 }
               }
@@ -3343,65 +3299,168 @@
           }
         }
       }
-    }
-  },
-  "/users/{userId}/technologies/{technologyId}": {
-    "get": {
-      "summary": "Get test by user ID and technology ID",
-      "description": "Retrieve tests related to a specific user and technology",
-      "produces": ["application/json"],
-      "tags": ["Tests"],
-      "parameters": [
-        {
-          "name": "userId",
-          "in": "path",
-          "description": "ID of the user",
-          "required": true,
-          "schema": {
-            "type": "number"
+    },
+    "/tests/users/{userId}": {
+      "get": {
+        "summary": "Get tests by user id",
+        "description": "Retrieve tests made by a specific user",
+        "produces": ["application/json"],
+        "tags": ["Tests"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user to retrieve tests",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
           }
-        },
-        {
-          "name": "technologyId",
-          "in": "path",
-          "description": "ID of the technology",
-          "required": true,
-          "schema": {
-            "type": "number"
-          }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "List of tests related to the user and technology",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/test"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tests related to the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdTest"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 67,
+                    "userId": 1,
+                    "technologyId": 6,
+                    "score": 500,
+                    "createdDate": "2024-01-03T02:00:56.860Z"
+                  },
+                  {
+                    "id": 62,
+                    "userId": 1,
+                    "technologyId": 6,
+                    "score": 300,
+                    "createdDate": "2024-01-03T00:22:40.675Z"
+                  },
+                  {
+                    "id": 70,
+                    "userId": 2,
+                    "technologyId": 6,
+                    "score": 200,
+                    "createdDate": "2024-01-10T09:26:53.944Z"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  }
                 }
               }
             }
           }
-        },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/errorMessage"
-              },
-              "examples": {
-                "Missing bearer token": {
-                  "description": "The user didn't include the token before sending the request",
-                  "value": {
-                    "message": "Missing bearer token"
-                  }
+        }
+      }
+    },
+    "/tests/users/{userId}/technologies/{technologyId}": {
+      "get": {
+        "summary": "Get test by user id and technology id",
+        "description": "Get the test made by the user with the given id about the technology with the specified id",
+        "produces": ["application/json"],
+        "tags": ["Tests"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "technologyId",
+            "in": "path",
+            "description": "Id of the technology",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tests related to the user and technology",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdTest"
+                  },
+                  "example": [
+                    {
+                      "id": 67,
+                      "userId": 1,
+                      "technologyId": 6,
+                      "score": 500,
+                      "createdDate": "2024-01-03T02:00:56.860Z"
+                    },
+                    {
+                      "id": 62,
+                      "userId": 1,
+                      "technologyId": 6,
+                      "score": 300,
+                      "createdDate": "2024-01-03T00:22:40.675Z"
+                    },
+                    {
+                      "id": 70,
+                      "userId": 1,
+                      "technologyId": 6,
+                      "score": 200,
+                      "createdDate": "2024-01-10T09:26:53.944Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
                 },
-                "Incorrect bearer token": {
-                  "description": "The provided token is invalid",
-                  "value": {
-                    "message": "jwt malformed"
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
                   }
                 }
               }
