@@ -37,6 +37,10 @@
     ,{
       "name": "Technologies",
       "description": "Administer the technologies that can be designated as requirements for projects' vacancies and user skills"
+    },
+    {
+      "name": "Tests",
+      "description": "Management of tests that evaluate the skill level of a user in a certain technology"
     }
   ],
   "paths": {
