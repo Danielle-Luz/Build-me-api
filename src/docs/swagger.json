@@ -41,6 +41,10 @@
     {
       "name": "Tests",
       "description": "Management of tests that evaluate the skill level of a user in a certain technology"
+    },
+    {
+      "name": "Users",
+      "description": "Manage the users that can use the platform"
     }
   ],
   "paths": {
@@ -3468,6 +3472,527 @@
           }
         }
       }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Retrieve a list of all users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "List of all users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/createdUser" }
+                },
+                "example": [
+                  {
+                    "id": 103,
+                    "username": "NewUser",
+                    "firstName": "NewName",
+                    "lastName": "NewLastName",
+                    "email": "newuser@example.com",
+                    "githubUsername": "newuser",
+                    "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                    "password": "password456",
+                    "roleId": 1,
+                    "deletedDate": null
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "description": "Create a new user with the provided information",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/newUser" },
+              "example": {
+                "username": "NewUser",
+                "firstName": "NewName",
+                "lastName": "NewLastName",
+                "email": "newuser@example.com",
+                "githubUsername": "newuser",
+                "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                "password": "password456",
+                "roleId": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/createdUser" },
+                "example": {
+                  "id": 103,
+                  "username": "NewUser",
+                  "firstName": "NewName",
+                  "lastName": "NewLastName",
+                  "email": "newuser@example.com",
+                  "githubUsername": "newuser",
+                  "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                  "password": "password456",
+                  "roleId": 1,
+                  "deletedDate": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "example": {
+                  "email": ["Expected string, received number"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided role id does not correspond to any role identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No role with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Username in use": {
+                    "description": "The provided username was already related to an existent user",
+                    "value": {
+                      "message": "An existent user already has this username"
+                    }
+                  },
+                  "Email in use": {
+                    "description": "The provided email was already related to an existent user",
+                    "value": {
+                      "message": "An existent user already has this email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logged": {
+      "get": {
+        "summary": "Get logged-in user",
+        "description": "Retrieve information about the user whose token was provided",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "Logged-in user information",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/createdUser" },
+                "example": {
+                  "id": 103,
+                  "username": "NewUser",
+                  "firstName": "NewName",
+                  "lastName": "NewLastName",
+                  "email": "newuser@example.com",
+                  "githubUsername": "newuser",
+                  "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                  "password": "password456",
+                  "roleId": 1,
+                  "deletedDate": null
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/search/{value}": {
+      "get": {
+        "summary": "Search users by a value",
+        "description": "Shows the data of all users that have the searched value in their username, firstname, lastname, email and/or github username fields",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The value to search for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users matching the search criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/createdUser" }
+                },
+                "example": [
+                  {
+                    "id": 103,
+                    "username": "NewUser",
+                    "firstName": "NewName",
+                    "lastName": "NewLastName",
+                    "email": "newuser@example.com",
+                    "githubUsername": "newuser",
+                    "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                    "password": "password456",
+                    "roleId": 1,
+                    "deletedDate": null
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user by id",
+        "description": "Show the user's record whose id was provided",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Id of the user to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information with the provided id",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/createdUser" },
+                "example": {
+                  "id": 103,
+                  "username": "NewUser",
+                  "firstName": "NewName",
+                  "lastName": "NewLastName",
+                  "email": "newuser@example.com",
+                  "githubUsername": "newuser",
+                  "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                  "password": "password456",
+                  "roleId": 1,
+                  "deletedDate": null
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user by id",
+        "description": "Update one or more fields of a specific user",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Id of the user to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/updatedUser" },
+              "example": {
+                "firstName": "NewName",
+                "lastName": "NewLastName"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/createdUser" },
+                "example": {
+                  "id": 103,
+                  "username": "NewUser",
+                  "firstName": "NewName",
+                  "lastName": "NewLastName",
+                  "email": "newuser@example.com",
+                  "githubUsername": "newuser",
+                  "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                  "password": "password456",
+                  "roleId": 1,
+                  "deletedDate": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Invalid body": {
+                    "value": {
+                      "firstName": ["Expected string, received number"]
+                    }
+                  },
+                  "No field provided for update": {
+                    "value": {
+                      "message": "No valid field was provided for update"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Only a admin or the user itself can update his info",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "User not found": {
+                    "value": {
+                      "message": "No user with the informed id was found"
+                    }
+                  },
+                  "Role not found": {
+                    "value": {
+                      "message": "No role with the informed id was found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user by id",
+        "description": "Delete the user whose id was provided",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Id of the user to delete"
+          }
+        ],
+        "responses": {
+          "204": { "description": "User deleted successfully" },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Only a admin or the user with the provided id can delete himself",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "User login",
+        "description": "Authenticate and login a user, returning a token that can be used in routes that require authentication",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/loggedUser" },
+              "example": {
+                "email": "newuser@example.com",
+                "password": "password456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/userLogin" },
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhYWhjb2xsaW5zMTZAZ21haWwuY29tIiwiaWF0IjoxNzA0ODY4MDAxLCJleHAiOjE3MDQ5NTQ0MDEsInN1YiI6ImxhYWhjb2xsaW5zMTZAZ21haWwuY29tIn0.N1EVxjhwcPosBIcgjIEa5I2O0eR6AaT6NzU25Iblsdo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "example": {"email": ["Expected string, received number"]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4095,6 +4620,60 @@
         "iconUrl": {
           "type": "string"
         }
+      }
+    },
+    "createdUser": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "username": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "githubUsername": { "type": "string" },
+        "linkedinUrl": { "type": "string" },
+        "profilePicture": { "type": "string" },
+        "roleId": { "type": "integer" }
+      }
+    },
+    "newUser": {
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "githubUsername": { "type": "string" },
+        "linkedinUrl": { "type": "string" },
+        "profilePicture": { "type": "string" },
+        "roleId": { "type": "integer" }
+      }
+    },
+    "updatedUser": {
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "password": { "type": "string" },
+        "githubUsername": { "type": "string" },
+        "linkedinUrl": { "type": "string" },
+        "profilePicture": { "type": "string" },
+        "roleId": { "type": "integer" }
+      }
+    },
+    "loggedUser": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" }
+      }
+    },
+    "userLogin": {
+      "type": "object",
+      "properties": {
+        "token": { "type": "string" }
       }
     },
     "errorMessage": {
