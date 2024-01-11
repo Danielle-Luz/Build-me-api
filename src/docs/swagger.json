@@ -53,6 +53,10 @@
     {
       "name": "Vacancies",
       "description": "Manages the available positions in the projects where users can apply and start actively participating in the project"
+    },
+    {
+      "name": "Vacancy requirements",
+      "description": "Manages the requirements that a user should meet to candidate to a project's vacancy"
     }
   ],
   "paths": {
@@ -4344,7 +4348,9 @@
             "description": "Vacancy created successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/definitions/createdVacancyWithoutProject" },
+                "schema": {
+                  "$ref": "#/definitions/createdVacancyWithoutProject"
+                },
                 "example": {
                   "id": 105,
                   "name": "Cientista de Dados",
@@ -4672,7 +4678,7 @@
             "description": "Vacancy successfully deleted"
           },
           "404": {
-            "description": "The provided vacancy id does not correspond to any user identifier in the database",
+            "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
             "content": {
               "application/json": {
                 "schema": {
@@ -5275,6 +5281,467 @@
                 },
                 "example": {
                   "message": "No candidate with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vacancyRequirements": {
+      "post": {
+        "summary": "Create a new vacancy requirement",
+        "description": "Create a new requirement to specify which skills the user should have to be able to candidate to the related vacancy",
+        "tags": ["Vacancy requirements"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/newVacancyRequirement" },
+              "example": {
+                "vacancyId": 34,
+                "technologyId": 3,
+                "skillLevel": "Básico"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vacancy requirement created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdVacancyRequirement"
+                },
+                "example": {
+                  "id": 1,
+                  "vacancyId": 34,
+                  "technologyId": 3,
+                  "skillLevel": "Básico",
+                  "skillLevelScore": 0
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "example": {
+                  "vacancyId": ["Expected number, received string"],
+                  "technologyId": ["required"]
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Technology not found": {
+                    "description": "The provided technology id does not correspond to any technology identifier in the database",
+                    "value": {
+                      "message": "No technology with the informed id was found"
+                    }
+                  },
+                  "Vacancy not found": {
+                    "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
+                    "value": {
+                      "message": "No vacancy with the informed id was found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Only a admin and the user who created the vacancy's project are able to create requirements for its related vacancies",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A requirement was already created with the provided technology id and related to this vacancy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "This technology is already related to the provided vacancy"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "It's not possible to create a new requirement for a vacancy that already has user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "Unable to perform operation. The vacancy is already linked to an user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vacancyRequirements/{id}": {
+      "get": {
+        "summary": "Get vacancy requirement by id",
+        "description": "Shows the data of the vacancy requirement whose id was provided",
+        "tags": ["Vacancy requirements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the vacancy requirement to be shown",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found vacancy requirement data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdVacancyRequirement"
+                  }
+                },
+                "example": {
+                  "id": 15,
+                  "vacancyId": 34,
+                  "technologyId": 3,
+                  "skillLevel": "Básico",
+                  "skillLevelScore": 0
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided vacancy requirement id does not correspond to any vacancy requirement identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy requirement with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a vacancy requirement",
+        "description": "Update one or more fields of a specific vacancy requirement",
+        "tags": ["Vacancy requirements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the vacancy requirement that should be updated",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/updatedVacancyRequirement" },
+              "example": {
+                "skillLevel": "Avançado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vacancy requirement updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/createdVacancy" },
+                "example": {
+                  "id": 15,
+                  "vacancyId": 34,
+                  "technologyId": 3,
+                  "skillLevel": "Intermediário",
+                  "skillLevelScore": 1000
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "examples": {
+                  "Value with invalid property": {
+                    "description": "The value or format of one or more values being updated are incorrect",
+                    "value": {
+                      "skillLevel": ["Invalid enum value. Expected 'Básico' | 'Intermediário' | 'Avançado', received 'Invalid value'"]
+                    }
+                  },
+                  "No field provided for update": {
+                    "description": "The request body is empty",
+                    "value": {
+                      "message": "No valid field was provided for update"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Only a admin and the user who created the vacancy's project are able to update requirements for its related vacancies",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A requirement was already created with the provided technology id to which the requirement is being updated, and it's already associated with this vacancy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "This technology is already related to the provided vacancy"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "It's not possible to update a requirement of a vacancy that is already related to an user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "Unable to perform operation. The vacancy is already linked to an user"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a vacancy requirement",
+        "description": "Delete the vacancy requirement's record whose id was provided",
+        "tags": ["Vacancy requirements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the vacancy requirement to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Vacancy requirement successfully deleted"
+          },
+          "404": {
+            "description": "The provided vacancy requirement id does not correspond to any vacancy requirement identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy requirement with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Only a admin and the user who created the vacancy's project are able to delete its related vacancies' requirements",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "It's not possible to delete a requirement of a vacancy that is already related to an user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "Unable to perform operation. The vacancy is already linked to an user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vacancyRequirements/vacancies/{vacancyId}": {
+      "get": {
+        "summary": "Get vacancy's requirements",
+        "description": "Displays all requirements that a user should have to candidate to the vacancy whose id was provided",
+        "tags": ["Vacancy requirements"],
+        "parameters": [
+          {
+            "name": "vacancyId",
+            "in": "path",
+            "description": "Id of the vacancy for whom all related requirements should be displayed",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All related vacancy's requirements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdVacancyRequirement"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 15,
+                    "vacancyId": 34,
+                    "technologyId": 3,
+                    "skillLevel": "Básico",
+                    "skillLevelScore": 0
+                  },
+                  {
+                    "id": 16,
+                    "vacancyId": 34,
+                    "technologyId": 2,
+                    "skillLevel": "Intermediário",
+                    "skillLevelScore": 1000
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy with the informed id was found"
                 }
               }
             }
@@ -6082,6 +6549,59 @@
       "properties": {
         "vacancyDropoutsNumber": {
           "type": "integer"
+        }
+      }
+    },
+    "newVacancyRequirement": {
+      "type": "object",
+      "properties": {
+        "vacancyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "technologyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "skillLevel": {
+          "type": "string",
+          "enum": ["Básico", "Intermediário", "Avançado"]
+        }
+      },
+      "required": ["vacancyId", "technologyId", "skillLevel"]
+    },
+    "createdVacancyRequirement": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "vacancyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "technologyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "skillLevel": {
+          "type": "string",
+          "enum": ["Básico", "Intermediário", "Avançado"]
+        }
+      },
+      "required": ["vacancyId", "technologyId", "skillLevel"]
+    },
+    "updatedVacancyRequirement": {
+      "type": "object",
+      "properties": {
+        "technologyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "skillLevel": {
+          "type": "string",
+          "enum": ["Básico", "Intermediário", "Avançado"]
         }
       }
     },
