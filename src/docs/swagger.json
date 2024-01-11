@@ -4423,8 +4423,8 @@
             }
           },
           "403": {
+            "description": "The project to which the vacancy is being related has already reached its 'closeDate', therefore, it can't be linked to any new vacancies",
             "content": {
-              "description": "The project to which the vacancy is being related has already reached its 'closeDate', therefore, it can't be linked to any new vacancies",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4436,8 +4436,8 @@
             }
           },
           "429": {
+            "description": "The 'chosenCandidateId' field has been linked to a user who has reached the limit of being associated with a maximum of 3 vacancies simultaneously",
             "content": {
-              "description": "The 'chosenCandidateId' field has been linked to a user who has reached the limit of being associated with a maximum of 3 vacancies simultaneously",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4541,7 +4541,7 @@
                   "name": "Cientista de Dados",
                   "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
                   "createdDate": "2023-12-05T18:10:15.234Z",
-                  "learnersLimit": 5,
+                  "learnersLimit": 10,
                   "projectId": 4,
                   "chosenCandidateId": null
                 }
@@ -4624,8 +4624,8 @@
             }
           },
           "409": {
+            "description": "The new id in the 'chosenCandidateId' field is equal to the previous value; the user is the same, and it should be different",
             "content": {
-              "description": "The new id in the 'chosenCandidateId' field is equal to the previous value; the user is the same, and it should be different",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4637,8 +4637,8 @@
             }
           },
           "429": {
+            "description": "The 'chosenCandidateId' field was filled, and the user with whom it is related has reached the limit of being associated with a maximum of 3 vacancies simultaneously",
             "content": {
-              "description": "The 'chosenCandidateId' field was filled, and the user with whom it is related has reached the limit of being associated with a maximum of 3 vacancies simultaneously",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4672,8 +4672,8 @@
             "description": "Vacancy successfully deleted"
           },
           "404": {
+            "description": "The provided vacancy id does not correspond to any user identifier in the database",
             "content": {
-              "description": "The provided vacancy id does not correspond to any user identifier in the database",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4714,8 +4714,8 @@
             }
           },
           "409": {
+            "description": "A vacancy can't be deleted if its 'chosenCandidateId' field is filled, a user is related to the vacancy",
             "content": {
-              "description": "A vacancy can't be deleted if its 'chosenCandidateId' field is filled, a user is related to the vacancy",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4761,8 +4761,8 @@
             }
           },
           "404": {
+            "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
             "content": {
-              "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
@@ -4803,8 +4803,8 @@
             }
           },
           "403": {
+            "description": "The user can't give up from a vacancy if its related project is already finished",
             "content": {
-              "description": "The user can't give up from a vacancy if its related project is already finished",
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/errorMessage"
