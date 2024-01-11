@@ -45,6 +45,10 @@
     {
       "name": "Users",
       "description": "Manage the users that can use the platform"
+    },
+    {
+      "name": "User skills",
+      "description": "Displays user skills in the technologies registered on the platform"
     }
   ],
   "paths": {
@@ -3986,7 +3990,245 @@
                 "schema": {
                   "$ref": "#/definitions/zodSingleErrorMessage"
                 },
-                "example": {"email": ["Expected string, received number"]
+                "example": { "email": ["Expected string, received number"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/userSkills/users/{userId}": {
+      "get": {
+        "summary": "Get user skills by user id",
+        "description": "Shows the technologies skills of the specified user",
+        "tags": ["User skills"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user whose skills should be shown",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the skills the user has",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdUserSkill"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 12,
+                    "userId": 1,
+                    "technologyId": 5,
+                    "skillLevel": "Intermediário",
+                    "score": 2000
+                  },
+                  {
+                    "id": 13,
+                    "userId": 1,
+                    "technologyId": 1,
+                    "skillLevel": "Básico",
+                    "score": 1000
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/userSkills/skillLevel/{skillLevel}": {
+      "get": {
+        "summary": "Get user skills by user id",
+        "description": "Shows the technologies skills of the specified user",
+        "tags": ["User skills"],
+        "parameters": [
+          {
+            "name": "skillLevel",
+            "in": "path",
+            "description": "Skill level of the skills that should be shown",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all the user skills that have the provided skill level",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdUserSkill"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "userId": 4,
+                    "technologyId": 5,
+                    "skillLevel": "Básico",
+                    "score": 1200
+                  },
+                  {
+                    "id": 13,
+                    "userId": 1,
+                    "technologyId": 1,
+                    "skillLevel": "Básico",
+                    "score": 1000
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided skill level is invalid, one of these values should be used: Básico, Intermediário, Avançado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "Skill level not found, the values available are: Básico, Intermediário, Avançado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/userSkills/technologies/{technologyId}": {
+      "get": {
+        "summary": "Get user skills by technology id",
+        "description": "Shows the user skills that are related to the specified technology",
+        "tags": ["User skills"],
+        "parameters": [
+          {
+            "name": "technologyId",
+            "in": "path",
+            "description": "Id of the technology that should be related with the user skills shown",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the skills related to the technology",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdUserSkill"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 12,
+                    "userId": 1,
+                    "technologyId": 5,
+                    "skillLevel": "Intermediário",
+                    "score": 2000
+                  },
+                  {
+                    "id": 4,
+                    "userId": 2,
+                    "technologyId": 5,
+                    "skillLevel": "Básico",
+                    "score": 1000
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided technology id does not correspond to any technology identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No technology with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/userSkills/{id}": {
+      "get": {
+        "summary": "Get user skill by id",
+        "description": "Shows the user skill with the specified id",
+        "tags": ["User skills"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the user skill that should have its data shown",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data for the provided user skill id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdUserSkill"
+                },
+                "example": {
+                  "id": 12,
+                  "userId": 1,
+                  "technologyId": 5,
+                  "skillLevel": "Intermediário",
+                  "score": 2000
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user skill id does not correspond to any user skill identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user skill with the informed id was found"
                 }
               }
             }
@@ -4674,6 +4916,16 @@
       "type": "object",
       "properties": {
         "token": { "type": "string" }
+      }
+    },
+    "createdUserSkill": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "userId": { "type": "integer" },
+        "technologyId": { "type": "integer" },
+        "skillLevel": { "type": "string" },
+        "score": { "type": "number" }
       }
     },
     "errorMessage": {
