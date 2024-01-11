@@ -4235,6 +4235,217 @@
           }
         }
       }
+    },
+    "/vacancies": {
+      "get": {
+        "summary": "Get all vacancies",
+        "description": "Displays all the vacancies created across all projects on the platform",
+        "tags": ["Vacancies"],
+        "responses": {
+          "200": {
+            "description": "List of all vacancies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/createdVacancy" }
+                },
+                "example": [
+                  {
+                    "id": 78,
+                    "name": "Testador Automático",
+                    "description": "Realizar testes automatizados para garantir a qualidade do software.",
+                    "createdDate": "2023-10-02T15:20:10.123Z",
+                    "learnersLimit": 2,
+                    "projectId": 3,
+                    "chosenCandidateId": null,
+                    "project": {
+                      "id": 3,
+                      "name": "AutoTestHub",
+                      "description": "Plataforma dedicada a testes automatizados para garantir a qualidade do software.",
+                      "createdById": 5,
+                      "createdDate": "2023-09-28T09:45:30.456Z",
+                      "deletedDate": null,
+                      "closeDate": "2024-07-15T00:00:00.000Z",
+                      "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
+                      "memberSelectionMethod": "Aleatória"
+                    }
+                  },
+                  {
+                    "id": 92,
+                    "name": "Desenvolvedor Full Stack",
+                    "description": "Contribuir para o desenvolvimento de aplicações web completas, do frontend ao backend.",
+                    "createdDate": "2023-11-18T12:55:45.789Z",
+                    "learnersLimit": 3,
+                    "projectId": 6,
+                    "chosenCandidateId": null,
+                    "project": {
+                      "id": 6,
+                      "name": "WebSolutions",
+                      "description": "Desenvolvimento colaborativo de soluções web inovadoras.",
+                      "createdById": 8,
+                      "createdDate": "2023-11-10T17:30:00.000Z",
+                      "deletedDate": null,
+                      "closeDate": "2024-08-20T00:00:00.000Z",
+                      "repositoryUrl": "https://github.com/WebSolutions/innovative-web-apps",
+                      "memberSelectionMethod": "Ordem de inscrição"
+                    }
+                  },
+                  {
+                    "id": 105,
+                    "name": "Cientista de Dados",
+                    "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
+                    "createdDate": "2023-12-05T18:10:15.234Z",
+                    "learnersLimit": 1,
+                    "projectId": 4,
+                    "chosenCandidateId": null,
+                    "project": {
+                      "id": 4,
+                      "name": "DataScienceLab",
+                      "description": "Colaboração em pesquisa e aplicação de técnicas avançadas de ciência de dados.",
+                      "createdById": 6,
+                      "createdDate": "2023-11-30T08:00:00.000Z",
+                      "deletedDate": null,
+                      "closeDate": "2024-09-25T00:00:00.000Z",
+                      "repositoryUrl": "https://github.com/DataScienceLab/advanced-data-analysis",
+                      "memberSelectionMethod": "Escolha manual"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new vacancy",
+        "description": "Create a new vacancy that will be available for users to apply for in the project it is related to",
+        "tags": ["Vacancies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/newVacancy" },
+              "example": {
+                "name": "Cientista de Dados",
+                "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
+                "learnersLimit": 1,
+                "projectId": 4
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vacancy created successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/definitions/createdVacancy" },
+                "example": {
+                  "id": 105,
+                  "name": "Cientista de Dados",
+                  "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
+                  "createdDate": "2023-12-05T18:10:15.234Z",
+                  "learnersLimit": 1,
+                  "projectId": 4,
+                  "chosenCandidateId": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "example": {
+                  "name": ["Expected string, received number"]
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Candidate not found": {
+                    "description": "The provided candidate id does not correspond to any candidate identifier in the database",
+                    "value": {
+                      "message": "No candidate with the informed id was found"
+                    }
+                  },
+                  "Project not found": {
+                    "description": "The provided project id does not correspond to any project identifier in the database",
+                    "value": {
+                      "message": "No project with the informed id was found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "The user doesn't have permission to create vacancies",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "description": "The project to which the vacancy is being related has already reached its 'closeDate', therefore, it can't be linked to any new vacancies",
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "It's not possible to associate or modify a vacancy from a project that has already been closed"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "description": "The 'chosenCandidateId' field has been linked to a user who has reached the limit of being associated with a maximum of 3 vacancies simultaneously",
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "The user has already reached the limit of 3 open projects that he can join simultaneously"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4926,6 +5137,61 @@
         "technologyId": { "type": "integer" },
         "skillLevel": { "type": "string" },
         "score": { "type": "number" }
+      }
+    },
+    "createdVacancy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "learnersLimit": {
+          "type": "integer"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "chosenCandidateId": {
+          "type": ["integer", "null"],
+          "format": "int64"
+        },
+        "project": {
+          "$ref": "#/definitions/createdProject"
+        }
+      }
+    },
+    "newVacancy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "learnersLimit": {
+          "type": "integer"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "chosenCandidateId": {
+          "type": ["integer", "null"],
+          "format": "int64"
+        }
       }
     },
     "errorMessage": {
