@@ -61,6 +61,10 @@
     {
       "name": "Vacancy subscriptions",
       "description": "Allow the user to candidate to project vacancies for which they meet the requirements"
+    },
+    {
+      "name": "Votations",
+      "description": "Allow a project owner to manage votations that ban users related to the project's vacancies"
     }
   ],
   "paths": {
@@ -6135,6 +6139,96 @@
           }
         }
       }
+    },
+    "/votations": {
+      "post": {
+        "summary": "Create a new votation",
+        "description": "Starts a votation to ban the related vacancy's chosen candidate",
+        "tags": ["Votations"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/newVotation" },
+              "example": {
+                "vacancyId": 34
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Votation created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdVotation"
+                },
+                "example": {
+                  "id": 7,
+                  "vacancyId": 41,
+                  "isOpen": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "example": {
+                  "vacancyId": ["Expected number, received string"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User is not project creator": {
+                    "description": "Users that are not the project's owner can not open votations to ban other users",
+                    "value": {
+                      "message": "Only the project creator can create a new votation"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -7019,6 +7113,31 @@
         "createdDate": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "newVotation": {
+      "type": "object",
+      "properties": {
+        "vacancyId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "createdVotation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "vacancyId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isOpen": {
+          "type": "boolean"
         }
       }
     },
