@@ -65,6 +65,10 @@
     {
       "name": "Votations",
       "description": "Allow a project owner to manage votations that ban users related to the project's vacancies"
+    },
+    {
+      "name": "Votes",
+      "description": "Manage votes in a votation to ban a user from a vacancy"
     }
   ],
   "paths": {
@@ -5530,7 +5534,9 @@
                   "Value with invalid property": {
                     "description": "The value or format of one or more values being updated are incorrect",
                     "value": {
-                      "skillLevel": ["Invalid enum value. Expected 'Básico' | 'Intermediário' | 'Avançado', received 'Invalid value'"]
+                      "skillLevel": [
+                        "Invalid enum value. Expected 'Básico' | 'Intermediário' | 'Avançado', received 'Invalid value'"
+                      ]
                     }
                   },
                   "No field provided for update": {
@@ -6375,6 +6381,260 @@
                     "description": "A user who is not the owner of the project to which the votation is related cannot delete votations",
                     "value": {
                       "message": "Only the project creator can manage votations"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votes": {
+      "post": {
+        "summary": "Create a new vote",
+        "description": "Add a vote from the logged-in user in a specific votation",
+        "tags": ["Votes"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/definitions/newVote" },
+              "example": {
+                "votationId": 34
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vote created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdVote"
+                },
+                "example": {
+                  "id": 14,
+                  "votationId": 6,
+                  "voterId": 3,
+                  "wasUserBanned": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is missing required properties, or the format of their values is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/zodSingleErrorMessage"
+                },
+                "example": {
+                  "votationId": ["Expected number, received string"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided votation id does not correspond to any votation identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No votation with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User is not project colleague": {
+                    "description": "A user can only vote if the chosen candidate for the vacancy being voted is a project colleague of the logged-in user",
+                    "value": {
+                      "message": "A user can only vote for another user if both are members of the same project"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "A user can't create more than one vote per votation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "Users can only vote once per votation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votes/votations/{votationId}": {
+      "get": {
+        "summary": "Get votes by votation id",
+        "description": "Shows all the votes in a specific votation",
+        "tags": ["Votes"],
+        "parameters": [
+          {
+            "name": "votationId",
+            "in": "path",
+            "description": "Id of the votation whose related votes should be displayed",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All the votes related to the votation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdVote"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "votationId": 6,
+                    "voterId": 3,
+                    "wasUserBanned": true
+                  },
+                  {
+                    "id": 2,
+                    "votationId": 6,
+                    "voterId": 2,
+                    "wasUserBanned": false
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided votation id does not correspond to any votation identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No votation with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votes/{voteId}": {
+      "delete": {
+        "summary": "Delete vote by id",
+        "description": "Deletes the vote whose id was specified",
+        "tags": ["Votes"],
+        "parameters": [
+          {
+            "name": "voteId",
+            "in": "path",
+            "description": "Id of the vote that should be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Vote deleted successfully"
+          },
+          "404": {
+            "description": "The provided vote id does not correspond to any vote identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vote with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User is not project creator": {
+                    "description": "Only the user who voted can delete its vote",
+                    "value": {
+                      "message": "A user can't delete votes from other users"
                     }
                   }
                 }
@@ -7291,6 +7551,35 @@
           "format": "int64"
         },
         "isOpen": {
+          "type": "boolean"
+        }
+      }
+    },
+    "newVote": {
+      "type": "object",
+      "properties": {
+        "votationId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "createdVote": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "votationId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "voterId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "wasUserBanned": {
           "type": "boolean"
         }
       }
