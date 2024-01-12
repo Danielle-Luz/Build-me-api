@@ -5446,10 +5446,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdVacancyRequirement"
-                  }
+                  "$ref": "#/definitions/createdVacancyRequirement"
                 },
                 "example": {
                   "id": 15,
@@ -5896,6 +5893,242 @@
                       "message": "The user has already reached the limit of 3 open projects that he can join simultaneously"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vacancySubscriptions/{id}": {
+      "get": {
+        "summary": "Get vacancy subscription by id",
+        "description": "Shows the data of the vacancy subscription whose id was provided",
+        "tags": ["Vacancy subscriptions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the vacancy subscription to be shown",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found vacancy subscription data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/createdVacancySubscription"
+                },
+                "example": {
+                  "id": 78,
+                  "userId": 3,
+                  "vacancyId": 30,
+                  "createdDate": "2024-01-12T05:27:06.013Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The provided vacancy subscription id does not correspond to any vacancy subscription identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy subscription with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a vacancy subscription",
+        "description": "Delete the vacancy subscription's record whose id was provided",
+        "tags": ["Vacancy subscriptions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the vacancy subscription to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Vacancy subscription successfully deleted"
+          },
+          "404": {
+            "description": "The provided vacancy subscription id does not correspond to any vacancy subscription identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy subscription with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User doesn't have permission to access the route": {
+                    "description": "Only a admin and the user who created the vacancy subscription are able to delete it",
+                    "value": {
+                      "message": "The user is unauthorized to access the route or to perform this operation with other users records"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vacancySubscriptions/vacancies/{vacancyId}": {
+      "get": {
+        "summary": "Get vacancy subscription by vacancy id",
+        "description": "Shows the data from all subscriptions for the vacancy whose id was provided",
+        "tags": ["Vacancy subscriptions"],
+        "parameters": [
+          {
+            "name": "vacancyId",
+            "in": "path",
+            "description": "Id of the vacancy for which the related subscriptions should be displayed",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All the subscriptions related to the vacancy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdVacancySubscription"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 45,
+                    "userId": 3,
+                    "vacancyId": 25,
+                    "createdDate": "2024-01-12T05:27:06.013Z"
+                  },
+                  {
+                    "id": 48,
+                    "userId": 1,
+                    "vacancyId": 25,
+                    "createdDate": "2024-01-10T03:12:09.013Z"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided vacancy id does not correspond to any vacancy identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No vacancy with the informed id was found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vacancySubscriptions/users/{userId}": {
+      "get": {
+        "summary": "Get vacancy subscription by user id",
+        "description": "Shows all the subscriptions made by the user whose id was provided",
+        "tags": ["Vacancy subscriptions"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user for which the related subscriptions should be displayed",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vacancy subscriptions related to the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdVacancySubscription"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 78,
+                    "userId": 3,
+                    "vacancyId": 30,
+                    "createdDate": "2024-01-12T05:27:06.013Z"
+                  },
+                  {
+                    "id": 65,
+                    "userId": 3,
+                    "vacancyId": 25,
+                    "createdDate": "2024-01-10T03:12:09.013Z"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided user id does not correspond to any user identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No user with the informed id was found"
                 }
               }
             }
