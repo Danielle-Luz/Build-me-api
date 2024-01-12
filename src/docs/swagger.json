@@ -6220,7 +6220,161 @@
                   "User is not project creator": {
                     "description": "Users that are not the project's owner can not open votations to ban other users",
                     "value": {
-                      "message": "Only the project creator can create a new votation"
+                      "message": "Only the project creator can manage votations"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votations/projects/{projectId}": {
+      "get": {
+        "summary": "Get votations by project id",
+        "description": "Shows all the open votations related to the project's vacancies whose id was provided",
+        "tags": ["Votations"],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Id of the project whose related votations should be displayed",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All the votations related to the project's vacancies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/createdVotation"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 7,
+                    "vacancyId": 41,
+                    "isOpen": true
+                  },
+                  {
+                    "id": 8,
+                    "vacancyId": 24,
+                    "isOpen": true
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The provided project id does not correspond to any project identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No project with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User is not project creator": {
+                    "description": "A user that is not a project member can't see the open project's votations",
+                    "value": {
+                      "message": "Only project members can see the open votations"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votations/{votationId}": {
+      "delete": {
+        "summary": "Delete votation by id",
+        "description": "Deletes the votation whose id was specified",
+        "tags": ["Votations"],
+        "parameters": [
+          {
+            "name": "votationId",
+            "in": "path",
+            "description": "Id of the votation that should be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Votation deleted successfully"
+          },
+          "404": {
+            "description": "The provided votation id does not correspond to any votation identifier in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "example": {
+                  "message": "No votation with the informed id was found"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errorMessage"
+                },
+                "examples": {
+                  "Missing bearer token": {
+                    "description": "The user didn't include the token before sending the request",
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "Incorrect bearer token": {
+                    "description": "The provided token is invalid",
+                    "value": {
+                      "message": "jwt malformed"
+                    }
+                  },
+                  "User is not project creator": {
+                    "description": "A user who is not the owner of the project to which the votation is related cannot delete votations",
+                    "value": {
+                      "message": "Only the project creator can manage votations"
                     }
                   }
                 }
