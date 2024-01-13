@@ -9,7 +9,7 @@ const newVacancySchema = z.object({
 });
 
 const updatedVacancySchema = newVacancySchema
-  .omit({ projectId: true, chosenCandidateId: true })
+  .omit({ projectId: true })
   .partial();
 
 module.exports = {
