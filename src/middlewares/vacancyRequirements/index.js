@@ -97,7 +97,7 @@ class VacancyRequirementsMiddlewares {
 
     if (foundVacancyRequirementWithTechnology) {
       throw new DuplicatedInfoError(
-        "This technology is already related with the provided vacancy"
+        "This technology is already related to the provided vacancy"
       );
     }
 
@@ -106,7 +106,10 @@ class VacancyRequirementsMiddlewares {
 
   static setScoreBasedOnSkillLevel(request, response, nextMiddleware) {
     const { skillLevel } = request.validatedData;
-    request.validatedData.skillLevelScore = skillLevelScores[skillLevel];
+
+    if(skillLevel) {
+      request.validatedData.skillLevelScore = skillLevelScores[skillLevel];
+    }
 
     return nextMiddleware();
   }
