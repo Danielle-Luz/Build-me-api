@@ -53,7 +53,7 @@ class VotationsMiddlewares {
     const foundProject = await VacanciesService.getVacancyProjectOwnerId(
       vacancyId
     );
-    console.log("\nproject", foundProject);
+    
     const projectOwnerId = foundProject.createdById;
 
     const isVotationCreatorEqualToProjectOwner =
@@ -61,7 +61,7 @@ class VotationsMiddlewares {
 
     if (!isVotationCreatorEqualToProjectOwner) {
       throw new NoPermissionError(
-        "Only the project creator can create a new votation"
+        "Only the project creator can manage votations"
       );
     }
 
