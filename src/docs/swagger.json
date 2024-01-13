@@ -4289,7 +4289,8 @@
                       "deletedDate": null,
                       "closeDate": "2024-07-15T00:00:00.000Z",
                       "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
-                      "memberSelectionMethod": "Aleatória"
+                      "memberSelectionMethod": "Aleatória",
+                      "status": "Não iniciado"
                     }
                   },
                   {
@@ -4309,7 +4310,8 @@
                       "deletedDate": null,
                       "closeDate": "2024-08-20T00:00:00.000Z",
                       "repositoryUrl": "https://github.com/WebSolutions/innovative-web-apps",
-                      "memberSelectionMethod": "Ordem de inscrição"
+                      "memberSelectionMethod": "Ordem de inscrição",
+                      "status": "Não iniciado"
                     }
                   },
                   {
@@ -4329,7 +4331,8 @@
                       "deletedDate": null,
                       "closeDate": "2024-09-25T00:00:00.000Z",
                       "repositoryUrl": "https://github.com/DataScienceLab/advanced-data-analysis",
-                      "memberSelectionMethod": "Escolha manual"
+                      "memberSelectionMethod": "Escolha manual",
+                      "status": "Não iniciado"
                     }
                   }
                 ]
@@ -4869,7 +4872,8 @@
                       "deletedDate": null,
                       "closeDate": "2024-07-15T00:00:00.000Z",
                       "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
-                      "memberSelectionMethod": "Aleatória"
+                      "memberSelectionMethod": "Aleatória",
+                      "status": "Não iniciado"
                     }
                   },
                   {
@@ -4889,7 +4893,8 @@
                       "deletedDate": null,
                       "closeDate": "2024-08-20T00:00:00.000Z",
                       "repositoryUrl": "https://github.com/WebSolutions/innovative-web-apps",
-                      "memberSelectionMethod": "Ordem de inscrição"
+                      "memberSelectionMethod": "Ordem de inscrição",
+                      "status": "Não iniciado"
                     }
                   },
                   {
@@ -4909,7 +4914,8 @@
                       "deletedDate": null,
                       "closeDate": "2024-09-25T00:00:00.000Z",
                       "repositoryUrl": "https://github.com/DataScienceLab/advanced-data-analysis",
-                      "memberSelectionMethod": "Escolha manual"
+                      "memberSelectionMethod": "Escolha manual",
+                      "status": "Não iniciado"
                     }
                   }
                 ]
@@ -6813,6 +6819,12 @@
           "description": "Method of selecting project members for vacancies related to the project",
           "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
           "example": "Aleatória"
+        },
+        "status": {
+          "type": "string",
+          "description": "Indicates if the project started or not",
+          "enum": ["Não iniciado", "Em progresso", "Finalizado"],
+          "example": "Em progresso"
         }
       }
     },
@@ -6861,6 +6873,12 @@
           "description": "Method of selecting project members for vacancies related to the project",
           "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
           "example": "Aleatória"
+        },
+        "status": {
+          "type": "string",
+          "description": "Indicates if the project started or not",
+          "enum": ["Não iniciado", "Em progresso", "Finalizado"],
+          "example": "Não iniciado"
         }
       }
     },
