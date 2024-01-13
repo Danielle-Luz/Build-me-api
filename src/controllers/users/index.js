@@ -19,7 +19,8 @@ class UsersController {
   }
 
   static async getAll(request, response) {
-    const allUsers = await UsersService.getAll();
+    const { page, quantity } = request.query;
+    const allUsers = await UsersService.getAll({ page, quantity });
     return response.status(StatusCodes.OK).json(allUsers);
   }
 
@@ -31,8 +32,10 @@ class UsersController {
   }
 
   static async getUsersBySearchedValue(request, response) {
+    const { page, quantity } = request.query;
     const foundUsers = await UsersService.getUsersBySearchedValue(
-      request.params.value
+      request.params.value,
+      { page, quantity }
     );
 
     return response.status(StatusCodes.OK).json(foundUsers);

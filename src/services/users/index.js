@@ -38,12 +38,16 @@ class UsersService {
     return { token };
   }
 
-  static async getAll() {
-    return AppDatasource.createQueryBuilder()
+  static async getAll({ page = 0, quantity = 10 }) {
+    const users = await AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .innerJoinAndSelect("users.role", "role")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: users.length, users };
   }
 
   static async getUserByEmail(email) {
@@ -94,9 +98,9 @@ class UsersService {
     return foundUser;
   }
 
-  static async getUsersBySearchedValue(value) {
+  static async getUsersBySearchedValue(value, { page = 0, quantity = 10 }) {
     const formattedValue = `%${value}%`;
-    return AppDatasource.createQueryBuilder()
+    const users = await AppDatasource.createQueryBuilder()
       .select("users")
       .from(Users, "users")
       .where("users.username ilike :formattedValue", { formattedValue })
@@ -106,7 +110,11 @@ class UsersService {
       .orWhere("users.githubUsername ilike :formattedValue", {
         formattedValue,
       })
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: users.length, users };
   }
 
   static async update(id, updatedData) {
