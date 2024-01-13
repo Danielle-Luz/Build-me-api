@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 
 class VacancyRequirementsError extends AppError {
   constructor(message) {
-    super(message, StatusCodes.UNPROCESSABLE_ENTITY);
+    super(message, StatusCodes.TOO_MANY_REQUESTS);
   }
 }
 
