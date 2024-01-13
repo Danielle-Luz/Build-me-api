@@ -5646,6 +5646,36 @@
         }
       }
     },
+    "/vacancies/projects/{projectId}/isMember": {
+      "get": {
+        "summary": "Get boolean value indicating if the user is a project member",
+        "description": "Indicates if the user who is logged is a member of the project whose id was provided",
+        "tags": ["Vacancies"],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Id of the project that we will be checked to see if the logged user is a member",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/projectMember"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/vacancyRequirements": {
       "post": {
         "summary": "Create a new vacancy requirement",
@@ -8349,6 +8379,16 @@
           "items": {
             "$ref": "#/definitions/createdVacancySubscription"
           }
+        }
+      }
+    },
+    "projectMember": {
+      "type": "object",
+      "properties": {
+        "isProjectMember": {
+          "type": "boolean",
+          "description": "Indicates if the user who is logged is a member of the project whose id was provided",
+          "example": false
         }
       }
     },
