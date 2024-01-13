@@ -17,9 +17,12 @@ const associationLimitsByEntity = {
   learner: 5,
 };
 
+const projectStatus = ["Não iniciado", "Em progresso", "Finalizado"];
+
 module.exports = {
   associationLimitsByEntity,
   memberSelectionMethod,
   skillLevels,
   skillLevelScores,
+  projectStatus
 };

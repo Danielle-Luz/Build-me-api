@@ -1,5 +1,5 @@
 const z = require("zod");
-const { memberSelectionMethod } = require("../../enumValues");
+const { memberSelectionMethod, projectStatus } = require("../../enumValues");
 
 const newProjectSchema = z.object({
   name: z.string().max(100),
@@ -9,6 +9,8 @@ const newProjectSchema = z.object({
   memberSelectionMethod: z.enum(memberSelectionMethod),
 });
 
-const updateProjectSchema = newProjectSchema.partial();
+const updateProjectSchema = newProjectSchema
+  .partial()
+  .extend({ status: z.enum(projectStatus) });
 
 module.exports = { newProjectSchema, updateProjectSchema };
