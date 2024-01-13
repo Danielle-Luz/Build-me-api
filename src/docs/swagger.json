@@ -6714,7 +6714,7 @@
       "properties": {
         "vacancyId": {
           "type": "number",
-          "description": "Id of the vacancy to which the learner is applying",
+          "description": "Id of the vacancy to which the learner is applying to learn its related technologies with the vacancy's chosen candidate",
           "required": true
         }
       }
@@ -6730,19 +6730,19 @@
         },
         "vacancyId": {
           "type": "number",
-          "description": "Id of the vacancy associated with the learner",
+          "description": "Id of the vacancy for which the user applied as a learner",
           "example": 34,
           "required": true
         },
         "candidateId": {
           "type": "number",
-          "description": "Id of the candidate learner",
+          "description": "Id of user who applied to be a learner",
           "example": 3,
           "required": true
         },
         "createdDate": {
           "type": "string",
-          "description": "Date when the learner was created",
+          "description": "Date when the user became a learner of this vacancy",
           "example": "2023-12-31T19:54:06.490Z",
           "required": true
         }
@@ -6759,25 +6759,25 @@
         },
         "description": {
           "type": "string",
-          "description": "Description of the project",
+          "description": "Details about the purpose of the project and what is it about",
           "example": "A description of Project ABC",
           "required": true
         },
         "closeDate": {
           "type": "string",
           "format": "date-time",
-          "description": "Closing date of the project",
+          "description": "When the project will no longer accept candidatures/subscriptions for its vacancies",
           "example": "2024-01-31T00:00:00Z",
           "required": true
         },
         "repositoryUrl": {
           "type": "string",
-          "description": "URL of the project's repository",
+          "description": "URL of the project's repository that contains its code",
           "example": "https://github.com/project_abc"
         },
         "memberSelectionMethod": {
           "type": "string",
-          "description": "Method of selecting project members",
+          "description": "Method of selecting project members for vacancies related to the project",
           "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
           "example": "Aleatória",
           "required": true
@@ -6794,23 +6794,23 @@
         },
         "description": {
           "type": "string",
-          "description": "Description of the project",
+          "description": "Details about the purpose of the project and what is it about",
           "example": "A description of Project ABC"
         },
         "closeDate": {
           "type": "string",
           "format": "date-time",
-          "description": "Closing date of the project",
+          "description": "When the project will no longer accept candidatures/subscriptions for its vacancies",
           "example": "2024-01-31T00:00:00Z"
         },
         "repositoryUrl": {
           "type": "string",
-          "description": "URL of the project's repository",
+          "description": "URL of the project's repository that contains its code",
           "example": "https://github.com/project_abc"
         },
         "memberSelectionMethod": {
           "type": "string",
-          "description": "Method of selecting project members",
+          "description": "Method of selecting project members for vacancies related to the project",
           "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
           "example": "Aleatória"
         }
@@ -6831,7 +6831,7 @@
         },
         "description": {
           "type": "string",
-          "description": "Description of the project",
+          "description": "Details about the purpose of the project and what is it about",
           "example": "A description of Project ABC"
         },
         "createdById": {
@@ -6842,23 +6842,23 @@
         "createdDate": {
           "type": "string",
           "format": "date-time",
-          "description": "Date when the project was created",
+          "description": "When the project was created",
           "example": "2024-01-01T00:00:00Z"
         },
         "closeDate": {
           "type": "string",
           "format": "date-time",
-          "description": "Closing date of the project",
+          "description": "When the project will no longer accept candidatures/subscriptions for its vacancies",
           "example": "2024-01-31T00:00:00Z"
         },
         "repositoryUrl": {
           "type": "string",
-          "description": "URL of the project's repository",
+          "description": "URL of the project's repository that contains its code",
           "example": "https://github.com/project_abc"
         },
         "memberSelectionMethod": {
           "type": "string",
-          "description": "Method of selecting project members",
+          "description": "Method of selecting project members for vacancies related to the project",
           "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"],
           "example": "Aleatória"
         }
@@ -6873,11 +6873,12 @@
         },
         "technologyId": {
           "type": "integer",
-          "description": "The ID of the technology associated with the question"
+          "description": "Technology the question is about"
         },
         "difficultyLevel": {
           "type": "integer",
-          "description": "The difficulty level of the question (1-3)"
+          "description": "Difficulty level of the question (1-3)",
+          "enum": [1, 2, 3]
         }
       },
       "required": ["question", "technologyId", "difficultyLevel"]
@@ -6895,11 +6896,12 @@
         },
         "technologyId": {
           "type": "integer",
-          "description": "The ID of the technology associated with the question"
+          "description": "Technology the question is about"
         },
         "difficultyLevel": {
           "type": "integer",
-          "description": "The difficulty level of the question (1-3)"
+          "description": "Difficulty level of the question (1-3)",
+          "enum": [1, 2, 3]
         }
       },
       "required": ["question", "technologyId", "difficultyLevel"]
@@ -6913,11 +6915,12 @@
         },
         "technologyId": {
           "type": "integer",
-          "description": "The updated ID of the technology associated with the question"
+          "description": "Technology the question is about"
         },
         "difficultyLevel": {
           "type": "integer",
-          "description": "The updated difficulty level of the question (1-3)"
+          "description": "The updated difficulty level of the question (1-3)",
+          "enum": [1, 2, 3]
         }
       }
     },
@@ -6934,13 +6937,15 @@
         },
         "technologyId": {
           "type": "integer",
-          "description": "The ID of the technology associated with the question"
+          "description": "Technology the question is about"
         },
         "difficultyLevel": {
           "type": "integer",
-          "description": "The difficulty level of the question (1-3)"
+          "description": "Difficulty level of the question (1-3)",
+          "enum": [1, 2, 3]
         },
         "technology": {
+          "description": "Details of the technology the question is about",
           "type": "object",
           "properties": {
             "id": {
@@ -6953,7 +6958,7 @@
             },
             "iconUrl": {
               "type": "string",
-              "description": "The URL to the technology's icon image"
+              "description": "The URL to the technology's logo image"
             }
           }
         }
@@ -6974,7 +6979,7 @@
           },
           "technologyId": {
             "type": "integer",
-            "description": "The ID of the technology associated with the question"
+            "description": "Technology the question is about"
           },
           "difficultyLevel": {
             "type": "integer",
@@ -6996,7 +7001,7 @@
                 },
                 "questionId": {
                   "type": "integer",
-                  "description": "The ID of the associated question"
+                  "description": "Id of the question the answer belongs to"
                 }
               }
             }
@@ -7008,6 +7013,7 @@
       "type": "object",
       "properties": {
         "applicationsCount": {
+          "description": "How many times the user was selected as the chosen candidate in vacancies",
           "type": "integer"
         },
         "userId": {
@@ -7020,6 +7026,7 @@
           "type": "string"
         },
         "profilePicture": {
+          "description": "User's loaded profile picture data",
           "type": "string"
         }
       }
@@ -7028,6 +7035,7 @@
       "type": "object",
       "properties": {
         "ratingsMadeCount": {
+          "description": "How many times the user rated other users",
           "type": "integer"
         },
         "id": {
@@ -7043,6 +7051,7 @@
           "type": "string"
         },
         "profilePicture": {
+          "description": "User's loaded profile picture data",
           "type": "string"
         }
       }
@@ -7051,6 +7060,7 @@
       "type": "object",
       "properties": {
         "averageRating": {
+          "description": "Average score of the ratings received by the related user",
           "type": "number"
         },
         "userId": {
@@ -7063,6 +7073,7 @@
           "type": "string"
         },
         "profilePicture": {
+          "description": "User's loaded profile picture data",
           "type": "string"
         }
       }
@@ -7071,6 +7082,7 @@
       "type": "object",
       "properties": {
         "learnerSubscriptionsCount": {
+          "description": "How many times the user has subscribed as a learner of vacancies",
           "type": "integer"
         },
         "userId": {
@@ -7083,6 +7095,7 @@
           "type": "string"
         },
         "profilePicture": {
+          "description": "User's loaded profile picture data",
           "type": "string"
         }
       }
@@ -7091,6 +7104,7 @@
       "type": "object",
       "properties": {
         "totalTestsScore": {
+          "description": "Sum of scores of all tests the user have made",
           "type": "number"
         },
         "userId": {
@@ -7103,6 +7117,7 @@
           "type": "string"
         },
         "profilePicture": {
+          "description": "User's loaded profile picture data",
           "type": "string"
         }
       }
@@ -7123,9 +7138,11 @@
           "type": "string"
         },
         "profilePicture": {
+          "description": "User's loaded profile picture data",
           "type": "string"
         },
         "technologyName": {
+          "description": "Name of the technology in which the user has his highest skill score",
           "type": "string"
         }
       }
@@ -7134,15 +7151,19 @@
       "type": "object",
       "properties": {
         "comment": {
+          "description": "Details about the rated user's performance and why he received this grade",
           "type": "string"
         },
         "grade": {
+          "description": "Grade that the author gave for the rated user's performance",
           "type": "number"
         },
         "ratedRecipientId": {
+          "description": "User whose performance is being rated",
           "type": "integer"
         },
         "projectId": {
+          "description": "Project in which the rated user's performance is being evaluated",
           "type": "integer"
         }
       },
@@ -7152,9 +7173,11 @@
       "type": "object",
       "properties": {
         "comment": {
+          "description": "Details about the rated user's performance and why he received this grade",
           "type": "string"
         },
         "grade": {
+          "description": "Grade that the author gave for the rated user's performance",
           "type": "number"
         }
       }
@@ -7166,21 +7189,27 @@
           "type": "integer"
         },
         "comment": {
+          "description": "Details about the rated user's performance and why he received this grade",
           "type": "string"
         },
         "grade": {
+          "description": "Grade that the author gave for the rated user's performance",
           "type": "number"
         },
         "createdDate": {
+          "description": "Date when the rating was made",
           "type": "string"
         },
         "authorId": {
+          "description": "User who made the rating",
           "type": "integer"
         },
         "ratedRecipientId": {
+          "description": "User whose performance is being rated",
           "type": "integer"
         },
         "projectId": {
+          "description": "Project in which the rated user's performance is being evaluated",
           "type": "integer"
         }
       }
@@ -7189,6 +7218,7 @@
       "type": "object",
       "properties": {
         "averageRating": {
+          "description": "The average score or ratings that the rated user received",
           "type": "number"
         }
       }
@@ -7197,9 +7227,11 @@
       "type": "object",
       "properties": {
         "name": {
+          "example": "Javascript",
           "type": "string"
         },
         "iconUrl": {
+          "description": "The link of the technology's logo",
           "type": "string"
         }
       },
@@ -7212,9 +7244,11 @@
           "type": "integer"
         },
         "name": {
+          "example": "Javascript",
           "type": "string"
         },
         "iconUrl": {
+          "description": "The link of the technology's logo",
           "type": "string"
         }
       }
@@ -7223,9 +7257,11 @@
       "type": "object",
       "properties": {
         "questionId": {
+          "description": "The question the user is answering",
           "type": "number"
         },
         "answerId": {
+          "description": "The alternative the user chose to answer the question",
           "type": "number"
         }
       },
@@ -7238,15 +7274,19 @@
           "type": "number"
         },
         "userId": {
+          "description": "User who answered the test",
           "type": "number"
         },
         "technologyId": {
+          "description": "Technology about which the test is focused",
           "type": "number"
         },
         "score": {
+          "description": "User's score based on how many questions he answered correctly",
           "type": "number"
         },
         "createdDate": {
+          "description": "Date when user answered the questions",
           "type": "string",
           "format": "date-time"
         }
@@ -7256,9 +7296,11 @@
       "type": "object",
       "properties": {
         "createdTest": {
+          "description": "Test for which the score was calculated",
           "$ref": "#/definitions/createdTest"
         },
         "isBiggestScore": {
+          "description": "Indicates whether the score the user obtained in the test was the highest among the tests taken for the related technology",
           "type": "boolean"
         }
       }
@@ -7267,9 +7309,11 @@
       "type": "object",
       "properties": {
         "name": {
+          "example": "Javascript",
           "type": "string"
         },
         "iconUrl": {
+          "description": "The link of the technology's logo",
           "type": "string"
         }
       }
@@ -7283,10 +7327,22 @@
         "lastName": { "type": "string" },
         "email": { "type": "string" },
         "password": { "type": "string" },
-        "githubUsername": { "type": "string" },
-        "linkedinUrl": { "type": "string" },
-        "profilePicture": { "type": "string" },
-        "roleId": { "type": "integer" }
+        "githubUsername": {
+          "description": "The username of the user in github",
+          "type": "string"
+        },
+        "linkedinUrl": {
+          "description": "Link of the user's linkedin profile",
+          "type": "string"
+        },
+        "profilePicture": {
+          "description": "The loaded profile picture data",
+          "type": "string"
+        },
+        "roleId": {
+          "description": "The role that will define the permissions the user has",
+          "type": "integer"
+        }
       }
     },
     "newUser": {
@@ -7297,10 +7353,22 @@
         "lastName": { "type": "string" },
         "email": { "type": "string" },
         "password": { "type": "string" },
-        "githubUsername": { "type": "string" },
-        "linkedinUrl": { "type": "string" },
-        "profilePicture": { "type": "string" },
-        "roleId": { "type": "integer" }
+        "githubUsername": {
+          "description": "The username of the user in github",
+          "type": "string"
+        },
+        "linkedinUrl": {
+          "description": "Link of the user's linkedin profile",
+          "type": "string"
+        },
+        "profilePicture": {
+          "description": "The loaded profile picture data",
+          "type": "string"
+        },
+        "roleId": {
+          "description": "The role that will define the permissions the user has",
+          "type": "integer"
+        }
       }
     },
     "updatedUser": {
@@ -7309,36 +7377,67 @@
         "firstName": { "type": "string" },
         "lastName": { "type": "string" },
         "password": { "type": "string" },
-        "githubUsername": { "type": "string" },
-        "linkedinUrl": { "type": "string" },
-        "profilePicture": { "type": "string" },
-        "roleId": { "type": "integer" }
+        "githubUsername": {
+          "description": "The username of the user in github",
+          "type": "string"
+        },
+        "linkedinUrl": {
+          "description": "Link of the user's linkedin profile",
+          "type": "string"
+        },
+        "profilePicture": {
+          "description": "The loaded profile picture data",
+          "type": "string"
+        },
+        "roleId": {
+          "description": "The role that will define the permissions the user has",
+          "type": "integer"
+        }
       }
     },
     "loggedUser": {
       "type": "object",
       "properties": {
-        "email": { "type": "string" },
-        "password": { "type": "string" }
+        "email": {
+          "description": "Email of the user who is trying to login",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password of the user who is trying to login",
+          "type": "string"
+        }
       }
     },
     "userLogin": {
       "type": "object",
       "properties": {
-        "token": { "type": "string" }
+        "token": {
+          "description": "The token received by the user after he successfully authenticated with his login info",
+          "type": "string"
+        }
       }
     },
     "createdUserSkill": {
       "type": "object",
       "properties": {
         "id": { "type": "integer" },
-        "userId": { "type": "integer" },
-        "technologyId": { "type": "integer" },
-        "skillLevel": {
-          "type": "string",
-          "enum": ["Aleatória", "Ordem de inscrição", "Escolha manual"]
+        "userId": {
+          "type": "integer",
+          "description": "The user that has this skill"
         },
-        "score": { "type": "number" }
+        "technologyId": {
+          "description": "The technology in which the user is skilled",
+          "type": "integer"
+        },
+        "skillLevel": {
+          "description": "How advanced is the user's skill in the related technology",
+          "type": "string",
+          "enum": ["Básico", "Intermediário", "Avançado"]
+        },
+        "score": {
+          "description": "The numerical representation of the skill level",
+          "type": "number"
+        }
       }
     },
     "createdVacancy": {
@@ -7349,27 +7448,34 @@
           "format": "int64"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Desenvolvedor Backend"
         },
         "description": {
+          "description": "Details about what the chosen user of the vacancy should do",
           "type": "string"
         },
         "createdDate": {
+          "description": "Date when the vacancy was created",
           "type": "string",
           "format": "date-time"
         },
         "learnersLimit": {
+          "description": "The maximum number of users who can learn the technologies related to the vacancy with the assistance of the chosen candidate",
           "type": "integer"
         },
         "projectId": {
+          "description": "Project that requires the vacancy",
           "type": "integer",
           "format": "int64"
         },
         "chosenCandidateId": {
+          "description": "The user who was chosen to assume the vacancy",
           "type": ["integer", "null"],
           "format": "int64"
         },
         "project": {
+          "description": "Details of the project to which the vacancy is related",
           "$ref": "#/definitions/createdProject"
         }
       }
@@ -7382,23 +7488,29 @@
           "format": "int64"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Desenvolvedor Backend"
         },
         "description": {
+          "description": "Details about what the chosen user of the vacancy should do",
           "type": "string"
         },
         "createdDate": {
+          "description": "Date when the vacancy was created",
           "type": "string",
           "format": "date-time"
         },
         "learnersLimit": {
+          "description": "The maximum number of users who can learn the technologies related to the vacancy with the assistance of the chosen candidate",
           "type": "integer"
         },
         "projectId": {
+          "description": "Project that requires the vacancy",
           "type": "integer",
           "format": "int64"
         },
         "chosenCandidateId": {
+          "description": "The user who was chosen to assume the vacancy",
           "type": ["integer", "null"],
           "format": "int64"
         }
@@ -7408,15 +7520,19 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Desenvolvedor Backend"
         },
         "description": {
+          "description": "Details about what the chosen user of the vacancy should do",
           "type": "string"
         },
         "learnersLimit": {
+          "description": "The maximum number of users who can learn the technologies related to the vacancy with the assistance of the chosen candidate",
           "type": "integer"
         },
         "chosenCandidateId": {
+          "description": "The user who was chosen to assume the vacancy",
           "type": ["integer", "null"],
           "format": "int64"
         }
@@ -7426,19 +7542,24 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Desenvolvedor Backend"
         },
         "description": {
+          "description": "Details about what the chosen user of the vacancy should do",
           "type": "string"
         },
         "learnersLimit": {
+          "description": "The maximum number of users who can learn the technologies related to the vacancy with the assistance of the chosen candidate",
           "type": "integer"
         },
         "projectId": {
+          "description": "Project that requires the vacancy",
           "type": "integer",
           "format": "int64"
         },
         "chosenCandidateId": {
+          "description": "The user who was chosen to assume the vacancy",
           "type": ["integer", "null"],
           "format": "int64"
         }
@@ -7448,6 +7569,7 @@
       "type": "object",
       "properties": {
         "vacancyDropoutsNumber": {
+          "description": "How many times the user gave up from other vacancies where he was the chosen candidate",
           "type": "integer"
         }
       }
@@ -7456,14 +7578,17 @@
       "type": "object",
       "properties": {
         "vacancyId": {
+          "description": "The vacancy for which the requirement is being specified",
           "type": "integer",
           "format": "int64"
         },
         "technologyId": {
+          "description": "The technology in which the candidate should be skilled",
           "type": "integer",
           "format": "int64"
         },
         "skillLevel": {
+          "description": "Minimum skill level required to candidate for the vacancy",
           "type": "string",
           "enum": ["Básico", "Intermediário", "Avançado"]
         }
@@ -7478,14 +7603,17 @@
           "format": "int64"
         },
         "vacancyId": {
+          "description": "The vacancy for which the requirement is being specified",
           "type": "integer",
           "format": "int64"
         },
         "technologyId": {
+          "description": "The technology in which the candidate should be skilled",
           "type": "integer",
           "format": "int64"
         },
         "skillLevel": {
+          "description": "Minimum skill level required to candidate for the vacancy",
           "type": "string",
           "enum": ["Básico", "Intermediário", "Avançado"]
         }
@@ -7496,10 +7624,12 @@
       "type": "object",
       "properties": {
         "technologyId": {
+          "description": "The technology in which the candidate should be skilled",
           "type": "integer",
           "format": "int64"
         },
         "skillLevel": {
+          "description": "Minimum skill level required to candidate for the vacancy",
           "type": "string",
           "enum": ["Básico", "Intermediário", "Avançado"]
         }
@@ -7509,6 +7639,7 @@
       "type": "object",
       "properties": {
         "vacancyId": {
+          "description": "Vacancy for which the user candidated as the chosen user",
           "type": "integer",
           "format": "int64"
         }
@@ -7522,14 +7653,17 @@
           "format": "int64"
         },
         "userId": {
+          "description": "User who candidated for the vacancy",
           "type": "integer",
           "format": "int64"
         },
         "vacancyId": {
+          "description": "Vacancy for which the user candidated as the chosen user",
           "type": "integer",
           "format": "int64"
         },
         "createdDate": {
+          "description": "Date when the subscription was made",
           "type": "string",
           "format": "date-time"
         }
@@ -7539,6 +7673,7 @@
       "type": "object",
       "properties": {
         "vacancyId": {
+          "description": "Vacancy for which its chosen candidate is being voted to be banned",
           "type": "integer",
           "format": "int64"
         }
@@ -7552,10 +7687,12 @@
           "format": "int64"
         },
         "vacancyId": {
+          "description": "Vacancy for which its chosen candidate is being voted to be banned",
           "type": "integer",
           "format": "int64"
         },
         "isOpen": {
+          "description": "Indicates if the votation is open, receiving votes, or closed, doesn't receive votes",
           "type": "boolean"
         }
       }
@@ -7564,6 +7701,7 @@
       "type": "object",
       "properties": {
         "votationId": {
+          "description": "The votation for which the user is voting",
           "type": "integer",
           "format": "int64"
         }
@@ -7577,14 +7715,17 @@
           "format": "int64"
         },
         "votationId": {
+          "description": "The votation for which the user voted",
           "type": "integer",
           "format": "int64"
         },
         "voterId": {
+          "description": "The id of the user who voted",
           "type": "integer",
           "format": "int64"
         },
         "wasUserBanned": {
+          "description": "Indicates if the user being voted received the required amount of votes to be banned",
           "type": "boolean"
         }
       }
@@ -7604,7 +7745,11 @@
       "properties": {
         "0": {
           "type": "array",
-          "description": "A list with the error on the values detected by zod"
+          "description": "A list with the errors on the values detected by zod"
+        },
+        "1": {
+          "type": "array",
+          "description": "A list with the errors on the values detected by zod"
         }
       }
     },
@@ -7612,9 +7757,11 @@
       "type": "object",
       "properties": {
         "fieldWithError": {
+          "description": "A list with the errors on the values detected by zod",
           "type": "array"
         },
         "anotherFieldWithError": {
+          "description": "A list with the errors on the values detected by zod",
           "type": "array"
         }
       }
