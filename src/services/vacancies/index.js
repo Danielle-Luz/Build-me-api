@@ -51,8 +51,8 @@ class VacanciesService {
       .getMany();
   }
 
-  static async getOpenProjectsUnrelatedVacancies() {
-    return AppDatasource.createQueryBuilder()
+  static async getOpenProjectsUnrelatedVacancies({ page = 0, quantity = 10 }) {
+    const vacancies = await AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .innerJoinAndSelect("vacancies.project", "project")
@@ -60,7 +60,11 @@ class VacanciesService {
       .where("project.closeDate >= CURRENT_DATE")
       .andWhere("vacancies.chosenCandidateId is null")
       .orderBy("vacancies.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: vacancies.length, vacancies };
   }
 
   static async getVacancyById(id) {
@@ -81,14 +85,18 @@ class VacanciesService {
     return foundVacancy;
   }
 
-  static async getVacanciesRelatedToUser(userId) {
-    return AppDatasource.createQueryBuilder()
+  static async getVacanciesRelatedToUser(userId, { page = 0, quantity = 10 }) {
+    const vacancies = await AppDatasource.createQueryBuilder()
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .innerJoinAndSelect("vacancies.project", "project")
       .where("vacancies.chosenCandidateId = :userId", { userId })
       .orderBy("vacancies.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: vacancies.length, vacancies };
   }
 
   static async getProjectColleagues(projectId, chosenCandidateIds) {
@@ -137,8 +145,11 @@ class VacanciesService {
       .getRawMany();
   }
 
-  static async getAllVacanciesMatchingUserSkills(userId) {
-    return AppDatasource.createQueryBuilder()
+  static async getAllVacanciesMatchingUserSkills(
+    userId,
+    { page = 0, quantity = 10 }
+  ) {
+    const vacancies = await AppDatasource.createQueryBuilder()
       .select()
       .from(VacancyRequirements, "vacancy_requirements")
       .leftJoin(
@@ -168,7 +179,11 @@ class VacanciesService {
       .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
       .groupBy("vacancy.id")
       .orderBy("vacancy.createdDate")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    return { page, quantity: vacancies.length, vacancies };
   }
 
   static async getVacanciesFromOpenProjectsRelatedToUser(userId) {

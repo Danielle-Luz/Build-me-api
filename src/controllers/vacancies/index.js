@@ -35,8 +35,13 @@ class VacanciesController {
   }
 
   static async getOpenProjectsUnrelatedVacancies(request, response) {
+    const { page, quantity } = request.query;
     const projectVacancies =
-      await VacanciesService.getOpenProjectsUnrelatedVacancies();
+      await VacanciesService.getOpenProjectsUnrelatedVacancies({
+        page,
+        quantity,
+      });
+      
     return response.status(StatusCodes.OK).json(projectVacancies);
   }
 
@@ -49,10 +54,14 @@ class VacanciesController {
   }
 
   static async getVacanciesRelatedToUser(request, response) {
+    const { page, quantity } = request.query;
     const userId = request.params.userId;
 
     const vacanciesRelatedToUser =
-      await VacanciesService.getVacanciesRelatedToUser(userId);
+      await VacanciesService.getVacanciesRelatedToUser(userId, {
+        page,
+        quantity,
+      });
 
     return response.status(StatusCodes.OK).json(vacanciesRelatedToUser);
   }
@@ -71,9 +80,13 @@ class VacanciesController {
 
   static async getAllVacanciesMatchingUserSkills(request, response) {
     const { userId } = request.params;
+    const { page, quantity } = request.query;
 
     const foundMathingVacancies =
-      await VacanciesService.getAllVacanciesMatchingUserSkills(userId);
+      await VacanciesService.getAllVacanciesMatchingUserSkills(userId, {
+        page,
+        quantity,
+      });
 
     return response.status(StatusCodes.OK).json(foundMathingVacancies);
   }
