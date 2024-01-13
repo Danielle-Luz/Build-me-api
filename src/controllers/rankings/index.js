@@ -5,36 +5,65 @@ const { RankingsService } = require("../../services");
 
 class RankingsController {
   static async getUsersWithMoreVacanciesParticipations(request, response) {
+    const { page, quantity } = request.query;
     const orderedResults =
-      await RankingsService.getUsersWithMoreVacanciesParticipations();
+      await RankingsService.getUsersWithMoreVacanciesParticipations({
+        page,
+        quantity,
+      });
+
     return response.status(StatusCodes.OK).json(orderedResults);
   }
 
   static async getUsersWithMoreRatingsMade(request, response) {
-    const orderedResults = await RankingsService.getUsersWithMoreRatingsMade();
+    const { page, quantity } = request.query;
+    const orderedResults = await RankingsService.getUsersWithMoreRatingsMade({
+      page,
+      quantity,
+    });
+
     return response.status(StatusCodes.OK).json(orderedResults);
   }
 
   static async getUsersWithBiggestAverageRatings(request, response) {
+    const { page, quantity } = request.query;
     const orderedResults =
-      await RankingsService.getUsersWithBiggestAverageRatings();
+      await RankingsService.getUsersWithBiggestAverageRatings({
+        page,
+        quantity,
+      });
+
     return response.status(StatusCodes.OK).json(orderedResults);
   }
 
   static async getUsersWithMoreLearnerSubscriptions(request, response) {
+    const { page, quantity } = request.query;
     const orderedResults =
-      await RankingsService.getUsersWithMoreLearnerSubscriptions();
+      await RankingsService.getUsersWithMoreLearnerSubscriptions({
+        page,
+        quantity,
+      });
+
     return response.status(StatusCodes.OK).json(orderedResults);
   }
 
   static async getUsersWithBiggestTestScores(request, response) {
-    const orderedResults =
-      await RankingsService.getUsersWithBiggestTestScores();
+    const { page, quantity } = request.query;
+    const orderedResults = await RankingsService.getUsersWithBiggestTestScores({
+      page,
+      quantity,
+    });
+
     return response.status(StatusCodes.OK).json(orderedResults);
   }
 
   static async getUsersWithBestSkillScores(request, response) {
-    const orderedResults = await RankingsService.getUsersWithBestSkillScores();
+    const { page, quantity } = request.query;
+    const orderedResults = await RankingsService.getUsersWithBestSkillScores({
+      page,
+      quantity,
+    });
+    
     return response.status(StatusCodes.OK).json(orderedResults);
   }
 }

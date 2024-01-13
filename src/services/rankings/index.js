@@ -8,8 +8,11 @@ const {
 } = require("../../entities");
 
 class RankingsService {
-  static async getUsersWithMoreVacanciesParticipations() {
-    return AppDatasource.createQueryBuilder()
+  static async getUsersWithMoreVacanciesParticipations({
+    page = 0,
+    quantity = 10,
+  }) {
+    const ranking = await AppDatasource.createQueryBuilder()
       .select("COUNT(vacancies.chosenCandidateId)", "applicationsCount")
       .from(Vacancies, "vacancies")
       .innerJoin("vacancies.chosenCandidate", "candidate")
@@ -27,11 +30,15 @@ class RankingsService {
         `candidate."profilePicture"`,
       ])
       .orderBy(`"applicationsCount"`, "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    return { page, quantity: ranking.length, ranking };
   }
 
-  static async getUsersWithMoreRatingsMade() {
-    return AppDatasource.createQueryBuilder()
+  static async getUsersWithMoreRatingsMade({ page = 0, quantity = 10 }) {
+    const ranking = await AppDatasource.createQueryBuilder()
       .select("COUNT(*)", "ratingsMadeCount")
       .from(Ratings, "ratings")
       .innerJoin("ratings.author", "author")
@@ -50,11 +57,15 @@ class RankingsService {
         `author."profilePicture"`,
       ])
       .orderBy(`"ratingsMadeCount"`, "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    return { page, quantity: ranking.length, ranking };
   }
 
-  static async getUsersWithBiggestAverageRatings() {
-    return AppDatasource.createQueryBuilder()
+  static async getUsersWithBiggestAverageRatings({ page = 0, quantity = 10 }) {
+    const ranking = await AppDatasource.createQueryBuilder()
       .select("ROUND(AVG(ratings.grade), 2)", "averageRating")
       .from(Ratings, "ratings")
       .innerJoin("ratings.ratedRecipient", "recipient")
@@ -72,11 +83,18 @@ class RankingsService {
         `recipient."profilePicture"`,
       ])
       .orderBy(`"averageRating"`, "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    return { page, quantity: ranking.length, ranking };
   }
 
-  static async getUsersWithMoreLearnerSubscriptions() {
-    return AppDatasource.createQueryBuilder()
+  static async getUsersWithMoreLearnerSubscriptions({
+    page = 0,
+    quantity = 10,
+  }) {
+    const ranking = await AppDatasource.createQueryBuilder()
       .select("COUNT(*)", "learnerSubscriptionsCount")
       .from(Learners, "learners")
       .innerJoin("learners.candidate", "candidate")
@@ -94,11 +112,15 @@ class RankingsService {
         `candidate."profilePicture"`,
       ])
       .orderBy(`"learnerSubscriptionsCount"`, "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    return { page, quantity: ranking.length, ranking };
   }
 
-  static async getUsersWithBiggestTestScores() {
-    return AppDatasource.createQueryBuilder()
+  static async getUsersWithBiggestTestScores({ page = 0, quantity = 10 }) {
+    const ranking = await AppDatasource.createQueryBuilder()
       .select("SUM(tests.score)", "totalTestsScore")
       .from(Tests, "tests")
       .innerJoin("tests.user", "applicant")
@@ -116,34 +138,43 @@ class RankingsService {
         `applicant."profilePicture"`,
       ])
       .orderBy(`"totalTestsScore"`, "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    return { page, quantity: ranking.length, ranking };
   }
 
-  static async getUsersWithBestSkillScores() {
-    return AppDatasource.createQueryBuilder()
+  static async getUsersWithBestSkillScores({ page = 0, quantity = 10 }) {
+    const ranking = await AppDatasource.createQueryBuilder()
       .select(`candidate."id"`, "userId")
+      .addSelect("SUM(skills.score)", "total")
       .addSelect([
         `candidate."firstName"`,
         `candidate."lastName"`,
         `candidate."profilePicture"`,
       ])
       .distinctOn(["candidate.id"])
-      .addSelect(`technology."name"`, "technologyName")
-      .addSelect("skills.score", "skillScore")
       .from(UserSkills, "skills")
       .innerJoin("skills.user", "candidate")
       .innerJoin("skills.technology", "technology")
       .groupBy([
-        `technology."name"`,
-        `skills."userId"`,
-        "skills.score",
         "candidate.id",
         `candidate."firstName"`,
         `candidate."lastName"`,
         `candidate."profilePicture"`,
       ])
-      .orderBy({ "candidate.id": "ASC", "skills.score": "DESC" })
+      .orderBy("candidate.id", "ASC")
+      .addOrderBy("total", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getRawMany();
+
+    const sortedSkillsScoreRanking = ranking.sort(
+      (previousUser, nextUser) => nextUser.total - previousUser.total
+    );
+
+    return { page, quantity: ranking.length, ranking: sortedSkillsScoreRanking };
   }
 }
 
