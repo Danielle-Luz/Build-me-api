@@ -40,8 +40,9 @@ class ProjectsController {
     return response.status(StatusCodes.OK).json(foundProjects);
   }
 
-  static async getOpenProjects(request, response) {
-    const openProjects = await ProjectsService.getOpenProjects();
+  static async getProjectsWithOpenVacancySubscriptions(request, response) {
+    const openProjects =
+      await ProjectsService.getProjectsWithOpenVacancySubscriptions();
     return response.status(StatusCodes.OK).json(openProjects);
   }
 
@@ -53,6 +54,11 @@ class ProjectsController {
         memberSelectionMethod
       );
 
+    return response.status(StatusCodes.OK).json(foundProjects);
+  }
+
+  static async getUnfinishedProjects(request, response) {
+    const foundProjects = await ProjectsService.getUnfinishedProjects();
     return response.status(StatusCodes.OK).json(foundProjects);
   }
 

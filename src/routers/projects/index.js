@@ -19,7 +19,8 @@ projectsRouter.post(
 );
 
 projectsRouter.get("/", ProjectsController.getAll);
-projectsRouter.get("/open", ProjectsController.getOpenProjects);
+projectsRouter.get("/vacancySubscriptions/open", ProjectsController.getProjectsWithOpenVacancySubscriptions);
+projectsRouter.get("/unfinished", ProjectsController.getUnfinishedProjects);
 projectsRouter.get(
   "/selectionMethod/:selectionMethod",
   ProjectsMiddlewares.isSelectionMethodValid,

@@ -2,6 +2,7 @@ const { AppDatasource } = require("../../data-source");
 const { Projects } = require("../../entities");
 const { ProjectsHelper } = require("../../helpers");
 const { RecordNotFoundError } = require("../../errors");
+const { projectStatus } = require("../../enumValues");
 
 class ProjectsService {
   static async create(newProject) {
@@ -69,16 +70,30 @@ class ProjectsService {
       .orWhere("projects.description ilike :formattedValue", {
         formattedValue,
       })
+      .orWhere("projects.status ilike :formattedValue", {
+        formattedValue,
+      })
       .orderBy("projects.createdDate", "DESC")
       .getMany();
   }
 
-  static async getOpenProjects() {
+  static async getProjectsWithOpenVacancySubscriptions() {
     const actualDate = new Date();
     return AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.closeDate >= :actualDate", { actualDate })
+      .orderBy("projects.createdDate", "DESC")
+      .getMany();
+  }
+
+  static async getUnfinishedProjects() {
+    return AppDatasource.createQueryBuilder()
+      .select("projects")
+      .from(Projects, "projects")
+      .where("projects.status != :finishedStatus", {
+        finishedStatus: projectStatus[2],
+      })
       .orderBy("projects.createdDate", "DESC")
       .getMany();
   }
