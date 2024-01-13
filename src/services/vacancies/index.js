@@ -32,7 +32,7 @@ class VacanciesService {
 
   static async getProjectVacancies(projectId) {
     return AppDatasource.createQueryBuilder()
-      .select(["vacancies",`project."closeDate"`])
+      .select(["vacancies", `project."closeDate"`])
       .from(Vacancies, "vacancies")
       .leftJoinAndSelect("vacancies.project", "project")
       .where("vacancies.projectId = :projectId", { projectId })
@@ -177,7 +177,9 @@ class VacanciesService {
       .from(Vacancies, "vacancies")
       .innerJoin("vacancies.project", "project")
       .where("vacancies.chosenCandidateId = :userId", { userId })
-      .andWhere("project.status != :closedStatus", {closedStatus: projectStatus[2]})
+      .andWhere("project.status != :closedStatus", {
+        closedStatus: projectStatus[2],
+      })
       .getRawOne();
   }
 
@@ -197,6 +199,17 @@ class VacanciesService {
       .where("vacancies.projectId = :projectId", { projectId })
       .groupBy("vacancies.chosenCandidateId")
       .getRawOne();
+  }
+
+  static async isUserInProjectVacancy(userId, projectId) {
+    const vacancyRelatedToUser = await AppDatasource.createQueryBuilder()
+      .select("vacancies")
+      .from(Vacancies, "vacancies")
+      .where("vacancies.chosenCandidateId = :userId", { userId })
+      .andWhere("vacancies.projectId = :projectId", { projectId })
+      .getOne();
+
+    return vacancyRelatedToUser != null;
   }
 
   static async update(id, updatedData) {

@@ -54,6 +54,12 @@ vacanciesRouter.get(
   VacanciesMiddlewares.doesCandidateExists,
   VacanciesController.getAllVacanciesMatchingUserSkills
 );
+vacanciesRouter.get(
+  "/projects/:projectId/isMember",
+  UsersMiddlewares.isTokenFilled,
+  UsersMiddlewares.validateToken,
+  VacanciesController.isUserInProjectVacancy
+);
 
 vacanciesRouter.patch(
   "/:id",

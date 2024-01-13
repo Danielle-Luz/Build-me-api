@@ -78,6 +78,18 @@ class VacanciesController {
     return response.status(StatusCodes.OK).json(foundMathingVacancies);
   }
 
+  static async isUserInProjectVacancy(request, response) {
+    const loggedUserId = request.loggedUser.id;
+    const projectId = request.params.projectId;
+
+    const isUserInProjectVacancy =
+      await VacanciesService.isUserInProjectVacancy(loggedUserId, projectId);
+
+    return response
+      .status(StatusCodes.OK)
+      .json({ isProjectMember: isUserInProjectVacancy });
+  }
+
   static async update(request, response) {
     const { validatedData } = request;
     const id = request.params.id;
