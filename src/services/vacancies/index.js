@@ -4,6 +4,7 @@ const {
   VacancyRequirements,
   UserSkills,
 } = require("../../entities");
+const { projectStatus } = require("../../enumValues");
 const { RecordNotFoundError } = require("../../errors");
 const { ProjectsService } = require("../projects");
 const { UsersService } = require("../users");
@@ -176,7 +177,7 @@ class VacanciesService {
       .from(Vacancies, "vacancies")
       .innerJoin("vacancies.project", "project")
       .where("vacancies.chosenCandidateId = :userId", { userId })
-      .andWhere("project.closeDate >= CURRENT_DATE")
+      .andWhere("project.status != :closedStatus", {closedStatus: projectStatus[2]})
       .getRawOne();
   }
 

@@ -15,7 +15,7 @@ vacanciesRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VacanciesMiddlewares.hasPermissionOnRoute,
-  VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
+  VacanciesMiddlewares.areRelatedProjectVacancySubscriptionsClosed,
   VacanciesMiddlewares.doesCandidateExists,
   VacanciesMiddlewares.doesProjectExists,
   VacanciesMiddlewares.hasReachedOpenProjectVacancyLimit,
@@ -63,6 +63,7 @@ vacanciesRouter.patch(
   VacanciesMiddlewares.hasPermissionOnRoute,
   VacanciesMiddlewares.doesCandidateExists,
   UtilsMiddlewares.wasNoFieldUpdated,
+  VacanciesMiddlewares.isRelatedProjectFinished,
   VacanciesMiddlewares.isNewChosenCandidateEqualToPrevious,
   VacanciesMiddlewares.hasReachedOpenProjectVacancyLimit,
   VacanciesController.update
@@ -71,7 +72,7 @@ vacanciesRouter.patch(
   "/giveup/:id",
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
-  VacanciesMiddlewares.isRelatedProjectAlreadyClosed,
+  VacanciesMiddlewares.isRelatedProjectFinished,
   VacanciesMiddlewares.isLoggedUserEqualToChosenCandidate,
   VacanciesController.giveUpFromVacancy
 );

@@ -1,5 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { associationLimitsByEntity } = require("../../enumValues");
+const {
+  associationLimitsByEntity,
+  projectStatus,
+} = require("../../enumValues");
 const {
   CloseDateError,
   RecordNotFoundError,
@@ -39,22 +42,12 @@ class VacanciesMiddlewares {
     );
   }
 
-  static async isRelatedProjectAlreadyClosed(
+  static async areRelatedProjectVacancySubscriptionsClosed(
     request,
     response,
     nextMiddleware
   ) {
-    const isCreating = request.method == "POST";
-    let projectId;
-
-    if (isCreating) {
-      projectId = request.validatedData.projectId;
-    } else {
-      const vacancyId = request.params.id;
-      const foundVacancy = await VacanciesService.getVacancyById(vacancyId);
-      projectId = foundVacancy.projectId;
-      request.foundVacancy = foundVacancy;
-    }
+    const projectId = request.validatedData.projectId;
 
     const relatedProject = await ProjectsService.getById(projectId);
     const actualDate = new Date();
@@ -62,7 +55,25 @@ class VacanciesMiddlewares {
 
     if (projectCloseDate < actualDate) {
       const errorMessage =
-        "It's not possible to associate or modify a vacancy from a project that has already been closed";
+        "It's not possible to associate a vacancy to a project if its vacancy subscriptions date limit was reached";
+      throw new CloseDateError(errorMessage);
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isRelatedProjectFinished(request, response, nextMiddleware) {
+    const vacancyId = request.params.id;
+    const foundVacancy = await VacanciesService.getVacancyById(vacancyId);
+    const projectId = foundVacancy.projectId;
+    request.foundVacancy = foundVacancy;
+
+    const relatedProject = await ProjectsService.getById(projectId);
+    const hasProjectStarted = relatedProject.status != projectStatus[0];
+
+    if (hasProjectStarted) {
+      const errorMessage =
+        "It's not possible to modify a vacancy from a project that has already started";
       throw new CloseDateError(errorMessage);
     }
 
@@ -178,7 +189,7 @@ class VacanciesMiddlewares {
 
     if (areUsersDifferent) {
       throw new NoPermissionError(
-        "Only the selected user can withdraw from the associated vacancy"
+        "Only the chosen user can give up from the associated vacancy"
       );
     }
 
