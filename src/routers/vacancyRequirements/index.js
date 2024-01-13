@@ -42,9 +42,11 @@ vacancyRequirementsRouter.patch(
   UsersMiddlewares.validateToken,
   VacancyRequirementsMiddlewares.hasPermissionOnRoute,
   UtilsMiddlewares.validateSchema(updatedVacancyRequirementSchema),
+  UtilsMiddlewares.wasNoFieldUpdated,
   VacancyRequirementsMiddlewares.doesTechnologyExists,
   VacancyRequirementsMiddlewares.isTechnologyAlreadyRelatedToVacancy,
   VacancyRequirementsMiddlewares.doesRelatedVacancyHaveChosenCandidate,
+  VacancyRequirementsMiddlewares.setScoreBasedOnSkillLevel,
   VacancyRequirementsController.update
 );
 
