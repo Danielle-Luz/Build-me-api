@@ -78,6 +78,7 @@
         "description": "Create answers for questions that users can select during tests",
         "produces": ["application/json"],
         "tags": ["Answers"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -188,6 +189,7 @@
         "description": "Shows all the answers related to a specific question",
         "produces": ["application/json"],
         "tags": ["Answers"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "questionId",
@@ -262,6 +264,7 @@
         "description": "Show the data of a specific answer",
         "produces": ["application/json"],
         "tags": ["Answers"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -331,6 +334,7 @@
         "description": "Update one or more fields of a specific answer",
         "produces": ["application/json"],
         "tags": ["Answers"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -427,6 +431,7 @@
         "description": "",
         "produces": ["application/json"],
         "tags": ["Answers"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -490,6 +495,7 @@
         "summary": "Create a new learner",
         "description": "Create a learner associated with a vacancy",
         "tags": ["Learners"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -772,6 +778,7 @@
         "summary": "Delete a learner by id",
         "description": "Delete the learner's record whose id was provided",
         "tags": ["Learners"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -838,6 +845,7 @@
         "summary": "Create a new project",
         "description": "Create a new programming project",
         "tags": ["Projects"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -1005,6 +1013,7 @@
         "summary": "Update a specific project",
         "description": "Update one or more fields of a specific project",
         "tags": ["Projects"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1128,6 +1137,7 @@
         "summary": "Delete a project by id",
         "description": "Delete the project's record whose id was provided",
         "tags": ["Projects"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1443,6 +1453,7 @@
       "post": {
         "summary": "Create a new question",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -1540,6 +1551,7 @@
       "get": {
         "summary": "Get all questions",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "List of all questions in the database",
@@ -1602,6 +1614,7 @@
         "summary": "Get question by id",
         "description": "Retrieve the data of a specific question by id",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1684,6 +1697,7 @@
         "summary": "Update question by id",
         "description": "Update one or more fields of a specific question",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1785,6 +1799,7 @@
       "delete": {
         "summary": "Delete question by id",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1851,6 +1866,7 @@
         "summary": "Get questions by technology id",
         "description": "Returns a list with all the questions related to the specified technology",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "technologyId",
@@ -1940,6 +1956,7 @@
         "summary": "Get random questions by technology id",
         "description": "Returns a list, with a maximum of 10 random questions related to the specified technology, each question associated with its respective answer",
         "tags": ["Questions"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "technologyId",
@@ -2384,6 +2401,7 @@
       "post": {
         "summary": "Create a new rating",
         "tags": ["Ratings"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -2738,6 +2756,7 @@
       "patch": {
         "summary": "Update a rating",
         "tags": ["Ratings"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -2858,6 +2877,7 @@
       "delete": {
         "summary": "Delete a rating",
         "tags": ["Ratings"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -2929,6 +2949,7 @@
       "post": {
         "summary": "Create a new technology",
         "tags": ["Technologies"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -3160,6 +3181,7 @@
         "description": "Update one or more fields of a specific technology",
         "produces": ["application/json"],
         "tags": ["Technologies"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -3290,6 +3312,7 @@
         "description": "",
         "produces": ["application/json"],
         "tags": ["Technologies"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -3356,6 +3379,7 @@
         "description": "Check if each question id is related to the correct answer id",
         "produces": ["application/json"],
         "tags": ["Tests"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3475,6 +3499,7 @@
         "description": "Retrieve details of a specific test by its id",
         "produces": ["application/json"],
         "tags": ["Tests"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -3549,6 +3574,7 @@
         "description": "Retrieve tests related to a specific technology",
         "produces": ["application/json"],
         "tags": ["Tests"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "technologyId",
@@ -3629,6 +3655,7 @@
         "description": "Retrieve tests made by a specific user",
         "produces": ["application/json"],
         "tags": ["Tests"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "userId",
@@ -3709,6 +3736,7 @@
         "description": "Get the test made by the user with the given id about the technology with the specified id",
         "produces": ["application/json"],
         "tags": ["Tests"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "userId",
@@ -3971,6 +3999,7 @@
         "summary": "Get logged-in user",
         "description": "Retrieve information about the user whose token was provided",
         "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "Logged-in user information",
@@ -4136,6 +4165,7 @@
         "summary": "Update user by id",
         "description": "Update one or more fields of a specific user",
         "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -4257,6 +4287,7 @@
         "summary": "Delete user by id",
         "description": "Delete the user whose id was provided",
         "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -4684,6 +4715,7 @@
         "summary": "Create a new vacancy",
         "description": "Create a new vacancy that will be available for users to apply for in the project it is related to",
         "tags": ["Vacancies"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -4868,6 +4900,7 @@
         "summary": "Update a vacancy",
         "description": "Update one or more fields of a specific vacancy",
         "tags": ["Vacancies"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -5016,6 +5049,7 @@
         "summary": "Delete a vacancy",
         "description": "Delete the vacancy's record whose id was provided",
         "tags": ["Vacancies"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -5095,6 +5129,7 @@
         "summary": "Give up from vacancy",
         "description": "The chosen user, whose id is in the 'chosenCandidateId' field, can give up from the vacancy. By doing so, this field is set to null, and the vacancy is no longer associated with the user",
         "tags": ["Vacancies"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -5728,6 +5763,7 @@
         "summary": "Get boolean value indicating if the user is a project member",
         "description": "Indicates if the user who is logged is a member of the project whose id was provided",
         "tags": ["Vacancies"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "projectId",
@@ -5758,6 +5794,7 @@
         "summary": "Create a new vacancy requirement",
         "description": "Create a new requirement to specify which skills the user should have to be able to candidate to the related vacancy",
         "tags": ["Vacancy requirements"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -5938,6 +5975,7 @@
         "summary": "Update a vacancy requirement",
         "description": "Update one or more fields of a specific vacancy requirement",
         "tags": ["Vacancy requirements"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -6076,6 +6114,7 @@
         "summary": "Delete a vacancy requirement",
         "description": "Delete the vacancy requirement's record whose id was provided",
         "tags": ["Vacancy requirements"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -6218,6 +6257,7 @@
         "summary": "Create a new vacancy subscriptions",
         "description": "The user whose token has been sent creates a new subscription to apply for a specific vacancy in a project",
         "tags": ["Vacancy subscriptions"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -6416,6 +6456,7 @@
         "summary": "Delete a vacancy subscription",
         "description": "Delete the vacancy subscription's record whose id was provided",
         "tags": ["Vacancy subscriptions"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -6642,6 +6683,7 @@
         "summary": "Create a new votation",
         "description": "Starts a votation to ban the related vacancy's chosen candidate",
         "tags": ["Votations"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -6732,6 +6774,7 @@
         "summary": "Get votations by project id",
         "description": "Shows all the open votations related to the project's vacancies whose id was provided",
         "tags": ["Votations"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "projectId",
@@ -6820,6 +6863,7 @@
         "summary": "Delete votation by id",
         "description": "Deletes the votation whose id was specified",
         "tags": ["Votations"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "votationId",
@@ -6886,6 +6930,7 @@
         "summary": "Create a new vote",
         "description": "Add a vote from the logged-in user in a specific votation",
         "tags": ["Votes"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -6990,6 +7035,7 @@
         "summary": "Get votes by votation id",
         "description": "Shows all the votes in a specific votation",
         "tags": ["Votes"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "votationId",
@@ -7074,6 +7120,7 @@
         "summary": "Delete vote by id",
         "description": "Deletes the vote whose id was specified",
         "tags": ["Votes"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "voteId",
@@ -8565,6 +8612,13 @@
           "type": "array"
         }
       }
+    }
+  },
+  "securitySchemes": {
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
     }
   }
 }
