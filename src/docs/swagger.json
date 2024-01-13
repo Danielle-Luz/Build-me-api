@@ -5184,80 +5184,103 @@
         "summary": "Get all vacancies related to open projects",
         "description": "Displays all the vacancies related to projects that have a 'closeDate' later than the current date",
         "tags": ["Vacancies"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of all vacancies related to open projects",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/definitions/createdVacancy" }
+                  "$ref": "#/definitions/paginatedVacancies"
                 },
-                "example": [
-                  {
-                    "id": 78,
-                    "name": "Testador Automático",
-                    "description": "Realizar testes automatizados para garantir a qualidade do software.",
-                    "createdDate": "2023-10-02T15:20:10.123Z",
-                    "learnersLimit": 2,
-                    "projectId": 3,
-                    "chosenCandidateId": null,
-                    "project": {
-                      "id": 3,
-                      "name": "AutoTestHub",
-                      "description": "Plataforma dedicada a testes automatizados para garantir a qualidade do software.",
-                      "createdById": 5,
-                      "createdDate": "2023-09-28T09:45:30.456Z",
-                      "deletedDate": null,
-                      "closeDate": "2024-07-15T00:00:00.000Z",
-                      "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
-                      "memberSelectionMethod": "Aleatória",
-                      "status": "Não iniciado"
+                "example": {
+                  "page": 0,
+                  "quantity": 3,
+                  "vacancies": [
+                    {
+                      "id": 78,
+                      "name": "Testador Automático",
+                      "description": "Realizar testes automatizados para garantir a qualidade do software.",
+                      "createdDate": "2023-10-02T15:20:10.123Z",
+                      "learnersLimit": 2,
+                      "projectId": 3,
+                      "chosenCandidateId": null,
+                      "project": {
+                        "id": 3,
+                        "name": "AutoTestHub",
+                        "description": "Plataforma dedicada a testes automatizados para garantir a qualidade do software.",
+                        "createdById": 5,
+                        "createdDate": "2023-09-28T09:45:30.456Z",
+                        "deletedDate": null,
+                        "closeDate": "2024-07-15T00:00:00.000Z",
+                        "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
+                        "memberSelectionMethod": "Aleatória",
+                        "status": "Não iniciado"
+                      }
+                    },
+                    {
+                      "id": 92,
+                      "name": "Desenvolvedor Full Stack",
+                      "description": "Contribuir para o desenvolvimento de aplicações web completas, do frontend ao backend.",
+                      "createdDate": "2023-11-18T12:55:45.789Z",
+                      "learnersLimit": 3,
+                      "projectId": 6,
+                      "chosenCandidateId": null,
+                      "project": {
+                        "id": 6,
+                        "name": "WebSolutions",
+                        "description": "Desenvolvimento colaborativo de soluções web inovadoras.",
+                        "createdById": 8,
+                        "createdDate": "2023-11-10T17:30:00.000Z",
+                        "deletedDate": null,
+                        "closeDate": "2024-08-20T00:00:00.000Z",
+                        "repositoryUrl": "https://github.com/WebSolutions/innovative-web-apps",
+                        "memberSelectionMethod": "Ordem de inscrição",
+                        "status": "Não iniciado"
+                      }
+                    },
+                    {
+                      "id": 105,
+                      "name": "Cientista de Dados",
+                      "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
+                      "createdDate": "2023-12-05T18:10:15.234Z",
+                      "learnersLimit": 1,
+                      "projectId": 4,
+                      "chosenCandidateId": null,
+                      "project": {
+                        "id": 4,
+                        "name": "DataScienceLab",
+                        "description": "Colaboração em pesquisa e aplicação de técnicas avançadas de ciência de dados.",
+                        "createdById": 6,
+                        "createdDate": "2023-11-30T08:00:00.000Z",
+                        "deletedDate": null,
+                        "closeDate": "2024-09-25T00:00:00.000Z",
+                        "repositoryUrl": "https://github.com/DataScienceLab/advanced-data-analysis",
+                        "memberSelectionMethod": "Escolha manual",
+                        "status": "Não iniciado"
+                      }
                     }
-                  },
-                  {
-                    "id": 92,
-                    "name": "Desenvolvedor Full Stack",
-                    "description": "Contribuir para o desenvolvimento de aplicações web completas, do frontend ao backend.",
-                    "createdDate": "2023-11-18T12:55:45.789Z",
-                    "learnersLimit": 3,
-                    "projectId": 6,
-                    "chosenCandidateId": null,
-                    "project": {
-                      "id": 6,
-                      "name": "WebSolutions",
-                      "description": "Desenvolvimento colaborativo de soluções web inovadoras.",
-                      "createdById": 8,
-                      "createdDate": "2023-11-10T17:30:00.000Z",
-                      "deletedDate": null,
-                      "closeDate": "2024-08-20T00:00:00.000Z",
-                      "repositoryUrl": "https://github.com/WebSolutions/innovative-web-apps",
-                      "memberSelectionMethod": "Ordem de inscrição",
-                      "status": "Não iniciado"
-                    }
-                  },
-                  {
-                    "id": 105,
-                    "name": "Cientista de Dados",
-                    "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
-                    "createdDate": "2023-12-05T18:10:15.234Z",
-                    "learnersLimit": 1,
-                    "projectId": 4,
-                    "chosenCandidateId": null,
-                    "project": {
-                      "id": 4,
-                      "name": "DataScienceLab",
-                      "description": "Colaboração em pesquisa e aplicação de técnicas avançadas de ciência de dados.",
-                      "createdById": 6,
-                      "createdDate": "2023-11-30T08:00:00.000Z",
-                      "deletedDate": null,
-                      "closeDate": "2024-09-25T00:00:00.000Z",
-                      "repositoryUrl": "https://github.com/DataScienceLab/advanced-data-analysis",
-                      "memberSelectionMethod": "Escolha manual",
-                      "status": "Não iniciado"
-                    }
-                  }
-                ]
+                  ]
+                }
               }
             }
           }
@@ -5422,6 +5445,24 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -5430,40 +5471,56 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdVacancy"
-                  }
+                  "$ref": "#/definitions/paginatedVacancies"
                 },
-                "example": [
-                  {
-                    "id": 65,
-                    "name": "Desenvolvedor Backend",
-                    "description": "Interagir com o banco de dados da plataforma",
-                    "createdDate": "2023-10-01T15:15:10.123Z",
-                    "learnersLimit": 6,
-                    "projectId": 10,
-                    "chosenCandidateId": 1
-                  },
-                  {
-                    "id": 78,
-                    "name": "Testador Automático",
-                    "description": "Realizar testes automatizados para garantir a qualidade do software.",
-                    "createdDate": "2023-10-02T15:20:10.123Z",
-                    "learnersLimit": 2,
-                    "projectId": 3,
-                    "chosenCandidateId": 1
-                  },
-                  {
-                    "id": 70,
-                    "name": "Desenvolvedor Backend",
-                    "description": "Desenvolver o backend da plataforma.",
-                    "createdDate": "2023-10-02T15:20:15.123Z",
-                    "learnersLimit": 5,
-                    "projectId": 3,
-                    "chosenCandidateId": 1
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "vacancies": [
+                    {
+                      "id": 78,
+                      "name": "Testador Automático",
+                      "description": "Realizar testes automatizados para garantir a qualidade do software.",
+                      "createdDate": "2023-10-02T15:20:10.123Z",
+                      "learnersLimit": 2,
+                      "projectId": 3,
+                      "chosenCandidateId": 1,
+                      "project": {
+                        "id": 3,
+                        "name": "AutoTestHub",
+                        "description": "Plataforma dedicada a testes automatizados para garantir a qualidade do software.",
+                        "createdById": 5,
+                        "createdDate": "2023-09-28T09:45:30.456Z",
+                        "deletedDate": null,
+                        "closeDate": "2024-07-15T00:00:00.000Z",
+                        "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
+                        "memberSelectionMethod": "Aleatória",
+                        "status": "Não iniciado"
+                      }
+                    },
+                    {
+                      "id": 92,
+                      "name": "Desenvolvedor Full Stack",
+                      "description": "Contribuir para o desenvolvimento de aplicações web completas, do frontend ao backend.",
+                      "createdDate": "2023-11-18T12:55:45.789Z",
+                      "learnersLimit": 3,
+                      "projectId": 6,
+                      "chosenCandidateId": 1,
+                      "project": {
+                        "id": 6,
+                        "name": "WebSolutions",
+                        "description": "Desenvolvimento colaborativo de soluções web inovadoras.",
+                        "createdById": 8,
+                        "createdDate": "2023-11-10T17:30:00.000Z",
+                        "deletedDate": null,
+                        "closeDate": "2024-08-20T00:00:00.000Z",
+                        "repositoryUrl": "https://github.com/WebSolutions/innovative-web-apps",
+                        "memberSelectionMethod": "Ordem de inscrição",
+                        "status": "Não iniciado"
+                      }
+                    }
+                  ]
+                }
               }
             }
           },
@@ -5585,6 +5642,24 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -5593,40 +5668,42 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdVacancy"
-                  }
+                  "$ref": "#/definitions/paginatedVacanciesWithProjectData"
                 },
-                "example": [
-                  {
-                    "id": 65,
-                    "name": "Desenvolvedor Backend",
-                    "description": "Interagir com o banco de dados da plataforma",
-                    "createdDate": "2023-10-01T15:15:10.123Z",
-                    "learnersLimit": 6,
-                    "projectId": 10,
-                    "chosenCandidateId": null
-                  },
-                  {
-                    "id": 78,
-                    "name": "Testador Automático",
-                    "description": "Realizar testes automatizados para garantir a qualidade do software.",
-                    "createdDate": "2023-10-02T15:20:10.123Z",
-                    "learnersLimit": 2,
-                    "projectId": 3,
-                    "chosenCandidateId": null
-                  },
-                  {
-                    "id": 70,
-                    "name": "Desenvolvedor Backend",
-                    "description": "Desenvolver o backend da plataforma.",
-                    "createdDate": "2023-10-02T15:20:15.123Z",
-                    "learnersLimit": 5,
-                    "projectId": 3,
-                    "chosenCandidateId": null
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 3,
+                  "vacancies": [
+                    {
+                      "id": 123,
+                      "name": "Desenvolvedor Full Stack",
+                      "description": "Descrição do desenvolvedor Full Stack",
+                      "createdDate": "2024-01-12T15:30:00.000Z",
+                      "learnersLimit": 3,
+                      "projectId": 456,
+                      "chosenCandidateId": null,
+                      "projectName": "Projeto OpenAI",
+                      "projectDescription": "Projeto para explorar tecnologias da OpenAI",
+                      "projectCloseDate": "2024-05-30T00:00:00.000Z",
+                      "projectMemberSelectionMethod": "Aleatória",
+                      "projectStatus": "Não iniciado"
+                    },
+                    {
+                      "id": 789,
+                      "name": "Desenvolvedor Backend",
+                      "description": "Descrição do desenvolvedor Backend",
+                      "createdDate": "2024-01-15T12:45:00.000Z",
+                      "learnersLimit": 5,
+                      "projectId": 101,
+                      "chosenCandidateId": 234,
+                      "projectName": "Projeto ChatGPT",
+                      "projectDescription": "Projeto para integrar ChatGPT em uma aplicação",
+                      "projectCloseDate": "2024-06-15T00:00:00.000Z",
+                      "projectMemberSelectionMethod": "Ordem de inscrição",
+                      "projectStatus": "Em andamento"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -8008,71 +8085,6 @@
         "description": {
           "type": "string"
         },
-        "createddate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "learnerslimit": {
-          "type": "integer"
-        },
-        "projectid": {
-          "type": "integer"
-        },
-        "chosencandidateid": {
-          "type": ["integer", "null"]
-        },
-        "projectname": {
-          "type": "string"
-        },
-        "projectdescription": {
-          "type": "string"
-        },
-        "projectclosedate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "projectmemberselectionmethod": {
-          "type": "string",
-          "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"]
-        },
-        "projectstatus": {
-          "type": "string"
-        }
-      }
-    },
-    "newVacancyRequirement": {
-      "type": "object",
-      "properties": {
-        "vacancyId": {
-          "description": "The vacancy for which the requirement is being specified",
-          "type": "integer",
-          "format": "int64"
-        },
-        "technologyId": {
-          "description": "The technology in which the candidate should be skilled",
-          "type": "integer",
-          "format": "int64"
-        },
-        "skillLevel": {
-          "description": "Minimum skill level required to candidate for the vacancy",
-          "type": "string",
-          "enum": ["Básico", "Intermediário", "Avançado"]
-        }
-      },
-      "required": ["vacancyId", "technologyId", "skillLevel"]
-    },
-    "vacancyWithProjectData": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
         "createdDate": {
           "type": "string",
           "format": "date-time"
@@ -8104,6 +8116,27 @@
           "type": "string"
         }
       }
+    },
+    "newVacancyRequirement": {
+      "type": "object",
+      "properties": {
+        "vacancyId": {
+          "description": "The vacancy for which the requirement is being specified",
+          "type": "integer",
+          "format": "int64"
+        },
+        "technologyId": {
+          "description": "The technology in which the candidate should be skilled",
+          "type": "integer",
+          "format": "int64"
+        },
+        "skillLevel": {
+          "description": "Minimum skill level required to candidate for the vacancy",
+          "type": "string",
+          "enum": ["Básico", "Intermediário", "Avançado"]
+        }
+      },
+      "required": ["vacancyId", "technologyId", "skillLevel"]
     },
     "updatedVacancyRequirement": {
       "type": "object",
@@ -8451,19 +8484,38 @@
         "page": {
           "type": "integer",
           "description": "Page the user wants to see its results",
-          "default": 0,
-          "required": true
+          "default": 0
         },
         "quantity": {
           "type": "integer",
           "description": "How many records the user wants to see per page",
-          "default": 10,
-          "required": true
+          "default": 10
         },
-        "vacancySubscriptions": {
+        "vacancies": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/createdVacancySubscription"
+            "$ref": "#/definitions/createdVacancy"
+          }
+        }
+      }
+    },
+    "paginatedVacanciesWithProjectData": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10
+        },
+        "vacancies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/vacancyWithProjectData"
           }
         }
       }
