@@ -15,6 +15,7 @@ votesRouter.post(
   UsersMiddlewares.isTokenFilled,
   UsersMiddlewares.validateToken,
   VotesMiddlewares.doesVotationExist,
+  VotesMiddlewares.isVotationOpen,
   VotesMiddlewares.isVotingInProjectColleague,
   VotesMiddlewares.didUserVotedOnce,
   VotesController.create

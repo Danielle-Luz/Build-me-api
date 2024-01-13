@@ -1,6 +1,7 @@
 const {
   AssociationLimitReachedError,
   NoPermissionError,
+  CloseDateError,
 } = require("../../errors");
 const {
   VotationsService,
@@ -75,11 +76,23 @@ class VotesMiddlewares {
     const { voteId: deletedVote } = request.params;
     const { voterId } = await VotesService.getVoteById(deletedVote);
     const deletingUserId = request.loggedUser.id;
-    console.log("\nvoter id", voterId);
+
     const isVoteFromLoggedUser = deletingUserId == voterId;
 
     if (!isVoteFromLoggedUser) {
       throw new NoPermissionError("A user can't delete votes from other users");
+    }
+
+    return nextMiddleware();
+  }
+
+  static async isVotationOpen(request, response, nextMiddleware) {
+    const { isOpen } = request.foundVotation;
+
+    if (!isOpen) {
+      throw new CloseDateError(
+        "The user can not vote because the votation is already closed"
+      );
     }
 
     return nextMiddleware();
