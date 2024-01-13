@@ -7996,6 +7996,50 @@
         }
       }
     },
+    "vacancyWithProjectData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createddate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "learnerslimit": {
+          "type": "integer"
+        },
+        "projectid": {
+          "type": "integer"
+        },
+        "chosencandidateid": {
+          "type": ["integer", "null"]
+        },
+        "projectname": {
+          "type": "string"
+        },
+        "projectdescription": {
+          "type": "string"
+        },
+        "projectclosedate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "projectmemberselectionmethod": {
+          "type": "string",
+          "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"]
+        },
+        "projectstatus": {
+          "type": "string"
+        }
+      }
+    },
     "newVacancyRequirement": {
       "type": "object",
       "properties": {
@@ -8017,30 +8061,49 @@
       },
       "required": ["vacancyId", "technologyId", "skillLevel"]
     },
-    "createdVacancyRequirement": {
+    "vacancyWithProjectData": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "integer"
         },
-        "vacancyId": {
-          "description": "The vacancy for which the requirement is being specified",
-          "type": "integer",
-          "format": "int64"
+        "name": {
+          "type": "string"
         },
-        "technologyId": {
-          "description": "The technology in which the candidate should be skilled",
-          "type": "integer",
-          "format": "int64"
+        "description": {
+          "type": "string"
         },
-        "skillLevel": {
-          "description": "Minimum skill level required to candidate for the vacancy",
+        "createdDate": {
           "type": "string",
-          "enum": ["Básico", "Intermediário", "Avançado"]
+          "format": "date-time"
+        },
+        "learnersLimit": {
+          "type": "integer"
+        },
+        "projectId": {
+          "type": "integer"
+        },
+        "chosenCandidateId": {
+          "type": ["integer", "null"]
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "projectDescription": {
+          "type": "string"
+        },
+        "projectCloseDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "projectMemberSelectionMethod": {
+          "type": "string",
+          "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"]
+        },
+        "projectStatus": {
+          "type": "string"
         }
-      },
-      "required": ["vacancyId", "technologyId", "skillLevel"]
+      }
     },
     "updatedVacancyRequirement": {
       "type": "object",
@@ -8360,6 +8423,29 @@
       }
     },
     "paginatedSubscriptions": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "vacancySubscriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/createdVacancySubscription"
+          }
+        }
+      }
+    },
+    "paginatedVacancies": {
       "type": "object",
       "properties": {
         "page": {

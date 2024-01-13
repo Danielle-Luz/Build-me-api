@@ -169,15 +169,22 @@ class VacanciesService {
         "vacancy.id AS id",
         "vacancy.name AS name",
         "vacancy.description AS description",
-        "vacancy.createdDate AS createdDate",
-        "vacancy.learnersLimit AS learnersLimit",
-        "vacancy.projectId AS projectId",
-        "vacancy.chosenCandidateId AS chosenCandidateId",
+        `vacancy.createdDate AS "createdDate"`,
+        `vacancy.learnersLimit AS "learnersLimit"`,
+        `vacancy.projectId AS "projectId"`,
+        `vacancy.chosenCandidateId AS "chosenCandidateId"`,
+        `project.id AS "projectId"`,
+        `project.name AS "projectName"`,
+        `project.description AS "projectDescription"`,
+        `project.closeDate AS "projectCloseDate"`,
+        `project.memberSelectionMethod AS "projectMemberSelectionMethod"`,
+        `project.status AS "projectStatus"`,
       ])
       .innerJoin("vacancy.project", "project")
       .where("project.closeDate >= CURRENT_DATE")
       .andHaving("COUNT(CASE WHEN user_skills.userId IS NULL THEN 1 END) = 0")
       .groupBy("vacancy.id")
+      .addGroupBy("project.id")
       .orderBy("vacancy.createdDate")
       .skip(page * quantity)
       .take(quantity)
