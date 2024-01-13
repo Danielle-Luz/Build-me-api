@@ -2134,7 +2134,7 @@
                 },
                 "example": [
                   {
-                    "skillScore": 65.0,
+                    "total": 2500,
                     "userId": 1,
                     "firstName": "John",
                     "lastName": "Doe",
@@ -7143,7 +7143,8 @@
     "rankingSkillScores": {
       "type": "object",
       "properties": {
-        "skillScore": {
+        "total": {
+          "description": "Sum of the score of all skills that the user has",
           "type": "number"
         },
         "userId": {
@@ -7157,10 +7158,6 @@
         },
         "profilePicture": {
           "description": "User's loaded profile picture data",
-          "type": "string"
-        },
-        "technologyName": {
-          "description": "Name of the technology in which the user has his highest skill score",
           "type": "string"
         }
       }
