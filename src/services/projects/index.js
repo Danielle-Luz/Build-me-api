@@ -28,12 +28,16 @@ class ProjectsService {
     return createdProjectData;
   }
 
-  static async getAll() {
-    return AppDatasource.createQueryBuilder()
+  static async getAll({ page = 0, quantity = 10 }) {
+    const projects = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .orderBy("projects.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: projects.length, projects };
   }
 
   static async getById(id) {
@@ -52,18 +56,22 @@ class ProjectsService {
     return foundProject;
   }
 
-  static async getUserProjects(createdById) {
-    return AppDatasource.createQueryBuilder()
+  static async getUserProjects(createdById, { page = 0, quantity = 10 }) {
+    const projects = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.createdById = :createdById", { createdById })
       .orderBy("projects.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: projects.length, projects };
   }
 
-  static async getProjectsByFilter(value) {
+  static async getProjectsByFilter(value, { page = 0, quantity = 10 }) {
     const formattedValue = `%${value}%`;
-    return AppDatasource.createQueryBuilder()
+    const projects = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.name ilike :formattedValue", { formattedValue })
@@ -74,39 +82,61 @@ class ProjectsService {
         formattedValue,
       })
       .orderBy("projects.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: projects.length, projects };
   }
 
-  static async getProjectsWithOpenVacancySubscriptions() {
+  static async getProjectsWithOpenVacancySubscriptions({
+    page = 0,
+    quantity = 10,
+  }) {
     const actualDate = new Date();
-    return AppDatasource.createQueryBuilder()
+    const projects = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.closeDate >= :actualDate", { actualDate })
       .orderBy("projects.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: projects.length, projects };
   }
 
-  static async getUnfinishedProjects() {
-    return AppDatasource.createQueryBuilder()
+  static async getUnfinishedProjects({ page = 0, quantity = 10 }) {
+    const projects = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.status != :finishedStatus", {
         finishedStatus: projectStatus[2],
       })
       .orderBy("projects.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: projects.length, projects };
   }
 
-  static async getProjectsByMemberSelectionMethod(memberSelectionMethod) {
-    return AppDatasource.createQueryBuilder()
+  static async getProjectsByMemberSelectionMethod(
+    memberSelectionMethod,
+    { page = 0, quantity = 10 }
+  ) {
+    const projects = await AppDatasource.createQueryBuilder()
       .select("projects")
       .from(Projects, "projects")
       .where("projects.memberSelectionMethod = :memberSelectionMethod", {
         memberSelectionMethod,
       })
       .orderBy("projects.createdDate", "DESC")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: projects.length, projects };
   }
 
   static async update(id, updatedData) {

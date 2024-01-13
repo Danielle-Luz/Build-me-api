@@ -12,7 +12,8 @@ class ProjectsController {
   }
 
   static async getAll(request, response) {
-    const allProjects = await ProjectsService.getAll();
+    const { page, quantity } = request.query;
+    const allProjects = await ProjectsService.getAll({ page, quantity });
     return response.status(StatusCodes.OK).json(allProjects);
   }
 
@@ -26,39 +27,62 @@ class ProjectsController {
 
   static async getUserProjects(request, response) {
     const createdById = request.params.createdById;
+    const { page, quantity } = request.query;
 
-    const userProjects = await ProjectsService.getUserProjects(createdById);
+    const userProjects = await ProjectsService.getUserProjects(createdById, {
+      page,
+      quantity,
+    });
 
     return response.status(StatusCodes.OK).json(userProjects);
   }
 
   static async getProjectsByFilter(request, response) {
     const value = request.params.value;
+    const { page, quantity } = request.query;
 
-    const foundProjects = await ProjectsService.getProjectsByFilter(value);
+    const foundProjects = await ProjectsService.getProjectsByFilter(value, {
+      page,
+      quantity,
+    });
 
     return response.status(StatusCodes.OK).json(foundProjects);
   }
 
   static async getProjectsWithOpenVacancySubscriptions(request, response) {
+    const { page, quantity } = request.query;
     const openProjects =
-      await ProjectsService.getProjectsWithOpenVacancySubscriptions();
+      await ProjectsService.getProjectsWithOpenVacancySubscriptions({
+        page,
+        quantity,
+      });
+
     return response.status(StatusCodes.OK).json(openProjects);
   }
 
   static async getProjectsByMemberSelectionMethod(request, response) {
+    const { page, quantity } = request.query;
     const memberSelectionMethod = request.params.selectionMethod;
 
     const foundProjects =
       await ProjectsService.getProjectsByMemberSelectionMethod(
-        memberSelectionMethod
+        memberSelectionMethod,
+        {
+          page,
+          quantity,
+        }
       );
 
     return response.status(StatusCodes.OK).json(foundProjects);
   }
 
   static async getUnfinishedProjects(request, response) {
-    const foundProjects = await ProjectsService.getUnfinishedProjects();
+    const { page, quantity } = request.query;
+    const foundProjects = await ProjectsService.getUnfinishedProjects({
+      page,
+      quantity,
+    });
+
     return response.status(StatusCodes.OK).json(foundProjects);
   }
 
