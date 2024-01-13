@@ -924,16 +924,33 @@
         "summary": "Get all projects",
         "description": "Retrieve a list of all projects",
         "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of all created projects",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdProject"
-                  }
+                  "$ref": "#/definitions/paginatedProjects"
                 }
               }
             }
@@ -1172,21 +1189,77 @@
         }
       }
     },
-    "/projects/open": {
+    "/projects/vacancySubscriptions/open": {
       "get": {
         "summary": "Get open projects",
         "description": "Show all the projects whose ‘closeDate’ field has a date later than the current one, meaning that the project's subscriptions are still open",
         "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of open projects available for subscriptions",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/newProject"
-                  }
+                  "$ref": "#/definitions/paginatedProjects"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/unfinished": {
+      "get": {
+        "summary": "Get open projects",
+        "description": "Show all the projects that don't have the finished status",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of projects that don't have the finished status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/paginatedProjects"
                 }
               }
             }
@@ -1204,10 +1277,28 @@
             "name": "selectionMethod",
             "in": "path",
             "description": "The way the users are selected for the project's vacancies",
-            "required": true,
             "schema": {
               "type": "string",
               "enum": ["Aleatória", "Ordem de inscrição", "Seleção manual"]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "required": true,
+            "schema": {
+              "type": "integer"
             }
           }
         ],
@@ -1217,10 +1308,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdProject"
-                  }
+                  "$ref": "#/definitions/paginatedProjects"
                 }
               }
             }
@@ -1256,6 +1344,24 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -1264,10 +1370,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdProject"
-                  }
+                  "$ref": "#/definitions/paginatedProjects"
                 }
               }
             }
@@ -1302,6 +1405,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -1310,10 +1431,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdProject"
-                  }
+                  "$ref": "#/definitions/paginatedProjects"
                 }
               }
             }
@@ -1932,35 +2050,56 @@
       "get": {
         "summary": "Display users in order of the number of vacancies they've been selected for",
         "tags": ["Rankings"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List the users' information along with the frequency of their participation as candidates for vacancies",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/participationRanking"
-                  }
+                  "$ref": "#/definitions/paginatedParticipationRanking"
                 },
-                "example": [
-                  {
-                    "applicationsCount": 5,
-                    "id": 1,
-                    "userId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "profilePicture": "https://example.com/johndoe.jpg"
-                  },
-                  {
-                    "applicationsCount": 3,
-                    "id": 2,
-                    "userId": 2,
-                    "firstName": "Emily",
-                    "lastName": "Smith",
-                    "profilePicture": "https://example.com/emilysmith.jpg"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "rankings": [
+                    {
+                      "applicationsCount": 5,
+                      "id": 1,
+                      "userId": 1,
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "profilePicture": "https://example.com/johndoe.jpg"
+                    },
+                    {
+                      "applicationsCount": 3,
+                      "id": 2,
+                      "userId": 2,
+                      "firstName": "Emily",
+                      "lastName": "Smith",
+                      "profilePicture": "https://example.com/emilysmith.jpg"
+                    }
+                  ]
+                }
               }
             }
           }
@@ -1971,35 +2110,56 @@
       "get": {
         "summary": "Display users in order of the number of ratings they've created",
         "tags": ["Rankings"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List the users' information along with the number of ratings created",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ratingsMadeRanking"
-                  }
+                  "$ref": "#/definitions/paginatedRatingsMadeRanking"
                 },
-                "example": [
-                  {
-                    "ratingsMadeCount": 5,
-                    "id": 1,
-                    "userId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "profilePicture": "https://example.com/johndoe.jpg"
-                  },
-                  {
-                    "ratingsMadeCount": 3,
-                    "id": 2,
-                    "userId": 2,
-                    "firstName": "Emily",
-                    "lastName": "Smith",
-                    "profilePicture": "https://example.com/emilysmith.jpg"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "rankings": [
+                    {
+                      "ratingsMadeCount": 5,
+                      "id": 1,
+                      "userId": 1,
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "profilePicture": "https://example.com/johndoe.jpg"
+                    },
+                    {
+                      "ratingsMadeCount": 3,
+                      "id": 2,
+                      "userId": 2,
+                      "firstName": "Emily",
+                      "lastName": "Smith",
+                      "profilePicture": "https://example.com/emilysmith.jpg"
+                    }
+                  ]
+                }
               }
             }
           }
@@ -2016,140 +2176,204 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ratingsAverageRanking"
-                  }
+                  "$ref": "#/definitions/paginatedRatingsAverageRanking"
                 },
-                "example": [
-                  {
-                    "averageRating": 5,
-                    "userId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "profilePicture": "https://example.com/johndoe.jpg"
-                  },
-                  {
-                    "averageRating": 3,
-                    "userId": 2,
-                    "firstName": "Emily",
-                    "lastName": "Smith",
-                    "profilePicture": "https://example.com/emilysmith.jpg"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "rankings": [
+                    {
+                      "averageRating": 5,
+                      "userId": 1,
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "profilePicture": "https://example.com/johndoe.jpg"
+                    },
+                    {
+                      "averageRating": 3,
+                      "userId": 2,
+                      "firstName": "Emily",
+                      "lastName": "Smith",
+                      "profilePicture": "https://example.com/emilysmith.jpg"
+                    }
+                  ]
+                }
               }
             }
           }
         }
       }
     },
-    "rankings/learners/subscriptions": {
+    "/rankings/learners/subscriptions": {
       "get": {
         "summary": "Display users in order of the number of learner's subscriptions they have made",
         "tags": ["Rankings"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List the users' information along with the number of learner's subscriptions",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/rankingSubscriptions"
-                  }
+                  "$ref": "#/definitions/paginatedSubscriptionsRanking"
                 },
-                "example": [
-                  {
-                    "learnerSubscriptionsCount": 5,
-                    "userId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "profilePicture": "https://example.com/johndoe.jpg"
-                  },
-                  {
-                    "learnerSubscriptionsCount": 3,
-                    "userId": 2,
-                    "firstName": "Emily",
-                    "lastName": "Smith",
-                    "profilePicture": "https://example.com/emilysmith.jpg"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "rankings": [
+                    {
+                      "learnerSubscriptionsCount": 5,
+                      "userId": 1,
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "profilePicture": "https://example.com/johndoe.jpg"
+                    },
+                    {
+                      "learnerSubscriptionsCount": 3,
+                      "userId": 2,
+                      "firstName": "Emily",
+                      "lastName": "Smith",
+                      "profilePicture": "https://example.com/emilysmith.jpg"
+                    }
+                  ]
+                }
               }
             }
           }
         }
       }
     },
-    "rankings/tests/scores": {
+    "/rankings/tests/scores": {
       "get": {
         "summary": "Display users in order of the total sum of their test scores",
         "tags": ["Rankings"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List the users' information along with the tests' scores",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/rankingTestScores"
-                  }
+                  "$ref": "#/definitions/paginatedTestScoreRanking"
                 },
-                "example": [
-                  {
-                    "totalTestsScore": 40.0,
-                    "userId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "profilePicture": "https://example.com/johndoe.jpg"
-                  },
-                  {
-                    "totalTestsScore": 15.0,
-                    "userId": 2,
-                    "firstName": "Emily",
-                    "lastName": "Smith",
-                    "profilePicture": "https://example.com/emilysmith.jpg"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "rankings": [
+                    {
+                      "totalTestsScore": 40.0,
+                      "userId": 1,
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "profilePicture": "https://example.com/johndoe.jpg"
+                    },
+                    {
+                      "totalTestsScore": 15.0,
+                      "userId": 2,
+                      "firstName": "Emily",
+                      "lastName": "Smith",
+                      "profilePicture": "https://example.com/emilysmith.jpg"
+                    }
+                  ]
+                }
               }
             }
           }
         }
       }
     },
-    "rankings/userSkills/scores": {
+    "/rankings/userSkills/scores": {
       "get": {
         "summary": "Display users in order of the total sum of their skill scores",
         "tags": ["Rankings"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List the users' information along with their total skills' scores",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/rankingSkillScores"
-                  }
+                  "$ref": "#/definitions/paginatedSkillScoreRanking"
                 },
-                "example": [
-                  {
-                    "total": 2500,
-                    "userId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "profilePicture": "https://example.com/johndoe.jpg",
-                    "technologyName": "Node JS"
-                  },
-                  {
-                    "skillScore": 40.0,
-                    "userId": 2,
-                    "firstName": "Emily",
-                    "lastName": "Smith",
-                    "profilePicture": "https://example.com/emilysmith.jpg",
-                    "technologyName": "HTML"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "rankings": [
+                    {
+                      "total": 2500,
+                      "userId": 1,
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "profilePicture": "https://example.com/johndoe.jpg",
+                      "technologyName": "Node JS"
+                    },
+                    {
+                      "skillScore": 40.0,
+                      "userId": 2,
+                      "firstName": "Emily",
+                      "lastName": "Smith",
+                      "profilePicture": "https://example.com/emilysmith.jpg",
+                      "technologyName": "HTML"
+                    }
+                  ]
+                }
               }
             }
           }
@@ -2298,37 +2522,67 @@
         "summary": "Display user's created ratings",
         "description": "Shows all the ratings created by a specific user for other users",
         "tags": ["Ratings"],
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "description": "Id of the user whose ratings made by himself should be shown",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ratings created by the user with the provided id",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdRating"
-                  }
+                  "$ref": "#/definitions/paginatedRatings"
                 },
-                "example": [
-                  {
-                    "id": 1,
-                    "comment": "Good team work!",
-                    "grade": 5,
-                    "authorId": 3,
-                    "ratedRecipientId": 2,
-                    "createdDate": "2023-12-27T05:20:46.289Z",
-                    "projectId": 2
-                  },
-                  {
-                    "id": 2,
-                    "comment": "Poor team work!",
-                    "grade": 1,
-                    "authorId": 3,
-                    "ratedRecipientId": 1,
-                    "createdDate": "2023-11-11T05:20:46.289Z",
-                    "projectId": 4
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "ratings": [
+                    {
+                      "id": 1,
+                      "comment": "Good team work!",
+                      "grade": 5,
+                      "authorId": 3,
+                      "ratedRecipientId": 2,
+                      "createdDate": "2023-12-27T05:20:46.289Z",
+                      "projectId": 2
+                    },
+                    {
+                      "id": 2,
+                      "comment": "Poor team work!",
+                      "grade": 1,
+                      "authorId": 3,
+                      "ratedRecipientId": 1,
+                      "createdDate": "2023-11-11T05:20:46.289Z",
+                      "projectId": 4
+                    }
+                  ]
+                }
               }
             }
           },
@@ -2348,42 +2602,72 @@
         }
       }
     },
-    "/ratings/reveived/{ratedRecipientId}": {
+    "/ratings/received/{ratedRecipientId}": {
       "get": {
         "summary": "Display user's received ratings",
         "description": "Shows all the ratings received by a specific user made by other users",
         "tags": ["Ratings"],
+        "parameters": [
+          {
+            "name": "ratedRecipientId",
+            "in": "path",
+            "description": "Id of the user whose ratings received by himself should be shown",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ratings received by the user with the provided id",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdRating"
-                  }
+                  "$ref": "#/definitions/paginatedRatings"
                 },
-                "example": [
-                  {
-                    "id": 9,
-                    "comment": "Amazing design skills!",
-                    "grade": 5,
-                    "authorId": 1,
-                    "ratedRecipientId": 2,
-                    "createdDate": "2024-01-02T03:18:23.289Z",
-                    "projectId": 2
-                  },
-                  {
-                    "id": 10,
-                    "comment": "You helped me a lot!",
-                    "grade": 5,
-                    "authorId": 4,
-                    "ratedRecipientId": 2,
-                    "createdDate": "2024-01-05T00:14:12.289Z",
-                    "projectId": 4
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "ratings": [
+                    {
+                      "id": 9,
+                      "comment": "Amazing design skills!",
+                      "grade": 5,
+                      "authorId": 1,
+                      "ratedRecipientId": 2,
+                      "createdDate": "2024-01-02T03:18:23.289Z",
+                      "projectId": 2
+                    },
+                    {
+                      "id": 10,
+                      "comment": "You helped me a lot!",
+                      "grade": 5,
+                      "authorId": 4,
+                      "ratedRecipientId": 2,
+                      "createdDate": "2024-01-05T00:14:12.289Z",
+                      "projectId": 4
+                    }
+                  ]
+                }
               }
             }
           },
@@ -2408,6 +2692,17 @@
         "summary": "User's average rating score",
         "description": "Shows the average score of the ratings received by the user",
         "tags": ["Ratings"],
+        "parameters": [
+          {
+            "name": "ratedRecipientId",
+            "in": "path",
+            "description": "Id of the user whose average rating should be shown",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Average score of the ratings received by the user with the provided id",
@@ -2416,7 +2711,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/createdRating"
+                    "$ref": "#/definitions/ratingScore"
                   }
                 },
                 "example": { "averageRating": 8.5 }
@@ -3502,29 +3797,52 @@
         "summary": "Get all users",
         "description": "Retrieve a list of all users",
         "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of all users",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/definitions/createdUser" }
+                  "$ref": "#/definitions/paginatedUsers"
                 },
-                "example": [
-                  {
-                    "id": 103,
-                    "username": "NewUser",
-                    "firstName": "NewName",
-                    "lastName": "NewLastName",
-                    "email": "newuser@example.com",
-                    "githubUsername": "newuser",
-                    "linkedinUrl": "https://www.linkedin.com/in/newuser/",
-                    "password": "password456",
-                    "roleId": 1,
-                    "deletedDate": null
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 1,
+                  "users": [
+                    {
+                      "id": 103,
+                      "username": "NewUser",
+                      "firstName": "NewName",
+                      "lastName": "NewLastName",
+                      "email": "newuser@example.com",
+                      "githubUsername": "newuser",
+                      "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                      "password": "password456",
+                      "roleId": 1,
+                      "deletedDate": null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -3712,6 +4030,24 @@
             "required": true,
             "schema": { "type": "string" },
             "description": "The value to search for"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -3720,23 +4056,26 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/definitions/createdUser" }
+                  "$ref": "#/definitions/paginatedUsers"
                 },
-                "example": [
-                  {
-                    "id": 103,
-                    "username": "NewUser",
-                    "firstName": "NewName",
-                    "lastName": "NewLastName",
-                    "email": "newuser@example.com",
-                    "githubUsername": "newuser",
-                    "linkedinUrl": "https://www.linkedin.com/in/newuser/",
-                    "password": "password456",
-                    "roleId": 1,
-                    "deletedDate": null
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 1,
+                  "users": [
+                    {
+                      "id": 103,
+                      "username": "NewUser",
+                      "firstName": "NewName",
+                      "lastName": "NewLastName",
+                      "email": "newuser@example.com",
+                      "githubUsername": "newuser",
+                      "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                      "password": "password456",
+                      "roleId": 1,
+                      "deletedDate": null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -6046,6 +6385,24 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -6054,25 +6411,26 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdVacancySubscription"
-                  }
+                  "$ref": "#/definitions/paginatedSubscriptions"
                 },
-                "example": [
-                  {
-                    "id": 45,
-                    "userId": 3,
-                    "vacancyId": 25,
-                    "createdDate": "2024-01-12T05:27:06.013Z"
-                  },
-                  {
-                    "id": 48,
-                    "userId": 1,
-                    "vacancyId": 25,
-                    "createdDate": "2024-01-10T03:12:09.013Z"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "vacancySubscriptions": [
+                    {
+                      "id": 45,
+                      "userId": 3,
+                      "vacancyId": 25,
+                      "createdDate": "2024-01-12T05:27:06.013Z"
+                    },
+                    {
+                      "id": 48,
+                      "userId": 1,
+                      "vacancyId": 25,
+                      "createdDate": "2024-01-10T03:12:09.013Z"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -6107,6 +6465,24 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page the user wants to see its related results",
+            "default": 0,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantity of records the user wants to see per page",
+            "default": 10,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -6115,25 +6491,26 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/createdVacancySubscription"
-                  }
+                  "$ref": "#/definitions/paginatedSubscriptions"
                 },
-                "example": [
-                  {
-                    "id": 78,
-                    "userId": 3,
-                    "vacancyId": 30,
-                    "createdDate": "2024-01-12T05:27:06.013Z"
-                  },
-                  {
-                    "id": 65,
-                    "userId": 3,
-                    "vacancyId": 25,
-                    "createdDate": "2024-01-10T03:12:09.013Z"
-                  }
-                ]
+                "example": {
+                  "page": 0,
+                  "quantity": 2,
+                  "vacancySubscriptions": [
+                    {
+                      "id": 45,
+                      "userId": 3,
+                      "vacancyId": 25,
+                      "createdDate": "2024-01-12T05:27:06.013Z"
+                    },
+                    {
+                      "id": 50,
+                      "userId": 3,
+                      "vacancyId": 22,
+                      "createdDate": "2024-01-10T03:12:09.013Z"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -6709,7 +7086,7 @@
         "isRight": {
           "type": "boolean",
           "description": "Indicates if it's the question's right answer",
-          "defalt": false,
+          "defalut": false,
           "example": true,
           "required": true
         }
@@ -7742,6 +8119,236 @@
         "wasUserBanned": {
           "description": "Indicates if the user being voted received the required amount of votes to be banned",
           "type": "boolean"
+        }
+      }
+    },
+    "paginatedProjects": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/createdProject"
+          }
+        }
+      }
+    },
+    "paginatedParticipationRanking": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "rankings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/participationRanking"
+          }
+        }
+      }
+    },
+    "paginatedRatingsAverageRanking": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "rankings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ratingsAverageRanking"
+          }
+        }
+      }
+    },
+    "paginatedRatingsMadeRanking": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "rankings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ratingsMadeRanking"
+          }
+        }
+      }
+    },
+    "paginatedTestScoreRanking": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "rankings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rankingTestScores"
+          }
+        }
+      }
+    },
+    "paginatedSubscriptionsRanking": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "rankings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rankingSubscriptions"
+          }
+        }
+      }
+    },
+    "paginatedSkillScoreRanking": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "rankings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rankingSkillScores"
+          }
+        }
+      }
+    },
+    "paginatedUsers": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/createdUser"
+          }
+        }
+      }
+    },
+    "paginatedRatings": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "ratings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/createdRating"
+          }
+        }
+      }
+    },
+    "paginatedSubscriptions": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page the user wants to see its results",
+          "default": 0,
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "How many records the user wants to see per page",
+          "default": 10,
+          "required": true
+        },
+        "vacancySubscriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/createdVacancySubscription"
+          }
         }
       }
     },
