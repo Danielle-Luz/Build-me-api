@@ -20,25 +20,41 @@ class VacancySubscriptionsService {
     return createdVacancySubscription.generatedMaps[0];
   }
 
-  static async getByVacancyId(vacancyId) {
-    return AppDatasource.createQueryBuilder()
+  static async getByVacancyId(vacancyId, { page = 0, quantity = 10 }) {
+    const vacancySubscriptions = await AppDatasource.createQueryBuilder()
       .select("vacancy_subscriptions")
       .from(VacancySubscriptions, "vacancy_subscriptions")
       .innerJoinAndSelect("vacancy_subscriptions.user", "user")
       .where("vacancy_subscriptions.vacancyId = :vacancyId", { vacancyId })
       .orderBy("vacancy_subscriptions.createdDate")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return {
+      page,
+      quantity: vacancySubscriptions.length,
+      vacancySubscriptions,
+    };
   }
 
-  static async getByUserId(userId) {
-    return AppDatasource.createQueryBuilder()
+  static async getByUserId(userId, { page = 0, quantity = 10 }) {
+    const vacancySubscriptions = await AppDatasource.createQueryBuilder()
       .select("vacancy_subscriptions")
       .from(VacancySubscriptions, "vacancy_subscriptions")
       .innerJoinAndSelect("vacancy_subscriptions.vacancy", "vacancy")
       .innerJoinAndSelect("vacancy.project", "project")
       .where("vacancy_subscriptions.userId = :userId", { userId })
       .orderBy("vacancy_subscriptions.createdDate")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return {
+      page,
+      quantity: vacancySubscriptions.length,
+      vacancySubscriptions,
+    };
   }
 
   static async getById(vacancySubscriptionId) {

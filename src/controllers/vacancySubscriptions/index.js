@@ -15,18 +15,24 @@ class VacancySubscriptionsController {
 
   static async getByVacancyId(request, response) {
     const { vacancyId } = request.params;
+    const { page, quantity } = request.query;
 
     const vacancySubscriptions =
-      await VacancySubscriptionsService.getByVacancyId(vacancyId);
+      await VacancySubscriptionsService.getByVacancyId(vacancyId, {
+        page,
+        quantity,
+      });
 
     return response.status(StatusCodes.OK).json(vacancySubscriptions);
   }
 
   static async getByUserId(request, response) {
     const { userId } = request.params;
+    const { page, quantity } = request.query;
 
     const userSubscriptions = await VacancySubscriptionsService.getByUserId(
-      userId
+      userId,
+      { page, quantity }
     );
 
     return response.status(StatusCodes.OK).json(userSubscriptions);
