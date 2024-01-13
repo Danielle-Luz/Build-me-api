@@ -12,16 +12,22 @@ class RatingsController {
   }
 
   static async getRatingsMade(request, response) {
+    const { page, quantity } = request.query;
     const ratingsMade = await RatingsServices.getRatingsMade(
-      request.params.authorId
+      request.params.authorId,
+      { page, quantity }
     );
+    
     return response.status(StatusCodes.OK).json(ratingsMade);
   }
 
   static async getRatingsReceived(request, response) {
+    const { page, quantity } = request.query;
     const ratingsReceived = await RatingsServices.getRatingsReceived(
-      request.params.ratedRecipientId
+      request.params.ratedRecipientId,
+      { page, quantity }
     );
+    
     return response.status(StatusCodes.OK).json(ratingsReceived);
   }
 

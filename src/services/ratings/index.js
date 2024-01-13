@@ -22,18 +22,25 @@ class RatingsServices {
       .getOne();
   }
 
-  static async getRatingsMade(authorId) {
-    return AppDatasource.createQueryBuilder()
+  static async getRatingsMade(authorId, { page = 0, quantity = 10 }) {
+    const ratings = await AppDatasource.createQueryBuilder()
       .select("ratings")
       .from(Ratings, "ratings")
       .leftJoinAndSelect("ratings.author", "author")
       .leftJoinAndSelect("ratings.ratedRecipient", "ratedRecipient")
       .where("ratings.authorId = :authorId", { authorId })
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: ratings.length, ratings };
   }
 
-  static async getRatingsReceived(ratedRecipientId) {
-    return AppDatasource.createQueryBuilder()
+  static async getRatingsReceived(
+    ratedRecipientId,
+    { page = 0, quantity = 10 }
+  ) {
+    const ratings = await AppDatasource.createQueryBuilder()
       .select("ratings")
       .from(Ratings, "ratings")
       .where("ratings.ratedRecipientId = :ratedRecipientId", {
@@ -41,7 +48,11 @@ class RatingsServices {
       })
       .leftJoinAndSelect("ratings.author", "author")
       .leftJoinAndSelect("ratings.ratedRecipient", "ratedRecipient")
+      .skip(page * quantity)
+      .take(quantity)
       .getMany();
+
+    return { page, quantity: ratings.length, ratings };
   }
 
   static async getRatingsAverage(ratedRecipientId) {
