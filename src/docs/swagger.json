@@ -11,44 +11,20 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "Answers",
-      "description": "Manage the available answers for each question"
-    },
-    {
-      "name": "Learners",
-      "description": "Allow users to associate with a vacancy as learners, individuals who will learn about the technologies required for the vacancy with the help of the selected candidate"
-    },
-    {
-      "name": "Projects",
-      "description": "Manage programming projects where the users can colaborate by joining on related vacancies"
-    },
-    {
-      "name": "Questions",
-      "description": "Manage the questions that can be associated with answers and used to create tests for evaluating the user’s skills"
-    },
-    {
-      "name": "Rankings",
-      "description": "Displays user information sorted into rankings based on various parameters, such as: the highest number of reviews received, the highest number of project participations, and more"
-    },
-    {
-      "name": "Ratings",
-      "description": "Manage the ratings that were created to assess the performance of colleagues in a project"
+      "name": "Users",
+      "description": "Manage the users that can use the platform"
     },
     {
       "name": "Technologies",
       "description": "Administer the technologies that can be designated as requirements for projects' vacancies and user skills"
     },
     {
-      "name": "Tests",
-      "description": "Management of tests that evaluate the skill level of a user in a certain technology"
-    },
-    {
-      "name": "Users",
-      "description": "Manage the users that can use the platform"
-    },
-    {
       "name": "User skills",
       "description": "Displays user skills in the technologies registered on the platform"
+    },
+    {
+      "name": "Projects",
+      "description": "Manage programming projects where the users can colaborate by joining on related vacancies"
     },
     {
       "name": "Vacancies",
@@ -63,12 +39,36 @@
       "description": "Allow the user to candidate to project vacancies for which they meet the requirements"
     },
     {
+      "name": "Learners",
+      "description": "Allow users to associate with a vacancy as learners, individuals who will learn about the technologies required for the vacancy with the help of the chosen candidate"
+    },
+    {
       "name": "Votations",
       "description": "Allow a project owner to manage votations that ban users related to the project's vacancies"
     },
     {
       "name": "Votes",
-      "description": "Manage votes in a votation to ban a user from a vacancy"
+      "description": "Manage votes from colleagues in a votation to ban another user from a vacancy within the same project"
+    },
+    {
+      "name": "Ratings",
+      "description": "Manage the ratings that were created to assess the performance of colleagues in a project"
+    },
+    {
+      "name": "Tests",
+      "description": "Management of tests that evaluate the skill level of a user in a certain technology"
+    },
+    {
+      "name": "Questions",
+      "description": "Manage the questions that can be associated with answers and used to create tests for evaluating the user’s skills"
+    },
+    {
+      "name": "Answers",
+      "description": "Manage the available answers for each question"
+    },
+    {
+      "name": "Rankings",
+      "description": "Displays user information sorted into rankings based on various parameters, such as: the highest number of reviews received, the highest number of project participations, and more"
     }
   ],
   "paths": {
@@ -209,7 +209,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/createdAnswer"
+                    "$ref": "#/components/schemas/createdAnswerWithoutIsRight"
                   }
                 }
               }
@@ -282,7 +282,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/createdAnswer"
+                  "$ref": "#/components/schemas/createdAnswerWithoutIsRight"
                 }
               }
             }
@@ -664,7 +664,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/createdLearner"
+                    "$ref": "#/components/schemas/createdLearnerWithUser"
                   }
                 }
               }
@@ -710,7 +710,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/createdLearner"
+                    "$ref": "#/components/schemas/createdLearnerWithVacancy"
                   }
                 }
               }
@@ -1558,7 +1558,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/questionWithAnswers"
+                  "$ref": "#/components/schemas/createdQuestion"
                 },
                 "example": [
                   {
@@ -1887,7 +1887,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/questionWithTechnology"
+                    "$ref": "#/components/schemas/createdQuestion"
                   }
                 },
                 "example": [
@@ -1895,12 +1895,7 @@
                     "id": 18,
                     "question": "What is JavaScript?",
                     "technologyId": 3,
-                    "difficultyLevel": 2,
-                    "technology": {
-                      "id": 3,
-                      "name": "JavaScript",
-                      "iconUrl": "https://img.icons8.com/ios/150/javascript--v1.png"
-                    }
+                    "difficultyLevel": 2
                   }
                 ]
               }
@@ -2588,16 +2583,35 @@
                       "authorId": 3,
                       "ratedRecipientId": 2,
                       "createdDate": "2023-12-27T05:20:46.289Z",
-                      "projectId": 2
-                    },
-                    {
-                      "id": 2,
-                      "comment": "Poor team work!",
-                      "grade": 1,
-                      "authorId": 3,
-                      "ratedRecipientId": 1,
-                      "createdDate": "2023-11-11T05:20:46.289Z",
-                      "projectId": 4
+                      "projectId": 2,
+                      "author": {
+                        "id": 103,
+                        "username": "NewUser",
+                        "firstName": "NewName",
+                        "lastName": "NewLastName",
+                        "email": "newuser@example.com",
+                        "githubUsername": "newuser",
+                        "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                        "password": "password456",
+                        "roleId": 1,
+                        "deletedDate": null,
+                        "vacancyDropoutsNumber": 0,
+                        "vacancyBlockDate": null
+                      },
+                      "ratedRecipient": {
+                        "id": 103,
+                        "username": "NewUser2",
+                        "firstName": "NewName2",
+                        "lastName": "NewLastName2",
+                        "email": "newuser2@example.com",
+                        "githubUsername": "newuser2",
+                        "linkedinUrl": "https://www.linkedin.com/in/newuser2/",
+                        "password": "password456",
+                        "roleId": 1,
+                        "deletedDate": null,
+                        "vacancyDropoutsNumber": 0,
+                        "vacancyBlockDate": null
+                      }
                     }
                   ]
                 }
@@ -2667,22 +2681,41 @@
                   "quantity": 2,
                   "ratings": [
                     {
-                      "id": 9,
-                      "comment": "Amazing design skills!",
+                      "id": 1,
+                      "comment": "Good team work!",
                       "grade": 5,
-                      "authorId": 1,
+                      "authorId": 3,
                       "ratedRecipientId": 2,
-                      "createdDate": "2024-01-02T03:18:23.289Z",
-                      "projectId": 2
-                    },
-                    {
-                      "id": 10,
-                      "comment": "You helped me a lot!",
-                      "grade": 5,
-                      "authorId": 4,
-                      "ratedRecipientId": 2,
-                      "createdDate": "2024-01-05T00:14:12.289Z",
-                      "projectId": 4
+                      "createdDate": "2023-12-27T05:20:46.289Z",
+                      "projectId": 2,
+                      "author": {
+                        "id": 103,
+                        "username": "NewUser",
+                        "firstName": "NewName",
+                        "lastName": "NewLastName",
+                        "email": "newuser@example.com",
+                        "githubUsername": "newuser",
+                        "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                        "password": "password456",
+                        "roleId": 1,
+                        "deletedDate": null,
+                        "vacancyDropoutsNumber": 0,
+                        "vacancyBlockDate": null
+                      },
+                      "ratedRecipient": {
+                        "id": 103,
+                        "username": "NewUser2",
+                        "firstName": "NewName2",
+                        "lastName": "NewLastName2",
+                        "email": "newuser2@example.com",
+                        "githubUsername": "newuser2",
+                        "linkedinUrl": "https://www.linkedin.com/in/newuser2/",
+                        "password": "password456",
+                        "roleId": 1,
+                        "deletedDate": null,
+                        "vacancyDropoutsNumber": 0,
+                        "vacancyBlockDate": null
+                      }
                     }
                   ]
                 }
@@ -3050,7 +3083,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/questionWithAnswers"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/createdTechnology"
+                  }
                 },
                 "example": [
                   {
@@ -3851,7 +3887,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/paginatedUsers"
+                  "$ref": "#/components/schemas/paginatedUsersWithRole"
                 },
                 "example": {
                   "page": 0,
@@ -3867,7 +3903,13 @@
                       "linkedinUrl": "https://www.linkedin.com/in/newuser/",
                       "password": "password456",
                       "roleId": 1,
-                      "deletedDate": null
+                      "deletedDate": null,
+                      "vacancyDropoutsNumber": 0,
+                      "vacancyBlockDate": null,
+                      "role": {
+                        "id": 2,
+                        "name": "admin"
+                      }
                     }
                   ]
                 }
@@ -4005,7 +4047,9 @@
             "description": "Logged-in user information",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/createdUser" },
+                "schema": {
+                  "$ref": "#/components/schemas/createdUserWithAssociationLimits"
+                },
                 "example": {
                   "id": 103,
                   "username": "NewUser",
@@ -4016,7 +4060,17 @@
                   "linkedinUrl": "https://www.linkedin.com/in/newuser/",
                   "password": "password456",
                   "roleId": 1,
-                  "deletedDate": null
+                  "deletedDate": null,
+                  "vacancyDropoutsNumber": 0,
+                  "vacancyBlockDate": null,
+                  "role": {
+                    "id": 1,
+                    "name": "admin"
+                  },
+                  "associationLimits": {
+                    "isAbleToCandidateToVacancy": true,
+                    "isAbleToCandidateAsLearner": true
+                  }
                 }
               }
             }
@@ -4101,7 +4155,9 @@
                       "linkedinUrl": "https://www.linkedin.com/in/newuser/",
                       "password": "password456",
                       "roleId": 1,
-                      "deletedDate": null
+                      "deletedDate": null,
+                      "vacancyDropoutsNumber": 0,
+                      "vacancyBlockDate": null
                     }
                   ]
                 }
@@ -4130,7 +4186,9 @@
             "description": "User information with the provided id",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/createdUser" },
+                "schema": {
+                  "$ref": "#/components/schemas/createdUserWithVacanciesAndLearners"
+                },
                 "example": {
                   "id": 103,
                   "username": "NewUser",
@@ -4141,7 +4199,28 @@
                   "linkedinUrl": "https://www.linkedin.com/in/newuser/",
                   "password": "password456",
                   "roleId": 1,
-                  "deletedDate": null
+                  "deletedDate": null,
+                  "vacancyDropoutsNumber": 0,
+                  "vacancyBlockDate": null,
+                  "vacancies": [
+                    {
+                      "id": 105,
+                      "name": "Cientista de Dados",
+                      "description": "Analisar dados para extrair insights valiosos em um projeto colaborativo de ciência de dados.",
+                      "createdDate": "2023-12-05T18:10:15.234Z",
+                      "learnersLimit": 1,
+                      "projectId": 4,
+                      "chosenCandidateId": null
+                    }
+                  ],
+                  "learners": [
+                    {
+                      "id": 28,
+                      "vacancyId": 37,
+                      "candidateId": 1,
+                      "createdDate": "2024-01-14T03:04:37.523Z"
+                    }
+                  ]
                 }
               }
             }
@@ -4475,7 +4554,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/createdUserSkill"
+                    "$ref": "#/components/schemas/createdUserSkillWithUser"
                   }
                 },
                 "example": [
@@ -4484,14 +4563,38 @@
                     "userId": 4,
                     "technologyId": 5,
                     "skillLevel": "Básico",
-                    "score": 1200
+                    "score": 1200,
+                    "user": {
+                      "id": 103,
+                      "username": "NewUser",
+                      "firstName": "NewName",
+                      "lastName": "NewLastName",
+                      "email": "newuser@example.com",
+                      "githubUsername": "newuser",
+                      "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                      "password": "password456",
+                      "roleId": 1,
+                      "deletedDate": null
+                    }
                   },
                   {
                     "id": 13,
                     "userId": 1,
                     "technologyId": 1,
                     "skillLevel": "Básico",
-                    "score": 1000
+                    "score": 1000,
+                    "user": {
+                      "id": 103,
+                      "username": "NewUser",
+                      "firstName": "NewName",
+                      "lastName": "NewLastName",
+                      "email": "newuser@example.com",
+                      "githubUsername": "newuser",
+                      "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                      "password": "password456",
+                      "roleId": 1,
+                      "deletedDate": null
+                    }
                   }
                 ]
               }
@@ -4538,23 +4641,28 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/createdUserSkill"
+                    "$ref": "#/components/schemas/createdUserSkillWithUser"
                   }
                 },
                 "example": [
                   {
-                    "id": 12,
-                    "userId": 1,
-                    "technologyId": 5,
-                    "skillLevel": "Intermediário",
-                    "score": 2000
-                  },
-                  {
-                    "id": 4,
-                    "userId": 2,
+                    "id": 1,
+                    "userId": 4,
                     "technologyId": 5,
                     "skillLevel": "Básico",
-                    "score": 1000
+                    "score": 1200,
+                    "user": {
+                      "id": 103,
+                      "username": "NewUser",
+                      "firstName": "NewName",
+                      "lastName": "NewLastName",
+                      "email": "newuser@example.com",
+                      "githubUsername": "newuser",
+                      "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                      "password": "password456",
+                      "roleId": 1,
+                      "deletedDate": null
+                    }
                   }
                 ]
               }
@@ -4876,7 +4984,19 @@
                   "createdDate": "2023-10-02T15:20:10.123Z",
                   "learnersLimit": 2,
                   "projectId": 3,
-                  "chosenCandidateId": null
+                  "chosenCandidateId": null,
+                  "project": {
+                    "id": 3,
+                    "name": "AutoTestHub",
+                    "description": "Plataforma dedicada a testes automatizados para garantir a qualidade do software.",
+                    "createdById": 5,
+                    "createdDate": "2023-09-28T09:45:30.456Z",
+                    "deletedDate": null,
+                    "closeDate": "2024-07-15T00:00:00.000Z",
+                    "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
+                    "memberSelectionMethod": "Aleatória",
+                    "status": "Não iniciado"
+                  }
                 }
               }
             }
@@ -5358,25 +5478,19 @@
                     "createdDate": "2023-10-02T15:20:10.123Z",
                     "learnersLimit": 2,
                     "projectId": 3,
-                    "chosenCandidateId": null
-                  },
-                  {
-                    "id": 79,
-                    "name": "Desenvolvedor Backend",
-                    "description": "Desenvolver o backend da plataforma.",
-                    "createdDate": "2023-10-02T15:20:15.123Z",
-                    "learnersLimit": 5,
-                    "projectId": 3,
-                    "chosenCandidateId": null
-                  },
-                  {
-                    "id": 80,
-                    "name": "Business Analyst",
-                    "description": "Levantar os requisitos do sistema.",
-                    "createdDate": "2023-10-02T15:20:18.123Z",
-                    "learnersLimit": 2,
-                    "projectId": 3,
-                    "chosenCandidateId": 3
+                    "chosenCandidateId": null,
+                    "project": {
+                      "id": 3,
+                      "name": "AutoTestHub",
+                      "description": "Plataforma dedicada a testes automatizados para garantir a qualidade do software.",
+                      "createdById": 5,
+                      "createdDate": "2023-09-28T09:45:30.456Z",
+                      "deletedDate": null,
+                      "closeDate": "2024-07-15T00:00:00.000Z",
+                      "repositoryUrl": "https://github.com/AutoTestHub/testing-platform",
+                      "memberSelectionMethod": "Aleatória",
+                      "status": "Não iniciado"
+                    }
                   }
                 ]
               }
@@ -5423,7 +5537,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/createdVacancy"
+                    "$ref": "#/components/schemas/createdVacancyWithoutProject"
                   }
                 },
                 "example": [
@@ -6432,13 +6546,34 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/createdVacancySubscription"
+                  "$ref": "#/components/schemas/createdVacancySubscriptionWithUserAndVacancy"
                 },
                 "example": {
-                  "id": 78,
+                  "id": 45,
                   "userId": 3,
-                  "vacancyId": 30,
-                  "createdDate": "2024-01-12T05:27:06.013Z"
+                  "vacancyId": 25,
+                  "createdDate": "2024-01-12T05:27:06.013Z",
+                  "vacancy": {
+                    "id": 15,
+                    "name": "Desenvolvedor Frontend",
+                    "description": "Lorem ipsum",
+                    "createdDate": "2023-12-30T18:21:27.583Z",
+                    "learnersLimit": 2,
+                    "projectId": 4,
+                    "chosenCandidateId": 3
+                  },
+                  "user": {
+                    "id": 103,
+                    "username": "NewUser",
+                    "firstName": "NewName",
+                    "lastName": "NewLastName",
+                    "email": "newuser@example.com",
+                    "githubUsername": "newuser",
+                    "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                    "password": "password456",
+                    "roleId": 1,
+                    "deletedDate": null
+                  }
                 }
               }
             }
@@ -6575,13 +6710,19 @@
                       "id": 45,
                       "userId": 3,
                       "vacancyId": 25,
-                      "createdDate": "2024-01-12T05:27:06.013Z"
-                    },
-                    {
-                      "id": 48,
-                      "userId": 1,
-                      "vacancyId": 25,
-                      "createdDate": "2024-01-10T03:12:09.013Z"
+                      "createdDate": "2024-01-12T05:27:06.013Z",
+                      "user": {
+                        "id": 103,
+                        "username": "NewUser",
+                        "firstName": "NewName",
+                        "lastName": "NewLastName",
+                        "email": "newuser@example.com",
+                        "githubUsername": "newuser",
+                        "linkedinUrl": "https://www.linkedin.com/in/newuser/",
+                        "password": "password456",
+                        "roleId": 1,
+                        "deletedDate": null
+                      }
                     }
                   ]
                 }
@@ -6645,7 +6786,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/paginatedSubscriptions"
+                  "$ref": "#/components/schemas/paginatedSubscriptionsWithVacancy"
                 },
                 "example": {
                   "page": 0,
@@ -6655,13 +6796,28 @@
                       "id": 45,
                       "userId": 3,
                       "vacancyId": 25,
-                      "createdDate": "2024-01-12T05:27:06.013Z"
-                    },
-                    {
-                      "id": 50,
-                      "userId": 3,
-                      "vacancyId": 22,
-                      "createdDate": "2024-01-10T03:12:09.013Z"
+                      "createdDate": "2024-01-12T05:27:06.013Z",
+                      "vacancy": {
+                        "id": 8,
+                        "name": "Desenvolvedor Backend",
+                        "description": "Lorem ipsum",
+                        "createdDate": "2023-12-27T06:56:05.611Z",
+                        "learnersLimit": 100,
+                        "projectId": 1,
+                        "chosenCandidateId": null,
+                        "project": {
+                          "id": 1,
+                          "name": "Build Me",
+                          "description": "Plataforma de colaboração projetada para facilitar a criação e participação em projetos para os alunos e desenvolvedores do 1000Devs",
+                          "createdById": 2,
+                          "createdDate": "2023-12-27T04:49:17.308Z",
+                          "deletedDate": null,
+                          "closeDate": "2024-05-17T00:00:00.000Z",
+                          "repositoryUrl": "https://github.com/Danielle-Luz/users-storage-api",
+                          "memberSelectionMethod": "Aleatória",
+                          "status": "Não iniciado"
+                        }
+                      }
                     }
                   ]
                 }
@@ -7253,6 +7409,28 @@
           }
         }
       },
+      "createdAnswerWithoutIsRight": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id of the created answer",
+            "example": 1
+          },
+          "answer": {
+            "type": "string",
+            "description": "One of the possible question's answers",
+            "example": "HTML defines the structure of a web page",
+            "required": true
+          },
+          "questionId": {
+            "type": "number",
+            "description": "The id of the question to which the answer is related",
+            "example": 1,
+            "required": true
+          }
+        }
+      },
       "newLearner": {
         "type": "object",
         "properties": {
@@ -7289,6 +7467,70 @@
             "description": "Date when the user became a learner of this vacancy",
             "example": "2023-12-31T19:54:06.490Z",
             "required": true
+          }
+        }
+      },
+      "createdLearnerWithUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id of the created learner",
+            "example": 27,
+            "required": true
+          },
+          "vacancyId": {
+            "type": "number",
+            "description": "Id of the vacancy for which the user applied as a learner",
+            "example": 34,
+            "required": true
+          },
+          "candidateId": {
+            "type": "number",
+            "description": "Id of user who applied to be a learner",
+            "example": 3,
+            "required": true
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Date when the user became a learner of this vacancy",
+            "example": "2023-12-31T19:54:06.490Z",
+            "required": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/createdUserWithoutVacancyDropInfo"
+          }
+        }
+      },
+      "createdLearnerWithVacancy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id of the created learner",
+            "example": 27,
+            "required": true
+          },
+          "vacancyId": {
+            "type": "number",
+            "description": "Id of the vacancy for which the user applied as a learner",
+            "example": 34,
+            "required": true
+          },
+          "candidateId": {
+            "type": "number",
+            "description": "Id of user who applied to be a learner",
+            "example": 3,
+            "required": true
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Date when the user became a learner of this vacancy",
+            "example": "2023-12-31T19:54:06.490Z",
+            "required": true
+          },
+          "vacancy": {
+            "$ref": "#/components/schemas/createdVacancy"
           }
         }
       },
@@ -7459,8 +7701,7 @@
             "description": "Difficulty level of the question (1-3)",
             "enum": [1, 2, 3]
           }
-        },
-        "required": ["question", "technologyId", "difficultyLevel"]
+        }
       },
       "updatedQuestion": {
         "type": "object",
@@ -7767,6 +8008,44 @@
           }
         }
       },
+      "createdRatingWithUsers": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "comment": {
+            "description": "Details about the rated user's performance and why he received this grade",
+            "type": "string"
+          },
+          "grade": {
+            "description": "Grade that the author gave for the rated user's performance",
+            "type": "number"
+          },
+          "createdDate": {
+            "description": "Date when the rating was made",
+            "type": "string"
+          },
+          "authorId": {
+            "description": "User who made the rating",
+            "type": "integer"
+          },
+          "ratedRecipientId": {
+            "description": "User whose performance is being rated",
+            "type": "integer"
+          },
+          "projectId": {
+            "description": "Project in which the rated user's performance is being evaluated",
+            "type": "integer"
+          },
+          "author": {
+            "$ref": "#/components/schemas/createdUser"
+          },
+          "ratedRecipient": {
+            "$ref": "#/components/schemas/createdUser"
+          }
+        }
+      },
       "ratingScore": {
         "type": "object",
         "properties": {
@@ -7895,6 +8174,198 @@
           "roleId": {
             "description": "The role that will define the permissions the user has",
             "type": "integer"
+          },
+          "vacancyDropoutsNumber": {
+            "description": "Indicates how many times a user gave up from a vacancy where he was the chosen candidate",
+            "type": "integer"
+          },
+          "vacancyBlockDate": {
+            "description": "Indicates the date when the user was blocked from applying for vacancies after 3 withdraws",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "createdUserWithoutVacancyDropInfo": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "username": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "githubUsername": {
+            "description": "The username of the user in github",
+            "type": "string"
+          },
+          "linkedinUrl": {
+            "description": "Link of the user's linkedin profile",
+            "type": "string"
+          },
+          "profilePicture": {
+            "description": "The loaded profile picture data",
+            "type": "string"
+          },
+          "roleId": {
+            "description": "The role that will define the permissions the user has",
+            "type": "integer"
+          },
+          "deletedDate": {
+            "description": "Date when the user was deleted",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "createdUserWithVacanciesAndLearners": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "username": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "githubUsername": {
+            "description": "The username of the user in github",
+            "type": "string"
+          },
+          "linkedinUrl": {
+            "description": "Link of the user's linkedin profile",
+            "type": "string"
+          },
+          "profilePicture": {
+            "description": "The loaded profile picture data",
+            "type": "string"
+          },
+          "roleId": {
+            "description": "The role that will define the permissions the user has",
+            "type": "integer"
+          },
+          "vacancyDropoutsNumber": {
+            "description": "Indicates how many times a user gave up from a vacancy where he was the chosen candidate",
+            "type": "integer"
+          },
+          "vacancyBlockDate": {
+            "description": "Indicates the date when the user was blocked from applying for vacancies after 3 withdraws",
+            "type": "string",
+            "format": "date-time"
+          },
+          "vacancies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/createdVacancyWithoutProject"
+            }
+          },
+          "learners": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/createdLearner"
+            }
+          }
+        }
+      },
+      "createdUserWithRole": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "username": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "githubUsername": {
+            "description": "The username of the user in github",
+            "type": "string"
+          },
+          "linkedinUrl": {
+            "description": "Link of the user's linkedin profile",
+            "type": "string"
+          },
+          "profilePicture": {
+            "description": "The loaded profile picture data",
+            "type": "string"
+          },
+          "roleId": {
+            "description": "The role that will define the permissions the user has",
+            "type": "integer"
+          },
+          "vacancyDropoutsNumber": {
+            "description": "Indicates how many times a user gave up from a vacancy where he was the chosen candidate",
+            "type": "integer"
+          },
+          "vacancyBlockDate": {
+            "description": "Indicates the date when the user was blocked from applying for vacancies after 3 withdraws",
+            "type": "string",
+            "format": "date-time"
+          },
+          "role": {
+            "description": "The related role details",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "createdUserWithAssociationLimits": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "username": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "githubUsername": {
+            "description": "The username of the user in github",
+            "type": "string"
+          },
+          "linkedinUrl": {
+            "description": "Link of the user's linkedin profile",
+            "type": "string"
+          },
+          "profilePicture": {
+            "description": "The loaded profile picture data",
+            "type": "string"
+          },
+          "roleId": {
+            "description": "The role that will define the permissions the user has",
+            "type": "integer"
+          },
+          "role": {
+            "description": "The related role details",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "associationLimits": {
+            "description": "Informs if the user can candidate for a vacancy or if he is able to be a learner",
+            "type": "object",
+            "properties": {
+              "isAbleToCandidateToVacancy": {
+                "description": "The user will be able to candidate for a vacancy if he is the chosen user from less than 3 vacancies",
+                "type": "boolean",
+                "default": true
+              },
+              "isAbleToCandidateAsLearner": {
+                "description": "The user will be able to be a learner if he is a learner from less than 5 vacancies",
+                "type": "boolean",
+                "default": true
+              }
+            }
           }
         }
       },
@@ -7993,6 +8464,32 @@
           }
         }
       },
+      "createdUserSkillWithUser": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "userId": {
+            "type": "integer",
+            "description": "The user that has this skill"
+          },
+          "technologyId": {
+            "description": "The technology in which the user is skilled",
+            "type": "integer"
+          },
+          "skillLevel": {
+            "description": "How advanced is the user's skill in the related technology",
+            "type": "string",
+            "enum": ["Básico", "Intermediário", "Avançado"]
+          },
+          "score": {
+            "description": "The numerical representation of the skill level",
+            "type": "number"
+          },
+          "user": {
+            "$ref": "#/components/schemas/createdUserWithoutVacancyDropInfo"
+          }
+        }
+      },
       "createdVacancy": {
         "type": "object",
         "properties": {
@@ -8024,8 +8521,7 @@
           },
           "chosenCandidateId": {
             "description": "The user who was chosen to assume the vacancy",
-            "type": ["integer", "null"],
-            "format": "int64"
+            "type":"integer"
           },
           "project": {
             "description": "Details of the project to which the vacancy is related",
@@ -8238,6 +8734,90 @@
             "description": "Date when the subscription was made",
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "createdVacancySubscriptionWithUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "description": "User who candidated for the vacancy",
+            "type": "integer",
+            "format": "int64"
+          },
+          "vacancyId": {
+            "description": "Vacancy for which the user candidated as the chosen user",
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdDate": {
+            "description": "Date when the subscription was made",
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/createdUserWithoutVacancyDropInfo"
+          }
+        }
+      },
+      "createdVacancySubscriptionWithUserAndVacancy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "description": "User who candidated for the vacancy",
+            "type": "integer",
+            "format": "int64"
+          },
+          "vacancyId": {
+            "description": "Vacancy for which the user candidated as the chosen user",
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdDate": {
+            "description": "Date when the subscription was made",
+            "type": "string",
+            "format": "date-time"
+          },
+          "vacancy": {
+            "$ref": "#/components/schemas/createdVacancyWithoutProject"
+          },
+          "user": {
+            "$ref": "#/components/schemas/createdUserWithoutVacancyDropInfo"
+          }
+        }
+      },
+      "createdVacancySubscriptionWithVacancy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "description": "User who candidated for the vacancy",
+            "type": "integer",
+            "format": "int64"
+          },
+          "vacancyId": {
+            "description": "Vacancy for which the user candidated as the chosen user",
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdDate": {
+            "description": "Date when the subscription was made",
+            "type": "string",
+            "format": "date-time"
+          },
+          "vacancy": {
+            "$ref": "#/components/schemas/createdVacancy"
           }
         }
       },
@@ -8486,6 +9066,29 @@
           }
         }
       },
+      "paginatedUsersWithRole": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "Page the user wants to see its results",
+            "default": 0,
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "How many records the user wants to see per page",
+            "default": 10,
+            "required": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/createdUserWithRole"
+            }
+          }
+        }
+      },
       "paginatedRatings": {
         "type": "object",
         "properties": {
@@ -8504,7 +9107,7 @@
           "ratings": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/createdRating"
+              "$ref": "#/components/schemas/createdRatingWithUsers"
             }
           }
         }
@@ -8527,7 +9130,30 @@
           "vacancySubscriptions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/createdVacancySubscription"
+              "$ref": "#/components/schemas/createdVacancySubscriptionWithUser"
+            }
+          }
+        }
+      },
+      "paginatedSubscriptionsWithVacancy": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "Page the user wants to see its results",
+            "default": 0,
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "How many records the user wants to see per page",
+            "default": 10,
+            "required": true
+          },
+          "vacancySubscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/createdVacancySubscriptionWithVacancy"
             }
           }
         }
