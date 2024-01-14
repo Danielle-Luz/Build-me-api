@@ -2,7 +2,7 @@ const { EntitySchema } = require("typeorm");
 const { memberSelectionMethod, projectStatus } = require("../../enumValues");
 
 const Projects = new EntitySchema({
-  synchronize: true,
+  synchronize: false,
   name: "projects",
   columns: {
     id: {
