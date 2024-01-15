@@ -5,10 +5,18 @@ const schedule = require("node-schedule");
 class ProjectsHelper {
   static scheduleCandidatesSelectionOnCloseDate(
     projectId,
-    projectCloseDateAsString
+    projectCloseDate
   ) {
-    const projectCloseDate = new Date(projectCloseDateAsString);
-    schedule.scheduleJob(projectCloseDate, () =>
+    const schenduleRule = new schedule.RecurrenceRule();
+    schenduleRule.tz = "America/Bahia";
+    schenduleRule.year = projectCloseDate.getFullYear();
+    schenduleRule.month = projectCloseDate.getMonth();
+    schenduleRule.date = projectCloseDate.getUTCDate();
+    schenduleRule.hour = 1;
+    schenduleRule.minute = 0;
+    schenduleRule.second = 0;
+
+    schedule.scheduleJob(schenduleRule, () =>
       ProjectsHelper.updateRelatedVacanciesWithRandomlyChooseCandidates(
         projectId
       )
@@ -34,6 +42,7 @@ class ProjectsHelper {
       .select("vacancies")
       .from(Vacancies, "vacancies")
       .where("vacancies.projectId = :projectId", { projectId })
+      .andWhere("vacancies.chosenCandidateId is null")
       .innerJoinAndSelect("vacancies.subscriptions", "subscriptions")
       .getMany();
   }
