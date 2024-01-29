@@ -53,9 +53,18 @@ com a finalidade de aprender as tecnologias necessárias para a vaga com a pesso
 
 <h2 id="bd">Diagrama da base de dados</h2>
 
-| SGBD | MER |
-|------|-----|
-| PostgreSQL | [Diagrama MER da base de dados]([MER.pdf](https://drive.google.com/file/d/1MdTqQJWvIOm3TgvrAk2qFLgvYpMSohmX/view?usp=sharing)) |
+<table align="center">
+    <thead>
+        <th>SGBD</th>
+        <th>MER</th>
+    </thead>
+    <tbody>
+        <td>PostgreSQL</td>
+        <td>
+            <a href="https://drive.google.com/file/d/1MdTqQJWvIOm3TgvrAk2qFLgvYpMSohmX/view?usp=sharing">Diagrama MER da base de dados</a>
+        </td>
+    </tbody>
+</table>
 
 
 <h2 id="Desenvolvedora">Desenvolvedora</h2>
