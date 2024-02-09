@@ -7,6 +7,8 @@
 
 ## Índice
 
+• <a href="#baseUrl">Base URL</a>
+<br>
 • <a href="#documentacao">Documentação das rotas</a>
 <br>
 • <a href="#descricao">Descrição</a>
@@ -21,6 +23,10 @@
 <br>
 <p align="center">
 </p>
+
+
+<h2 id="baseUrl">Base URL</h2>
+Base URL da API: <a href="https://build-me-api.onrender.com/">https://build-me-api.onrender.com/</a>
 
 <h2 id="documentacao">Documentação das rotas</h2>
 Acesse a <a href="https://build-me-api.onrender.com/docs/">documentação no swagger</a> que detalha as rotas, entradas, saídas e possíveis erros da API.
