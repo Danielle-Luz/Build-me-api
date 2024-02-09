@@ -29,6 +29,14 @@ class RolesService {
 
     return foundRole;
   }
+
+  static async getByName(name) {
+    return AppDatasource.createQueryBuilder()
+      .select("roles")
+      .from(Roles, "roles")
+      .where("roles.name = :name", { name })
+      .getOne();
+  }
 }
 
 module.exports = { RolesService };

@@ -5,12 +5,18 @@ const { UsersHelper } = require("../../helpers/index");
 const { InvalidLoginInfoError } = require("../../errors/index");
 const { RecordNotFoundError } = require("../../errors/index");
 const { associationLimitsByEntity } = require("../../enumValues");
+const { RolesService } = require("../roles");
 
 class UsersService {
+  static STUDENT_ROLE_ID = 1;
+
   static async create(newUser) {
     const userWithEncryptedPassword = await UsersHelper.setEncryptedPassword(
       newUser
     );
+
+    const studentRole = await RolesService.getByName("student");
+    userWithEncryptedPassword.roleId = studentRole.id;
 
     const createdUser = await AppDatasource.createQueryBuilder()
       .insert()
@@ -63,14 +69,17 @@ class UsersService {
 
     const associationLimits = {
       isAbleToCandidateToVacancy:
-        foundUser.vacancies.length < associationLimitsByEntity.vacancy,
+        foundUser?.vacancies.length < associationLimitsByEntity.vacancy,
       isAbleToCandidateAsLearner:
-        foundUser.learners.length < associationLimitsByEntity.learner,
+        foundUser?.learners.length < associationLimitsByEntity.learner,
     };
 
-    const { learners, vacancies, ...otherProperties } = foundUser;
+    if(foundUser) {
+      const { learners, vacancies, ...otherProperties } = foundUser;
+      return { ...otherProperties, associationLimits };
+    }
 
-    return { ...otherProperties, associationLimits };
+    return null;
   }
 
   static async getUserByUsername(username) {
